@@ -1,11 +1,21 @@
-const app = require('./app')
-// import { app } from "./app"
-const dotenv = require('dotenv')
-// import dotenv from "dotenv"
+import express from "express"
+import mongoose from "mongoose"
+import router from "./routes/userRoutes"
+import { Request, Response } from "express"
 
-dotenv.config({path:"server/src/config/config.env"})
-app.listen(process.env.PORT, () => {
-    console.log("Server is running on localhost " + process.env.PORT)
+const app = express()
+app.use(express.json())
+app.use('/account', router)
+
+mongoose.
+    connect("mongodb+srv://prasad178:pass123@cluster0.hvwuyz0.mongodb.net/auth?retryWrites=true&w=majority").then(() => {
+    app.listen(4000, () => {
+        console.log("DB connected and server live on port 4000")
+    })
+}).catch((err: any) => console.log(err))
+
+app.get('/', (req: Request, res: Response) => {
+    res.send("Hello there")
 })
 
-console.log(process.env.PORT)
+export {};
