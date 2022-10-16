@@ -47,7 +47,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 export const verifyToken = (req: any, res: Response, next: NextFunction) => {
     const cookies = req.headers.cookie
     console.log("cookie is : ", cookies)
-    const token = cookies.split('=')[1]
+    const token = cookies && cookies.split('=')[1]
     console.log("token is : ", token)
     
     if (!token) {
