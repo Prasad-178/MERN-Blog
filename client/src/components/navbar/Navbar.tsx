@@ -17,7 +17,7 @@ function Navbar(props: any) {
     const Selected: Number = useSelector((state: any) => state.Selected)
     const dispatch = useDispatch()
     return (
-        <AppBar style={{ backgroundImage: 'linear-gradient(90deg, rgba(26,31,117,1) 10%, rgba(142,102,182,1) 41%, rgba(215,22,22,0.8606793059020483) 100%)' }}>
+        <AppBar style={{ backgroundImage: 'linear-gradient(90deg, rgba(26,31,117,1) 10%, rgba(142,102,182,1) 41%, rgba(215,22,22,0.8606793059020483) 100%)', maxHeight: "15%" }}>
             <Toolbar>
                 <Grid container sx={{ placeItems: 'center' }}>
 

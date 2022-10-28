@@ -17,7 +17,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
         .status(400)
         .json({message: "User already exists! Login instead."})
     }
-    const hashedPassword = bcrypt.hashSync(password, 7)
+    const hashedPassword = bcrypt.hashSync(password, 5)
 
     const user = new User({
         name,    // name: req.body.name,
