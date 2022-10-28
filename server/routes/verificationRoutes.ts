@@ -6,15 +6,16 @@ import { Request, Response } from "express"
 import { verifyToken } from "../controllers/userLoginController"
 
 const app = express()
-const router = express.Router()
+const verifiedRouter = express.Router()
 
-router.get('/', verifyToken, getUser)
+verifiedRouter.get('/', verifyToken, getUser)
 
-router.get('*', (req: Request, res: Response) => {
+verifiedRouter.get('*', (req: Request, res: Response) => {
+    console.log("hi", path.join(__dirname, '..', '/client/build/index.html'))
     res.sendFile(path.join(__dirname, '../client/build/index.html'))
 })
 
-router.post('/register', signup)
-router.post('/login', login)
+// verifiedRouter.post('/register', signup)
+// verifiedRouter.post('/login', login)
 
-export default router
+export default verifiedRouter

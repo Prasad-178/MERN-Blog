@@ -1,7 +1,7 @@
 import express from "express"
 import mongoose from "mongoose"
 import bodyParser from "body-parser"
-import router from "./routes/userRoutes"
+import router from "./routes/verificationRoutes"
 import { Request, Response } from "express"
 import cookieParser from "cookie-parser"
 import path from "path"
@@ -14,7 +14,7 @@ const app = express()
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
 app.use(express.json())
-app.use('/account', router)
+app.use('/verified', router)
 app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
 app.use(express.static(path.join(__dirname, '..', 'client', 'public')))
 
@@ -29,8 +29,8 @@ app.get('/*', async (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))
 })
 
-app.post('/register', signup)
-
 app.post('/login', login)
+
+app.post('/register', signup)
 
 export {};

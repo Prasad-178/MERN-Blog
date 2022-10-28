@@ -3,6 +3,7 @@ import store from './redux/store/store';
 import { Provider } from "react-redux"
 import { Routes, Route } from 'react-router-dom';
 import SignupComponent from "./components/signup/SignupComponent";
+import LoginComponent from './components/login/LoginComponent';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <main>
           <Routes>
             <Route path="account" element={<></>}></Route>
-            <Route path="/login" element={<></>}></Route>
+            <Route path="/login" element={<LoginComponent />}></Route>
             <Route path="register" element={<SignupComponent />}></Route>
           </Routes>
         </main>
