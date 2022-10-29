@@ -7,6 +7,7 @@ export const JWT_SECRET_KEY = 'iloveprocrastinating'
 
 var existingUser: any
 const login = async (req: Request, res: Response, next: NextFunction) => {
+
     const { email, password } = req.body
 
     try {
@@ -35,7 +36,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     res.cookie(String(existingUser._id), token, {
         path: '/',
         expires: new Date(Date.now() + 1000*3600*8),
-        httpOnly: true,
+        httpOnly: false,
         sameSite: 'lax'
     })
 

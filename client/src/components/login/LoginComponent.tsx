@@ -5,6 +5,8 @@ import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography"
 import { useMediaQuery, useTheme } from "@mui/material"
 import LoginButton from "./components/LoginButton";
+import { Navigate } from "react-router-dom";
+import AuthCheck from "../../assets/auth-asset/AuthCheck";
 
 const LoginComponent = () => {
 

@@ -8,7 +8,7 @@ import { verifyToken } from "../controllers/userLoginController"
 const app = express()
 const verifiedRouter = express.Router()
 
-verifiedRouter.get('/', verifyToken, getUser)
+verifiedRouter.get('/account', verifyToken, getUser)
 
 verifiedRouter.get('*', (req: Request, res: Response) => {
     console.log("hi", path.join(__dirname, '..', '/client/build/index.html'))
