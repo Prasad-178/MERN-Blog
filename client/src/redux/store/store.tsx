@@ -1,6 +1,6 @@
-import { legacy_createStore as createStore } from "redux"
-import navbarReducer from "../reducers/NavbarReducers"
+import { legacy_createStore as createStore, combineReducers } from "redux"
+import rootReducer from "../reducers/RootReducer"
 
-const store = createStore(navbarReducer)
+const store = createStore(rootReducer)
 
 export default store

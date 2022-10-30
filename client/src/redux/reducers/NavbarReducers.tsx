@@ -1,7 +1,7 @@
-import { CHANGE_SELECTED_NAVBAR } from "../actions/NavbarType"
+import { CHANGE_SELECTED_NAVBAR } from "../types/NavbarType"
 
 const initialState = {
-    Selected: -1
+    Selected: null
     //numOfCakes
 }
 

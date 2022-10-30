@@ -15,7 +15,4 @@ verifiedRouter.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))
 })
 
-// verifiedRouter.post('/register', signup)
-// verifiedRouter.post('/login', login)
-
 export default verifiedRouter
