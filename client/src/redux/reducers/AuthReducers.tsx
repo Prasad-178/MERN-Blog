@@ -11,7 +11,7 @@ const AuthReducer = (state = initialState, action: any) => {
         case AUTH_CHECK:
             return {
                 ...state,
-                Auth: !(state.Auth)
+                Auth: action.payload
             }
 
             default: return state

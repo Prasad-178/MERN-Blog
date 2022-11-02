@@ -5,10 +5,13 @@ import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography"
 import { useMediaQuery, useTheme } from "@mui/material"
 import LoginButton from "./components/LoginButton";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import AuthCheck from "../../assets/auth-asset/AuthCheck";
+import axios from "axios"
 
 const LoginComponent = () => {
+
+  const navigate = useNavigate()
 
     const [email, setEmail] = useState<string>("")
     const[password, setPassword] = useState<string>("")
@@ -29,8 +32,29 @@ const LoginComponent = () => {
     const FiveTwenty = useMediaQuery(theme.breakpoints.down(520))
     const FourTwenty = useMediaQuery(theme.breakpoints.down(420))
 
+    // axios post request :
+    const sendRequest = async () => {
+        const res = await axios.post('http://localhost:3000/login', {
+          email: email, 
+          password: password
+        })
+        .catch((err: any) => alert(err.message))
+
+        const data = await res!.data
+        console.log(data)
+        return data
+    }
+
+    const handleSubmit: any = (e: Event) => {
+      e.preventDefault()
+      console.log(email, password)
+        sendRequest().then(() => {
+          navigate('/')
+        })
+    }
+
   return (
-    <form action="/login" name="login" method="POST">
+    <form onSubmit={handleSubmit}>
         <Stack
             spacing={2} 
             direction={"column"}

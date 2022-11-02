@@ -2,8 +2,9 @@ const User = require('../model/User')
 import { Request, Response, NextFunction } from "express"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import express from "express"
 
-export const JWT_SECRET_KEY = 'iloveprocrastinating'
+const app = express()
 
 var existingUser: any
 const login = async (req: Request, res: Response, next: NextFunction) => {
@@ -29,16 +30,26 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         .json({ message: "Password is wrong" })
     }
 
-    const token = jwt.sign({ id: existingUser._id }, JWT_SECRET_KEY, {
-        expiresIn: "28800000"
+    const token = jwt.sign({ id: existingUser._id }, String(process.env.JWT_SECRET_KEY), {
+        expiresIn: "120000"
     })
 
     res.cookie(String(existingUser._id), token, {
         path: '/',
-        expires: new Date(Date.now() + 1000*3600*8),
+        expires: new Date(Date.now() + 1000*120),
+        httpOnly: true,
+        sameSite: 'lax'
+    })
+
+    const sessionId = req.session.id;
+    console.log(sessionId)
+    res.cookie("authCookieFrontend", sessionId, {
+        path: '/',
+        expires: new Date(Date.now() + 1000*120),
         httpOnly: false,
         sameSite: 'lax'
     })
+    
 
     return res
     .status(201)
@@ -57,13 +68,14 @@ export const verifyToken = (req: any, res: Response, next: NextFunction) => {
         .json({ message: "No token found" })
     }
 
-    jwt.verify(token!, JWT_SECRET_KEY, (err: any, user: any = existingUser) => {
+    jwt.verify(token!, String(process.env.JWT_SECRET_KEY), (err: any, user: any = existingUser) => {
         if (err) {
             console.log("user is : ", existingUser)
             return res
             .status(400)
             .json({ "message": "Error, token cannot be verified" })
         }
+
         console.log("user id is : ", user.id)
         req.id = user.id
     })
@@ -89,5 +101,43 @@ export const getUser = async (req: any, res: Response, next: NextFunction) => {
     .status(200)
     .json({ userDetails })
 }
+
+// export const refreshToken = (req: any, res: Response, next: NextFunction) => {
+//     const cookies = req.headers.cookie
+//     // console.log("cookie is : ", cookies)
+//     const prevToken = cookies && cookies.split('=')[1]
+
+//     if (!prevToken) {
+//         return res
+//         .status(400)
+//         .json({ message: "Token not found" })
+//     }
+
+//     jwt.verify(String(prevToken), String(process.env.JWT_SECRET_KEY), (err: any, user: any) => {
+//         if (err) {
+//             console.log(err)
+//             return res
+//             .status(403)
+//             .json({ message: "Authentication failed" })
+//         }
+//         // clearing cookies if there is one
+//         res.clearCookie(String(user._id))
+//         req.cookies[String(user._id)] = ""
+
+//         const token = jwt.sign({ id: user._id }, String(process.env.JWT_SECRET_KEY), {
+//             expiresIn: "120000"
+//         })
+
+//         res.cookie(String(user._id), token, {
+//             path: '/',
+//             expires: new Date(Date.now() + 1000*120),
+//             httpOnly: true,
+//             sameSite: 'lax'
+//         })
+
+//         req.id = user.id
+//         next()
+//     })
+// }
 
 export default login

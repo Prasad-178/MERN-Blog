@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { FormEventHandler, useState } from "react"
 import NameField from "./components/NameField"
 import EmailField from "../reusable-components/EmailField"
 import PasswordField from "../reusable-components/PasswordField"
@@ -6,12 +6,16 @@ import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography"
 import { useMediaQuery, useTheme } from "@mui/material"
 import RegisterButton from "./components/RegisterButton"
+import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 const SignupComponent = () => {
 
+    const navigate = useNavigate()
+
     const [name, setName] = useState<string>("")
     const [email, setEmail] = useState<string>("")
-    const[password, setPassword] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
 
     function handleName(event: React.ChangeEvent<HTMLInputElement>) {
         setName(event.target.value)
@@ -25,6 +29,28 @@ const SignupComponent = () => {
         setPassword(event.target.value)
     }
 
+    // axios post request :
+    const sendRequest = async () => {
+        const res = await axios.post("http://localhost:3000/register", {
+        name: name, 
+        email: email, 
+        password: password
+        })
+        .catch((err: any) => alert(err.message))
+
+        const data = await res!.data
+        console.log(data)
+        return data
+    }
+    const handleSubmit: any = (e: Event) => {
+        e.preventDefault()
+        console.log(name, email, password)
+            sendRequest().then(() => {
+                navigate('/login')
+            })
+
+    }
+
     const theme = useTheme()
     const ElevenSeventy = useMediaQuery(theme.breakpoints.down(1170))
     const EightFifty = useMediaQuery(theme.breakpoints.down(850))
@@ -33,7 +59,7 @@ const SignupComponent = () => {
     const FourTwenty = useMediaQuery(theme.breakpoints.down(420))
 
   return (
-    <form action="/register" name="register" method="POST">
+    <form onSubmit={handleSubmit}> {/* can also submit in the normal way */} 
         <Stack
             spacing={2} 
             direction={"column"}

@@ -4,13 +4,26 @@ import SearchBar from './search-bar';
 import Button from '@mui/material/Button';
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
+import AuthCheck from '../../../assets/auth-asset/AuthCheck';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import CreateIcon from '@mui/icons-material/Create';
+import { Link } from 'react-router-dom';
 
 export const linksInNavbar = [
     "Home",
-    "Products",
+    "My Posts",
     <SearchBar />,
-    <Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <AccountCircleIcon /> Account </Button>,
-    <Button variant="text" sx={{ marginLeft: 4, color: 'white' }}> <ShoppingCartIcon /> Cart </Button>
+    AuthCheck() ? 
+    <Link to={'/verified/user'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <AccountCircleIcon /> Account </Button></Link> 
+    :
+    <Link to={'/login'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <LoginIcon /> Login </Button></Link>
+    ,
+    AuthCheck() ? 
+    // <Link to={'/'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 4, color: 'white' }}> <LogoutIcon /> Logout </Button></Link> 
+    <Button variant="text" sx={{ marginLeft: 4, color: 'white' }}> <LogoutIcon /> Logout </Button>
+    : 
+    <Link to={'/register'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <CreateIcon /> Register </Button></Link>
 ]
 
 export const iconsInDrawer = [

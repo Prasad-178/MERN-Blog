@@ -17,7 +17,7 @@ function App() {
           <Routes>
             <Route path="account" element={<></>}></Route>
             <Route path="/login" element={AuthCheck() ? <Navigate to={'/'} /> : <LoginComponent />}></Route>
-            <Route path="register" element={<SignupComponent />}></Route>
+            <Route path="/register" element={AuthCheck() ? <Navigate to={'/'} /> : <SignupComponent />}></Route>
           </Routes>
         </main>
         <footer>
