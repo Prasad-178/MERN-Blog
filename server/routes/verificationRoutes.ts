@@ -1,19 +1,22 @@
 import express from "express"
 import path from "path"
-import signup from "../controllers/userSignupController"
-import login, { getUser, verifyToken } from "../controllers/userLoginController"
-import { Request, Response } from "express"
+import signup from "../controllers/authControllers/userSignupController"
+import login, { getUser } from "../controllers/authControllers/userLoginController"
+import { verifyToken } from "../middleware/verifyJWTLogin"
+import { verifyEmail } from "../controllers/authControllers/VerifyEmail"
+import logout from "../controllers/authControllers/userLogoutController"
 
 const app = express()
-const verifiedRouter = express.Router()
+const router = express.Router()
 
-verifiedRouter.get('/user', verifyToken, getUser)
+router.post('/register', signup)
+router.post('/login', login)
+router.post('/verifyemail', verifyEmail)
 
-// verifiedRouter.get('/refresh', refreshToken, verifyToken, getUser)
+router.use(verifyToken)
 
-verifiedRouter.get('*', (req: Request, res: Response) => {
-    console.log("hi", path.join(__dirname, '..', '/client/build/index.html'))
-    res.sendFile(path.join(__dirname, '../client/build/index.html'))
-})
+router.get('/logout', logout)
+router.get('/checkEmailVerification')
 
-export default verifiedRouter
+
+export default router

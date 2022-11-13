@@ -8,6 +8,7 @@ import LoginButton from "./components/LoginButton";
 import { Navigate, useNavigate } from "react-router-dom";
 import AuthCheck from "../../assets/auth-asset/AuthCheck";
 import axios from "axios"
+import { Location } from "react-router-dom";
 
 const LoginComponent = () => {
 
@@ -34,7 +35,7 @@ const LoginComponent = () => {
 
     // axios post request :
     const sendRequest = async () => {
-        const res = await axios.post('http://localhost:3000/login', {
+        const res = await axios.post('http://localhost:5000/api/secure/login', {
           email: email, 
           password: password
         })

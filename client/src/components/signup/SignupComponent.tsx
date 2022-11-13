@@ -31,7 +31,7 @@ const SignupComponent = () => {
 
     // axios post request :
     const sendRequest = async () => {
-        const res = await axios.post("http://localhost:3000/register", {
+        const res = await axios.post("http://localhost:5000/api/secure/register", {
         name: name, 
         email: email, 
         password: password

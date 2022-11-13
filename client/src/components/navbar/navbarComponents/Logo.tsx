@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Typography } from "@material-ui/core"
 import { Grid } from "@mui/material"
-import StoreIcon from '@mui/icons-material/Store';
+import PagesIcon from '@mui/icons-material/Pages';
 import { useNavigate } from "react-router-dom";
 
 const logoStyle = {
@@ -16,9 +16,9 @@ const Logo = () => {
   const navigate = useNavigate()
 
   return (
-    <Grid item xs={1} sx={logoStyle} style={hover ? {cursor: 'pointer'} : {cursor: 'none'} } onClick={() => navigate('/')} onMouseEnter={() => sethover(true)}>
+    <Grid item xs={1} sx={logoStyle} onMouseEnter={() => sethover(true)}>
         <Typography>
-          <StoreIcon /> 
+          <PagesIcon /> 
         </Typography>
     </Grid>
   )

@@ -1,29 +1,24 @@
 import Navbar from './components/navbar/Navbar';
-import store from './redux/store/store';
-import { Provider } from "react-redux";
 import { Routes, Route } from 'react-router-dom';
-import SignupComponent from "./components/signup/SignupComponent";
-import LoginComponent from './components/login/LoginComponent';
+import LoginPage from './pages/LoginPage/LoginPage';
+import UserDetails from './components/user_details/UserDetails';
 import AuthCheck from './assets/auth-asset/AuthCheck';
 import { Navigate } from "react-router-dom";
+import Homepage from './pages/HomePage/Homepage';
+import SignupPage from './pages/SignupPage/SignupPage';
+import EmailVerification from './pages/EmailVerification/EmailVerification';
 
 function App() {
   return (
-      <Provider store={store}>
-        <header>      
-          <Navbar />
-        </header>
-        <main>
-          <Routes>
-            <Route path="account" element={<></>}></Route>
-            <Route path="/login" element={AuthCheck() ? <Navigate to={'/'} /> : <LoginComponent />}></Route>
-            <Route path="/register" element={AuthCheck() ? <Navigate to={'/'} /> : <SignupComponent />}></Route>
-          </Routes>
-        </main>
-        <footer>
-          <></>
-        </footer>
-      </Provider>
+        <Routes>
+          <Route path="account" element={<></>}></Route>
+          <Route path="/login" element={AuthCheck() ? <Navigate to={'/'} /> : <LoginPage />}></Route>
+          <Route path="/register" element={AuthCheck() ? <Navigate to={'/'} /> : <SignupPage />}></Route>
+          <Route path="/name" element={AuthCheck() ? <UserDetails /> : <Navigate to={'/login'} />}></Route>
+          <Route path="/myposts" element={AuthCheck() ? <Navbar /> : <Navigate to={'/login'} />}></Route>
+          <Route path='/accountVerification' element={<EmailVerification />}></Route>
+          <Route path='/' element={<Homepage />}></Route>
+        </Routes>
   );
 }
 

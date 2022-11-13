@@ -8,7 +8,6 @@ const LoginButton = () => {
         color='success'
         type='submit'
         value='LoginButton'
-        // onClick={(event) => event.preventDefault()}
     >
         <Typography variant='h6'>LOGIN</Typography>
     </Button>
