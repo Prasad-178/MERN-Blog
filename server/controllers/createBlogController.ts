@@ -1,42 +1,31 @@
 import Blog from "../models/Blog"
 import multer from "multer"
-import { Request, Response, NextFunction } from "express"
+import { Response } from "express"
 
-const createBlog = async (req: Request, res: Response, next: NextFunction) => {
+const createBlog = async (req: any, res: Response) => {
 
-    const { author, title, content, tags, twitter } = req.body
+    // try {
+    //     upload.single("blogImage")
+    // } catch (err) {
+    //     console.log(err)
+    // }
+    // console.log("image uploaded successfully!")
+    
+    const { author, title, content, twitter, instagram, tags, image } = req.body
 
-    // const Storage = multer.diskStorage({
-    //     // destination: 'uploads',
-    //     destination: function (req, file, callback) {
-    //         callback(null, '../uploads')
-    //     },
+    let date: string | Date = new Date(Date.now())
+    date.toDateString();
+    date = String(date).split("GMT")[0]
 
-    //     filename: (req, file, cb) => {
-    //         cb(null, Date.now() + file.originalname)
-    //     }
-    // })
-
-    // const upload = multer({
-    //     storage: Storage,
-    //     limits: {
-    //         fieldSize: 1024 * 1024 * 3
-    //     }
-    // })
-    // .single("testImage")
-
-    const date = new Date()
     const blog = new Blog({
         author: author,
         title: title,
         content: content,
-        // images: {
-        //     contentType: 'image/png',
-        //     data: req.file?.filename
-        // },
+        image: image,
         date: date,
         tags: tags,
-        twitter: twitter
+        twitter: twitter,
+        instagram: instagram
     })
 
     try {

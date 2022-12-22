@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyEmail = void 0;
 const User_1 = __importDefault(require("../../models/User"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     var existingUser;
@@ -49,6 +50,27 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     catch (err) {
         console.log(err);
     }
+    let transporter = nodemailer_1.default.createTransport({
+        service: "gmail",
+        auth: {
+            user: "lummaoiscringe@gmail.com",
+            pass: "xwhfjdhuduankjpc"
+        }
+    });
+    let mailOptions = {
+        from: "lummaoiscringe@gmail.com",
+        to: email,
+        subject: "Verified!!",
+        text: "Congratulations!! Your blogify account has been verified!!",
+    };
+    transporter.sendMail(mailOptions, (err, success) => {
+        if (err) {
+            console.log("Mail not sent.", err);
+        }
+        else {
+            console.log("Success, email has been sent, and your account has been verified!!", success);
+        }
+    });
     return res
         .status(200)
         .json({ message: "Email verified!!" });

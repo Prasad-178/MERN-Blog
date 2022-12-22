@@ -13,36 +13,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Blog_1 = __importDefault(require("../models/Blog"));
-const createBlog = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { author, title, content, tags, twitter } = req.body;
-    // const Storage = multer.diskStorage({
-    //     // destination: 'uploads',
-    //     destination: function (req, file, callback) {
-    //         callback(null, '../uploads')
-    //     },
-    //     filename: (req, file, cb) => {
-    //         cb(null, Date.now() + file.originalname)
-    //     }
-    // })
-    // const upload = multer({
-    //     storage: Storage,
-    //     limits: {
-    //         fieldSize: 1024 * 1024 * 3
-    //     }
-    // })
-    // .single("testImage")
-    const date = new Date();
+const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // try {
+    //     upload.single("blogImage")
+    // } catch (err) {
+    //     console.log(err)
+    // }
+    // console.log("image uploaded successfully!")
+    const { author, title, content, twitter, instagram, tags, image } = req.body;
+    let date = new Date(Date.now());
+    date.toDateString();
+    date = String(date).split("GMT")[0];
     const blog = new Blog_1.default({
         author: author,
         title: title,
         content: content,
-        // images: {
-        //     contentType: 'image/png',
-        //     data: req.file?.filename
-        // },
+        image: image,
         date: date,
         tags: tags,
-        twitter: twitter
+        twitter: twitter,
+        instagram: instagram
     });
     try {
         yield blog.save();

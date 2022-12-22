@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography"
 import { useMediaQuery, useTheme } from "@mui/material"
 import { Navigate, useNavigate } from "react-router-dom";
-import AuthCheck from "../../assets/auth-asset/AuthCheck";
+import AuthCheck from "../../helper/AuthCheck";
 import axios from "axios"
 import VerifyEmailButton from "./components/VerifyEmailButton";
 
@@ -49,7 +49,7 @@ const VerifyEmailComponent = () => {
       e.preventDefault()
       console.log(email, password)
         sendRequest().then(() => {
-          navigate('/')
+          navigate('/login')
         })
     }
 

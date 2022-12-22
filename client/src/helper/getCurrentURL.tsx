@@ -6,7 +6,6 @@ export const getCurrentURL = () => {
 export const getURLExtension = () => {
     const url = window.location.href
     const extension = url.split('0/')[1]
-    console.log(extension)
 
     return String(extension)
 }

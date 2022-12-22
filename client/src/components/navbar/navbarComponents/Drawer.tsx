@@ -15,7 +15,7 @@ function DrawerComponent() {
     return (
         <>
             <Drawer anchor={"right"} open={open} onClose={() => setOpen(!open)}>
-                <List>
+                <List style={{ backgroundColor: "#3f51b5", height: "100%" }}>
                     <ListItem>
                         <ListItemButton>
                             <ListItemIcon>
@@ -48,7 +48,7 @@ function DrawerComponent() {
                             <ListItemIcon>
                                 {ic[3]}
                             </ListItemIcon>
-                            <ListItemText primary={"Cart"} />
+                            <ListItemText primary={"Logout"} />
                         </ListItemButton>
                     </ListItem>
                 </List>

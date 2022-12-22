@@ -3,13 +3,33 @@ import { AppBar, Toolbar, Typography } from "@material-ui/core"
 import { connect } from "react-redux";
 import { Grid, Tabs, Tab, Box, useTheme, useMediaQuery } from "@mui/material"
 import Logo from "./navbarComponents/Logo";
-import { useSelector, useDispatch } from "react-redux";
-import { linksInNavbar as ll } from "./navbarComponents/links";
+import axios from "axios";
 import DrawerComponent from "./navbarComponents/Drawer";
-import { useNavigate } from "react-router-dom";
-import { getCurrentURL, getURLExtension } from "../../helper/getCurrentURL"
+import { useNavigate, Link } from "react-router-dom";
+import { getURLExtension } from "../../helper/getCurrentURL"
+import { useQuery } from "react-query"
+import SearchBar from "./navbarComponents/search-bar";
+import Button from '@mui/material/Button';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+import CreateIcon from '@mui/icons-material/Create';
+import LoginIcon from '@mui/icons-material/Login';
+import { useAppSelector, useAppDispatch } from "../app/hooks"
+import { fetchOutUser, setMethod, setStatus } from "../features/user/userSlice";
+import { setLogin } from "../features/login/loginSlice";
 
 function Navbar() {
+
+    const dispatch = useAppDispatch()
+    const User = useAppSelector((state) => state.user)
+    const Login = useAppSelector((state) => state.login)
+
+    type NavbarValue = null | number
+    const [value, setValue] = useState<NavbarValue>()
+    
+    const theme = useTheme()
+    const isDrawerOpen = useMediaQuery(theme.breakpoints.down('lg'))
+    const navigate = useNavigate()
 
     useEffect(() => {
         const ext = getURLExtension() 
@@ -22,26 +42,40 @@ function Navbar() {
         else {
 
         }
+
     }, [])
-    
-    type NavbarValue = null | number
-    const [value, setValue] = useState<NavbarValue>()
-    
-    const theme = useTheme()
-    const isDrawerOpen = useMediaQuery(theme.breakpoints.down('lg'))
-    const navigate = useNavigate()
-    
+
+    const handleLogout = (e: any) => {
+        console.log("yo")
+        dispatch(fetchOutUser({}))
+        navigate('/login')
+    }
+
+    useEffect(() => {
+        if (User.loading === false && User.method === "logout" && User.status === "failed") {
+            dispatch(setMethod("idle"))
+            dispatch(setLogin(true))
+            dispatch(setStatus("idle"))
+        }
+        else if (User.loading === false && User.method === "logout" && User.status === "succeeded") {
+            dispatch(setMethod("idle"))
+            dispatch(setLogin(false))
+            dispatch(setStatus("idle"))
+            alert(User.error)
+        }
+    }, [User])
+
     return (
-        <AppBar style={{ backgroundImage: 'linear-gradient(90deg, rgba(26,31,117,1) 10%, rgba(142,102,182,1) 41%, rgba(215,22,22,0.8606793059020483) 100%)', maxHeight: "15%" }}>
+        <AppBar style={{ backgroundImage: 'black', maxHeight: "15%" }}>
             <Toolbar>
                 <Grid container sx={{ placeItems: 'center' }}>
 
                     <Logo />
 
                     {!isDrawerOpen ?    <Grid item xs={3}>
-                                            <Tabs indicatorColor="secondary" textColor="inherit" value={value} onChange={() => getURLExtension() === "" ? setValue(0) : (getURLExtension() === "myposts" ? setValue(1) : setValue(null))}>
-                                                <Tab onClick={() => navigate('/')} label={ll[0]}></Tab>
-                                                <Tab onClick={() => navigate('/myposts')} label={ll[1]}></Tab>
+                                            <Tabs indicatorColor="secondary" textColor="inherit" value={value} >
+                                                <Tab onClick={() => navigate('/')} label={'HOME'}></Tab>
+                                                <Tab onClick={() => navigate('/createblog')} label={"MY POSTS"}></Tab>
                                             </Tabs>
                                         </Grid>
                                         :
@@ -49,7 +83,7 @@ function Navbar() {
 
                     <Grid item>
                         <Tabs indicatorColor="secondary" textColor="inherit">
-                            <Tab label={ll[2]}></Tab>
+                            <Tab label={<SearchBar />}></Tab>
                         </Tabs>
                     </Grid>
 
@@ -59,8 +93,15 @@ function Navbar() {
 
                     {!isDrawerOpen ?    <Grid item xs={2}>
                                             <Box display={'flex'}>
-                                                {ll[3]}
-                                                {ll[4]}
+                                                {Login.login ? 
+                                                <Link to={'/account'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <AccountCircleIcon /> Account </Button></Link> 
+                                                :
+                                                <Link to={'/login'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <LoginIcon /> Login </Button></Link>}
+                                                {Login.login ? 
+                                                <Button onClick={handleLogout}
+                                                variant="text" sx={{ marginLeft: 4, color: 'white' }}> <LogoutIcon /> Logout </Button>
+                                                : 
+                                                <Link to={'/register'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <CreateIcon /> Register </Button></Link>}
                                             </Box>
                                         </Grid>
                                         :

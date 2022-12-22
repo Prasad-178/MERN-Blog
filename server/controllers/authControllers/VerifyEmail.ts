@@ -3,6 +3,7 @@ export {}
 import { Response, NextFunction } from "express"
 import User from "../../models/User"
 import bcrypt from "bcryptjs"
+import nodemailer from "nodemailer"
 
 export const verifyEmail = async (req: any, res: Response, next: NextFunction) => {
 
@@ -41,6 +42,30 @@ export const verifyEmail = async (req: any, res: Response, next: NextFunction) =
     } catch (err) {
         console.log(err)
     }
+
+    let transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "lummaoiscringe@gmail.com",
+            pass: "xwhfjdhuduankjpc"
+        }
+    })
+
+    let mailOptions = {
+        from: "lummaoiscringe@gmail.com",
+        to: email,
+        subject: "Verified!!",
+        text: "Congratulations!! Your blogify account has been verified!!",
+    }
+
+    transporter.sendMail(mailOptions, (err: any, success: any) => {
+        if (err) {
+            console.log("Mail not sent.", err)
+        }
+        else {
+            console.log("Success, email has been sent, and your account has been verified!!", success)
+        }
+    })
 
     return res
     .status(200)

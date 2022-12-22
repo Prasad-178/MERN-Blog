@@ -15,23 +15,28 @@ const blogSchema = new Schema({
         type: String,
         required: true
     },
-    images: {
-        contentType: String,
-        data: Buffer
+    image: {
+        type: String,
+        required: true
     },
     date: {
         type: Date,
-        required: false
+        required: true
     },
     tags: [{
         type: String,
-        required: false
+        required: true
     }],
-    twitter: [{
+    twitter: {
         type: String,
-        required: false
-    }]
+        required: true
+    },
+    instagram: {
+        type: String,
+        required: true
+    }
 })
+
 
 export default mongoose.model('Blog', blogSchema)
 // module.exports = mongoose.model('Blog', blogSchema)

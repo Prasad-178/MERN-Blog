@@ -4,7 +4,7 @@ import SearchBar from './search-bar';
 import Button from '@mui/material/Button';
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
-import AuthCheck from '../../../assets/auth-asset/AuthCheck';
+import AuthCheck from '../../../helper/AuthCheck';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CreateIcon from '@mui/icons-material/Create';
@@ -21,7 +21,6 @@ export const linksInNavbar = [
     <Link to={'/login'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <LoginIcon /> Login </Button></Link>
     ,
     AuthCheck() ? 
-    // <Link to={'/'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 4, color: 'white' }}> <LogoutIcon /> Logout </Button></Link> 
     <Button onClick={ async () => {
         const data = await axios.get("http://localhost:3000/secure/logout")
         console.log(data);
@@ -37,5 +36,5 @@ export const iconsInDrawer = [
     <HomeIcon />,
     <CategoryRoundedIcon />,
     <AccountCircleIcon />,
-    <ShoppingCartIcon />
+    <LogoutIcon />
 ]
