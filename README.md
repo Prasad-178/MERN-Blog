@@ -1,1 +1,1 @@
-# MERN Ecommerce Website
+# MERN Blog Website
