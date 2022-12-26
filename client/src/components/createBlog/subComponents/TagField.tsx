@@ -7,15 +7,17 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 type TagFieldType = {
     handleChangeTagField: any
     addTag: any
+    value: any
 }
 
 const TagField = (props: TagFieldType) => {
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "row", marginBottom: "0%" }}>
         <TextField 
+            value={props.value}
             type={'text'}
             required
-            name="Tags"
+            name="tags"
             onChange={props.handleChangeTagField}
             placeholder="Tag"
             InputProps={{

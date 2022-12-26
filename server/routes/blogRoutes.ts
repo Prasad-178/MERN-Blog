@@ -2,41 +2,36 @@ export {}
 
 import express from "express"
 import multer from "multer"
-import getAllBlogs from "../controllers/getAllBlogs"
-import createBlog from "../controllers/createBlogController"
-import getMyBlogs from "../controllers/getMyBlogs"
+import getAllBlogs from "../controllers/blogControllers/getAllBlogs"
+import createBlog, { singleFileUpload } from "../controllers/blogControllers/createBlogController"
+import getMyBlogs from "../controllers/blogControllers/getMyBlogs"
 import { verifyToken } from "../middleware/verifyJWTLogin"
+import getBlogById from "../controllers/blogControllers/getBlogById"
 
 const router = express.Router()
 
 router.get('/allblogs', getAllBlogs)
 
+router.get('/blog/:id', getBlogById)
+
 router.use(verifyToken)
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, "./uploads/")
+        callback(null, "uploads")
     },
     filename: (req, file, callback) => {
         const fileName = file.originalname.toLowerCase().split(' ').join('-')
         callback(null, fileName)
     }
 })
-const upload = multer({
-    storage: storage,
-    fileFilter: (req, file, callback) => {
-        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
-            callback(null, true)
-        }
-        else {
-            callback(null, false)
-            return callback(new Error('Only .png, .jpg and .jpeg format allowed!'))
-        }
-    }
+
+export const upload = multer({
+    storage: storage
 })
 
-router.post('/newblog' , upload.single("image"), createBlog)
+router.post('/newblog', createBlog)
 
-router.get('/myblogs', getMyBlogs)
+router.post('/myblogs', getMyBlogs)
 
 export default router

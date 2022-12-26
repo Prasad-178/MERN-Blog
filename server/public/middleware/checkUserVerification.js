@@ -12,13 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
-const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const checkemailverification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const cookies = req.headers.cookie;
     const token = cookies && cookies.split('=')[1];
     if (!token) {
+        console.log("No token!!");
         return res
             .status(400)
             .json({ status: false });
@@ -34,16 +34,22 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         try {
             User_1.default.findOne({ _id: user.id }).exec().then((data) => {
                 currentUser = data;
-                // console.log("inside curUser is : ", data)
+                console.log("inside curUser is : ", data);
+                if ((data === null || data === void 0 ? void 0 : data.verified) == true) {
+                    return res
+                        .status(200)
+                        .json({ message: true });
+                }
+                else {
+                    return res
+                        .status(400)
+                        .json({ message: false });
+                }
             });
         }
         catch (err) {
             console.log(err);
         }
-        // console.log("user is : ", user)
-        // console.log("curUser is : ", currentUser)
-        // req.email = currentUser.email
     });
-    next();
 });
-exports.verifyToken = verifyToken;
+exports.default = checkemailverification;

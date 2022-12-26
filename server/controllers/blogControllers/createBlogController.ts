@@ -1,17 +1,32 @@
-import Blog from "../models/Blog"
-import multer from "multer"
+import Blog from "../../models/Blog"
 import { Response } from "express"
+
+export const singleFileUpload = async (req: any, res: Response) => {
+    console.log("inside single file upload")
+    try {
+        const file = req.file
+        return res.
+        status(201)
+        .send('File uploaded successfully!')
+    } catch (err: any) {
+        return res
+        .status(400)
+        .send(err.message)
+    }
+}
 
 const createBlog = async (req: any, res: Response) => {
 
+    // let image: any
     // try {
-    //     upload.single("blogImage")
+    //     image = req.file
+    //     console.log(image)
     // } catch (err) {
     //     console.log(err)
     // }
-    // console.log("image uploaded successfully!")
     
-    const { author, title, content, twitter, instagram, tags, image } = req.body
+    const { author, title, content, twitter, instagram, tags, image, email } = req.body
+    console.log("email in server is : ", email)
 
     let date: string | Date = new Date(Date.now())
     date.toDateString();
@@ -25,7 +40,8 @@ const createBlog = async (req: any, res: Response) => {
         date: date,
         tags: tags,
         twitter: twitter,
-        instagram: instagram
+        instagram: instagram,
+        email: email
     })
 
     try {

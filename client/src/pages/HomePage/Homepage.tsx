@@ -1,49 +1,79 @@
 import Navbar from "../../components/navbar/Navbar"
-import userSlice, { fetchUser } from "../../components/features/user/userSlice"
 import { useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../components/app/hooks"
 import { useEffect } from "react"
 import axios from "axios"
 import { Typography } from "@material-ui/core"
-import { useMediaQuery, useTheme } from "@mui/material"
 import background from "../../assets/images/homepage.jpg"
+import BlogCard from "../../components/blogPreview/BlogCard"
+import BlogLoading from "../../components/blogPreview/BlogLoading"
+import Stack from '@mui/material/Stack';
+import NoBlogsComponent from "../../components/blogPreview/NoBlogsComponent"
 
 const Homepage = () => {
-  const dispatch: any = useAppDispatch()
 
-  const [blogs, setBlogs] = useState<Array<Object>>([])
+  type BlogType = {
+        author: string
+        content: string
+        date: Date
+        image: string
+        instagram: string
+        tags: Array<string>
+        title: string
+        twitter: string
+        __v: number
+        _id: string
+  }
 
-  const theme = useTheme()
-
-  const SixFifty = useMediaQuery(theme.breakpoints.down(650))
-  const FiveTwenty = useMediaQuery(theme.breakpoints.down(520))
-  const FourTwenty = useMediaQuery(theme.breakpoints.down(420))
+  const [blogs, setBlogs] = useState<Array<BlogType>>([])
+  const [noBlogs, setNoBlogs] = useState<number>(0)
 
   useEffect(() => {
-    const res = axios.get("http://localhost:3000/")
-    console.log(res)
-    getAllBlogs()
+    getAllBlogs().then((res) => {
+      setBlogs(res.blogs)
+      if (res.blogs.length === 0) {
+        setNoBlogs(1)
+      }
+    })
   }, [])
 
   
   const getAllBlogs = async () => {
-    // console.log("fx is called!")
     const res = await axios.get("http://localhost:5000/api/blogs/allblogs")
-    console.log("blogs are : ")
-    console.log(res)
-    console.log("blogs done!!!")
-  }
 
-  // getAllBlogs()
+    return res.data
+  }
   
-  const User = useAppSelector((state) => state.user)
-  console.log(User)
   return (
-    <div style={{ margin: "0px", padding: "0px", height: "80%" }}>
+    <div style={{ margin: "0px", padding: "0px", height: "80%", width: "100%" }}>
       <Navbar />
       <div style={{ height: "65px" }}></div>
-      {/* <div>Hello there</div> */}
-      <div style={{ backgroundImage: `url(${background})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center", display: "flex", height: "480px", alignItems: "center" }}> <Typography variant={ "h4" } style={{ marginLeft: SixFifty ? (FiveTwenty ? (FourTwenty ? "30%" : "35%") : "40%") : "45%", color: "blue", fontFamily: "sans-serif" }}>BLOGIFY</Typography> </div>
+
+      <div style={{ backgroundImage: `url(${background})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center", display: "flex", height: "705px", alignItems: "center", marginBottom: "2%", justifyContent: "center" }}>
+          <Typography variant={ "h3" } style={{ color: "blue", fontFamily: "sans-serif", fontWeight: 700 }}>BLOGIFY</Typography> 
+      </div>
+      
+      <hr style={{ width: "90%", color: "black", height: "0.5px", marginRight: "2%", marginLeft: "2%", border: "2px solid black", background: "black" }} />
+      {noBlogs === 1 ? <NoBlogsComponent />
+      :
+      blogs.length > 0 ?
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2%" }}>
+            <Typography variant="h5" style={{ marginBottom: "0%", fontWeight: 700 }}>Personalized Blogs For You</Typography>
+            <Stack
+              direction={"row"}   
+              justifyContent={"space-between"}
+              flexWrap={"wrap"}
+              spacing={2}
+              padding="5%"
+              paddingTop={"2%"}
+            >
+              {blogs.map((item, id) => (
+                  <BlogCard data={blogs[id]}></BlogCard>
+              ))}
+            </Stack>
+        </div>
+        :
+        <BlogLoading loadingMessage="Loading Your Personalized Blogs..." />
+      }
     </div>
   )
 }

@@ -12,7 +12,7 @@ const ContentField = (props: ContentFieldType) => {
         type={'text'}
         required
         multiline
-        name={"Content"}
+        name={"content"}
         onChange={props.handleChangeContentField}
         placeholder="Content"
         InputProps={{

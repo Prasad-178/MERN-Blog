@@ -13,16 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Blog_1 = __importDefault(require("../models/Blog"));
-const getAllBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let blogs;
+const getBlogById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    let blog;
     try {
-        blogs = yield Blog_1.default.find({}).exec();
+        blog = yield Blog_1.default.findOne({ _id: id }).exec();
     }
     catch (err) {
-        console.log("get all blogs err is : ", err);
+        console.log(err);
     }
     return res
         .status(200)
-        .json({ blogs });
+        .json(blog);
 });
-exports.default = getAllBlogs;
+exports.default = getBlogById;

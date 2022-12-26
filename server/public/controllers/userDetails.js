@@ -13,17 +13,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = __importDefault(require("../models/User"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.id;
-    let currentUser;
-    try {
-        currentUser = yield User_1.default.findOne({ id: id }).exec();
+    let userDetails;
+    const cookies = req.headers.cookie;
+    const token = cookies && cookies.split('=')[1];
+    if (!token) {
+        return res
+            .status(404)
+            .json({ status: false });
     }
-    catch (err) {
-        console.log(err);
-    }
-    return res
-        .status(200)
-        .json(currentUser);
+    jsonwebtoken_1.default.verify(token, String(process.env.JWT_SECRET_KEY), (err, user) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err) {
+            console.log("error in verifying token!!");
+            res
+                .status(400)
+                .json({ status: false, token: "Cannot verify token!" });
+        }
+        let currentUser;
+        try {
+            currentUser = yield User_1.default.findOne({ _id: user.id }).exec();
+            console.log(currentUser);
+        }
+        catch (err) {
+            console.log(err);
+        }
+        return res
+            .status(200)
+            .json(currentUser);
+    }));
 });
 exports.default = userDetails;

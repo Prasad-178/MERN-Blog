@@ -27,7 +27,6 @@ export const checkLogin = createAsyncThunk("check/checkLogin", async (params: an
     console.log("check login!!")
     try {
         const response = await axios.get(checkLoginApi)
-        console.log(response.data)
         return response.data
     } catch (err: any) {
         return rejectWithValue("You are not logged in!")

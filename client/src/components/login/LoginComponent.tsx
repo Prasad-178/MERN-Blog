@@ -10,6 +10,7 @@ import AuthCheck from "../../helper/AuthCheck";
 import { useAppSelector, useAppDispatch } from "../app/hooks"
 import { setName, setEmail, setStatus, setMethod, setData, setVerified, fetchUser } from "../features/user/userSlice";
 import { setLogin } from "../features/login/loginSlice";
+import { NavLink } from "react-router-dom";
 
 const LoginComponent = () => {
 
@@ -71,7 +72,7 @@ const LoginComponent = () => {
                     <EmailField handleChangeEmail={handleEmail} />
                     <PasswordField handleChangePassword={handlePassword} />
                     <LoginButton />
-
+                    <NavLink to="/register" style={{ textDecoration: "none", color: "blue" }}>Don't have an account yet?</NavLink>
         </Stack>
     </form>
   )

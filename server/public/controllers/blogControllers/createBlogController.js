@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.singleFileUpload = void 0;
-const Blog_1 = __importDefault(require("../models/Blog"));
+const Blog_1 = __importDefault(require("../../models/Blog"));
 const singleFileUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("inside single file upload");
     try {

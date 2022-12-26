@@ -15,8 +15,9 @@ const app = express()
 
 // mounting middleware
 app.use(cors({origin:'http://localhost:3000', methods: ["GET", "POST", "PUT", "DELETE"], credentials: true,exposedHeaders: ['Set-Cookie', 'Date', 'ETag']}));
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(express.urlencoded({extended: true}))
+app.use(bodyParser.json({ limit: '50mb' }))
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: true, limit: '50mb', parameterLimit: 50000}))
 app.use(cookieParser())
 app.use(express.json())
 app.use('/api/secure', router)

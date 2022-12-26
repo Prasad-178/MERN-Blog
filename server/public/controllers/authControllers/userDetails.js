@@ -12,18 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = void 0;
+const User_1 = __importDefault(require("../../models/User"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const User_1 = __importDefault(require("../models/User"));
-const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const userDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let userDetails;
     const cookies = req.headers.cookie;
     const token = cookies && cookies.split('=')[1];
     if (!token) {
         return res
-            .status(400)
+            .status(404)
             .json({ status: false });
     }
-    jsonwebtoken_1.default.verify(token, String(process.env.JWT_SECRET_KEY), (err, user) => {
+    jsonwebtoken_1.default.verify(token, String(process.env.JWT_SECRET_KEY), (err, user) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
             console.log("error in verifying token!!");
             res
@@ -32,18 +32,15 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         }
         let currentUser;
         try {
-            User_1.default.findOne({ _id: user.id }).exec().then((data) => {
-                currentUser = data;
-                // console.log("inside curUser is : ", data)
-            });
+            currentUser = yield User_1.default.findOne({ _id: user.id }).exec();
+            console.log(currentUser);
         }
         catch (err) {
             console.log(err);
         }
-        // console.log("user is : ", user)
-        // console.log("curUser is : ", currentUser)
-        // req.email = currentUser.email
-    });
-    next();
+        return res
+            .status(200)
+            .json(currentUser);
+    }));
 });
-exports.verifyToken = verifyToken;
+exports.default = userDetails;

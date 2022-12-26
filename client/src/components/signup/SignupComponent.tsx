@@ -8,6 +8,7 @@ import { useMediaQuery, useTheme } from "@mui/material"
 import RegisterButton from "./components/RegisterButton"
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const SignupComponent = () => {
 
@@ -72,6 +73,7 @@ const SignupComponent = () => {
                     <EmailField handleChangeEmail={handleEmail} />
                     <PasswordField handleChangePassword={handlePassword} />
                     <RegisterButton />
+                    <NavLink to={'/login'} style={{ textDecoration: "none", color: "blue" }}>Already have an account?</NavLink>
 
         </Stack>
     </form>

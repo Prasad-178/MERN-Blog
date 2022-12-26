@@ -20,7 +20,7 @@ const userSchema = new Schema({
     verified: {
         type: Boolean,
         required: true  
-    } 
+    }
 })
 
 export default mongoose.model('User', userSchema)

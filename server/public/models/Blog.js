@@ -37,7 +37,10 @@ const blogSchema = new Schema({
     instagram: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        required: true
     }
 });
 exports.default = mongoose_1.default.model('Blog', blogSchema);
-// module.exports = mongoose.model('Blog', blogSchema)

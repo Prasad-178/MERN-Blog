@@ -75,7 +75,7 @@ function Navbar() {
                     {!isDrawerOpen ?    <Grid item xs={3}>
                                             <Tabs indicatorColor="secondary" textColor="inherit" value={value} >
                                                 <Tab onClick={() => navigate('/')} label={'HOME'}></Tab>
-                                                <Tab onClick={() => navigate('/createblog')} label={"MY POSTS"}></Tab>
+                                                {Login.login ? <Tab onClick={() => navigate('/myposts')} label={"MY BLOGS"}></Tab> : null}
                                             </Tabs>
                                         </Grid>
                                         :

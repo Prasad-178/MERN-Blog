@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react"
-import EmailField from "../reusable-components/EmailField"
-import PasswordField from "../reusable-components/PasswordField"
 import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography"
 import { useMediaQuery, useTheme } from "@mui/material"
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CreateBlogButton from "./subComponents/CreateBlogButton";
 import BlogField from "./subComponents/BlogField";
@@ -17,31 +15,36 @@ import IconButton from '@mui/material/IconButton';
 import TagField from "./subComponents/TagField";
 import TagItem from "./subComponents/TagItem";
 import CancelIcon from '@mui/icons-material/Cancel';
-import PersonIcon from '@mui/icons-material/Person';
+import { Editor } from "react-draft-wysiwyg"; 
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { convertToRaw, EditorState } from "draft-js";
+import htmlToDraft from "html-to-draftjs";
+import draftToHtml from "draftjs-to-html";
 
 const CreateBlogComponent = () => {
 
   const navigate = useNavigate()
   const User = useAppSelector((state) => state.user)
+  const Login = useAppSelector((state) => state.login)
+  
+  console.log(User.data.email)
+  const email = User.data.email
 
-  const [author, setAuthor] = useState<string>("")
+  const author = User.data.name
+  // console.log(author)
   const [title, setTitle] = useState<string>("")
   const [content, setContent] = useState<string>("")
+  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [twitter, setTwitter] = useState<string>("")
   const [instagram, setInstagram] = useState<string>("")
   const [currentTag, setCurrentTag] = useState<string>("")
   const [tags, setTags] = useState<Array<string>>([])
-  const [image, setFileName] = useState<string>("")
+  const [image, setFileName] = useState<any>("")
 
-  const onChangeFile = (e: any) => {
-    // alert("hi inside on change file")
-    // console.log("event is : ", e)
-    // console.log(e.target.files[0].name)
-    setFileName(e.target.files[0].name)
-  }
-
-  const handleAuthor = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuthor(event.target.value)
+  const handleFileUpload = async (e: any) => {
+    const file = e.target.files[0]
+    const base64 = await convertToBase64(file)
+    setFileName(base64)
   }
   
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,15 +67,20 @@ const CreateBlogComponent = () => {
     setCurrentTag(event.target.value)
   }
 
+  const setDefaultStateCurrentTag = () => {
+    setCurrentTag("")
+  }
+
   const addTag = () => {
     if (currentTag != "") {
       setTags(prevTags => {
         return [...prevTags, currentTag]
       })
-      setCurrentTag("")
-      console.log(tags)
+      setDefaultStateCurrentTag()
     }
     else {}
+
+    setCurrentTag("")
   }
 
   const deleteTag = (id: Number) => {
@@ -84,15 +92,19 @@ const CreateBlogComponent = () => {
     })
   }
 
-  const formData = new FormData()
+  const userData = async () => {
+    const res = await axios.get("http://localhost:5000/api/secure/emailverification", {})
+    if (res.data.message == true) {}
+    else {
+      navigate('/')
+      alert("You have to verify your email to create a blog! Please check your inbox!")
+    }
+    return res
+  }
 
-  formData.append("author", author)
-  formData.append("title", title)
-  formData.append("content", content)
-  formData.append("image", image)
-  formData.append("tags", JSON.stringify(tags))
-  formData.append("twitter", twitter)
-  formData.append("instagram", instagram)
+  useEffect(() => {
+    userData().then((res: Object) => console.log(res))
+  }, [])
 
     const theme = useTheme()
 
@@ -102,42 +114,110 @@ const CreateBlogComponent = () => {
     const FiveTwenty = useMediaQuery(theme.breakpoints.down(520))
     const FourTwenty = useMediaQuery(theme.breakpoints.down(420))
 
-    const handleSubmit = async () => {
-        const res = await axios.post("http://localhost:5000/api/blogs/newblog", formData)
-        console.log(res)
+    const sendRequest = async () => {
+      const res = await axios.post("http://localhost:5000/api/blogs/newblog", {
+          author: author,
+          title: title,
+          content: content,
+          image: image,
+          tags: tags,
+          twitter: twitter,
+          instagram: instagram,
+          email: email
+        })
+        .catch((err: any) => console.log(err.message))
+      
+      const data = await res!.data
+      console.log(data)
+      return data
+    }
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault()
+        sendRequest()
+        .then(() => {
+          alert("Blog created successfully")
+          navigate('/')
+        })
     }
 
   return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <form onSubmit={handleSubmit}>
         <Stack
             spacing={2} 
             direction={"column"}
             width={ElevenSeventy ? (EightFifty ? (FiveTwenty ? '60%' : '50%') : '50%') : '35%'} 
             marginLeft={FiveTwenty ? '20%' : '30%'}
+            marginBottom={"5%"}
             marginTop={SixFifty ? (FourTwenty ? '30%' : '20%') : '10%'}>
-                    <Typography variant={FiveTwenty? "body1" : "h6"}>CREATE BLOG</Typography>
-                    <BlogField handleChangeBlogField={handleAuthor} placeholder="Author Name" icon={<PersonIcon />} nameOfField="Author"></BlogField>
-                    <BlogField handleChangeBlogField={handleTitle} placeholder="Title" icon={<TitleIcon />} nameOfField="Title" />
-                    <ContentField handleChangeContentField={handleContent} />
-                    <BlogField handleChangeBlogField={handleTwitter} placeholder="Twitter" icon={<TwitterIcon />} nameOfField="Twitter" />
-                    <BlogField handleChangeBlogField={handleInstagram} placeholder="Instagram" icon={<InstagramIcon />} nameOfField="Instagram" />
-                    <TagField handleChangeTagField={handleCurrentTag} addTag={addTag} />
+                    <Typography variant={FiveTwenty? "body1" : "h6"} style={{ fontWeight: 700, alignSelf: "center" }}>CREATE BLOG</Typography>
+                    <BlogField handleChangeBlogField={handleTitle} placeholder="Title" icon={<TitleIcon />} nameOfField="title" />
+                    <Typography variant={FiveTwenty? "body1" : "h6"} style={{ fontWeight: 700 }}>BLOG BODY :</Typography>
+                    <div style={{ display: "flex", flexDirection: "column", flexWrap: "wrap" }}>
+                      <Editor wrapperClassName="wrapper" editorClassName="editor" toolbarClassName="toolbar" editorStyle={{ backgroundColor: "lavender" }} toolbarStyle={{ backgroundColor: "blue" }}
+                      onEditorStateChange={
+                        (newState) => {
+                          setEditorState(newState)
+                          setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                          console.log(content)
+                      }}
+                      toolbar={{
+                        image: {
+                          icon: image,
+                          className: undefined,
+                          component: undefined,
+                          popupClassName: undefined,
+                          urlEnabled: true,
+                          uploadEnabled: true,
+                          alignmentEnabled: "CENTER",
+                          uploadCallback: undefined,
+                          previewImage: false,
+                          inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+                          alt: { present: false, mandatory: false },
+                          defaultSize: {
+                            height: '360',
+                            width: '640',
+                          },
+                        },
+                      }}
+                    />
+                    </div>
+                    <Typography variant={FiveTwenty? "body1" : "h6"} style={{ fontWeight: 700 }}>SOCIALS :</Typography>
+                    <BlogField handleChangeBlogField={handleTwitter} placeholder="Twitter" icon={<TwitterIcon />} nameOfField="twitter" />
+                    <BlogField handleChangeBlogField={handleInstagram} placeholder="Instagram" icon={<InstagramIcon />} nameOfField="instagram" />
+                    <Typography variant={FiveTwenty? "body1" : "h6"} style={{ fontWeight: 700 }}>TAGS :</Typography>
+                    <TagField handleChangeTagField={handleCurrentTag} addTag={addTag} value={currentTag} />
                     <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        {tags.map((item, index) => (
+                        {tags.map((item: any, index: any) => (
                           <>
-                            <ul style={{ display: "inline-flex", fontSize: "24px", backgroundColor: "#3f51b5", borderRadius: "5px", padding: "1%", marginLeft: "2%", marginRight: "-1.15%", color: "white", letterSpacing: "1.75px" }} key={index}><TagItem tagName={item} /></ul>
-                            <IconButton aria-label="delete" color='error' size='small' onClick={() => deleteTag(index)}>
+                            <ul style={{ display: "inline-flex", fontSize: "15px", backgroundColor: "#5bc546", borderRadius: "5px", padding: "1%", paddingBottom: "1%", marginLeft: "2%", marginRight: "-1.15%", marginTop: "0%", letterSpacing: "0.2px" }} key={index}>
+                                <TagItem tagName={item.toUpperCase()} />
+                            </ul>
+                            <IconButton style={{ marginBottom: "3.75%", marginLeft: "0.5%" }} aria-label="delete" color='error' size='small' onClick={() => deleteTag(index)}>
                                 <CancelIcon />
                             </IconButton>
                           </>
                         ))}
                     </div>
-                    <Typography>Choose Blog Image : </Typography>
-                    <input type="file" name="image" onChange={onChangeFile} />
+                    <Typography style={{ marginTop: "0%" }}>Blog Cover Image : </Typography>
+                    <input type="file" name="image" onChange={(e) => handleFileUpload(e)} />
                     <CreateBlogButton />
         </Stack>
     </form>
   )
+}
+
+const convertToBase64 = (file: any) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(file)
+    fileReader.onload = () => {
+      resolve(fileReader.result)
+    }
+    fileReader.onerror = (error) => {
+      reject(error)
+    }
+  })
 }
 
 export default CreateBlogComponent

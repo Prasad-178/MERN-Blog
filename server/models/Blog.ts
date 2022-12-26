@@ -1,5 +1,6 @@
 export {}
 import mongoose from "mongoose"
+import { buffer } from "stream/consumers"
 
 const Schema = mongoose.Schema
 const blogSchema = new Schema({
@@ -34,9 +35,11 @@ const blogSchema = new Schema({
     instagram: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        required: true
     }
 })
 
-
 export default mongoose.model('Blog', blogSchema)
-// module.exports = mongoose.model('Blog', blogSchema)

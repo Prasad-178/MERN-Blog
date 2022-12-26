@@ -12,7 +12,7 @@ interface state {
     loading: boolean
     data: userData
     status: "idle" | "succeeded" | "failed"
-    method: "idle" | "login" | "logout"
+    method: "idle" | "login" | "logout" | "fetchingUserDetails"
     error: any
 }
 
@@ -37,6 +37,7 @@ export const fetchUser = createAsyncThunk("fetch/fetchUser", async (credentials:
     console.log("done!! triggered!!")
     try {
         const response = await axios.post(api, credentials, { withCredentials: true })
+        console.log(response)
         console.log("after trigger : ")
         return response.data
     } catch (err: any) {
@@ -45,10 +46,20 @@ export const fetchUser = createAsyncThunk("fetch/fetchUser", async (credentials:
 })
 
 const apiOut = BASE_URL + "secure/logout"
-
 export const fetchOutUser = createAsyncThunk("fetch/fetchOutUser", async (Params: any, { rejectWithValue }) => {
     try {
         const response = await axios.get(apiOut, { withCredentials: true })
+        return response.data
+    } catch (err: any) {
+        return rejectWithValue("You are not logged in!")
+    }
+})
+
+const apiUserDetails = BASE_URL + "secure/userdetails"
+export const fetchUserDetails = createAsyncThunk("fetch/fetchUserDetails", async (Params: any, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(apiUserDetails, { withCredentials: true })
+        console.log("response of userDetails in front end is : ", response)
         return response.data
     } catch (err: any) {
         return rejectWithValue("You are not logged in!")
@@ -89,6 +100,7 @@ const userSlice = createSlice({
                 state.loading = false
                 state.status = "succeeded"
                 state.method = "login"
+                console.log("action payload after login : ", action.payload)
                 state.data = action.payload
                 state.error = "Logged in successfully!"
             })
@@ -117,6 +129,27 @@ const userSlice = createSlice({
                 state.method = "logout"
                 state.data = {}
                 state.error = "Logout failed!"
+            })
+            .addCase(fetchUserDetails.pending, (state, action) => {
+                state.loading = true
+                state.status = "idle"
+                state.method = "fetchingUserDetails"
+            })
+            .addCase(fetchUserDetails.fulfilled, (state, action) => {
+                state.loading = false
+                state.status = "succeeded"
+                state.method = "fetchingUserDetails"
+                state.data = action.payload
+                state.error = "Fetched User Details Successfully!"
+                console.log("action payload fetch user details is : ", action.payload)
+            })
+            .addCase(fetchUserDetails.rejected, (state, action) => {
+                state.loading = false
+                state.status = "failed"
+                state.method = "fetchingUserDetails"
+                // state.data = {}
+                state.error = "Failed to fetch user details!"
+                console.log("rejected, state error is : ", state.error)
             })
     }
 })

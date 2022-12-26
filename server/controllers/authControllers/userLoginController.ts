@@ -42,7 +42,8 @@ const login = async (req: any, res: Response, next: NextFunction) => {
 
     return res
     .status(201)
-    .json({ message: "Logged in successfully", user: existingUser, token })
+    // .json({ message: "Logged in successfully", user: existingUser, token })
+    .json(existingUser)
 }
 
 export default login

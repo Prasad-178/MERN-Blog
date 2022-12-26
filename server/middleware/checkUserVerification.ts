@@ -1,12 +1,14 @@
-import { Response, NextFunction } from "express"
+import { Response } from "express";
 import jwt from "jsonwebtoken"
-import User from "../models/User"
+import User from "../models/User";
 
-export const verifyToken = async (req: any, res: Response, next: NextFunction) => {
+const checkemailverification = async (req: any, res: Response) => {
+
     const cookies = req.headers.cookie
     const token = cookies && cookies.split('=')[1]
     
     if (!token) {
+        console.log("No token!!")
         return res
         .status(400)
         .json({ status: false })
@@ -24,15 +26,23 @@ export const verifyToken = async (req: any, res: Response, next: NextFunction) =
         try {
             User.findOne({ _id: user.id }).exec().then((data) => {
                 currentUser = data
-                // console.log("inside curUser is : ", data)
+                console.log("inside curUser is : ", data)
+                if (data?.verified == true) {
+                    return res
+                    .status(200)
+                    .json({ message: true })
+                }
+                else {
+                    return res
+                    .status(400)
+                    .json({ message: false })
+                }
             })
         } catch (err) {
             console.log(err)
         }
-        // console.log("user is : ", user)
-        // console.log("curUser is : ", currentUser)
 
-        // req.email = currentUser.email
     })
-    next()
 }
+
+export default checkemailverification

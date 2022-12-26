@@ -8,6 +8,9 @@ const CreateBlogButton = () => {
         color='success'
         type='submit'
         value='CreateBlog'
+        sx={{
+          marginBottom: "5%"
+        }}
     >
         <Typography variant='h6'>CREATE BLOG</Typography>
     </Button>

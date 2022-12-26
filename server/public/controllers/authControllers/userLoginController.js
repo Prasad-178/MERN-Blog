@@ -49,6 +49,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     console.log("Logged in successfully!!");
     return res
         .status(201)
-        .json({ message: "Logged in successfully", user: existingUser, token });
+        // .json({ message: "Logged in successfully", user: existingUser, token })
+        .json(existingUser);
 });
 exports.default = login;
