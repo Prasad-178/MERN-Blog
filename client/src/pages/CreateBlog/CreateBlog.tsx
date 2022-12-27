@@ -1,4 +1,5 @@
 import CreateBlogComponent from "../../components/createBlog/CreateBlogComponent";
+import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 
 const CreateBlogPage = () => {
@@ -6,6 +7,7 @@ const CreateBlogPage = () => {
         <>
             <Navbar />
             <CreateBlogComponent />
+            <Footer />
         </>
     )
 }

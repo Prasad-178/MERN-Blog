@@ -1,10 +1,13 @@
+import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { CardActionArea, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type BlogType = {
     data: {
@@ -18,55 +21,66 @@ type BlogType = {
         twitter: string
         __v: number
         _id: string
-    }
-}
-
-const convertDataUrlToBlob = (dataUrl: any) : Blob => {
-    const arr = dataUrl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return new Blob([u8arr], {type: mime});
+    },
+    deleteBlog: any
 }
 
 const BlogCard = (props: BlogType) => {
     const data = props.data
+    const currentLocation = useLocation().pathname
 
     const [author, content, date, image, instagram, tags, title, twitter, id] = [data.author, data.content, data.date, data.image, data.instagram, data.tags, data.title, data.twitter, data._id]
+    const [location, setLocation] = useState<string>("")
+
+    useEffect(() => {
+        setLocation(currentLocation)
+    }, [])
 
     const navigate = useNavigate()
     
   return (
-    <div style={{ marginBottom: "2%", marginLeft: "0" }}>
-        <Card sx={{ maxWidth: 600, minWidth: 320 }} onClick={() => navigate("/blog/" + id)}>
+    <div style={{ marginBottom: "2%", marginLeft: "0", display: "flex", flexDirection: "column" }}>
+        <Card sx={{ width: 320 }} onClick={() => navigate("/blog/" + id)} raised>
             <CardActionArea>
                 <CardMedia
                 component="img"
-                height="140"
+                width="320"
+                height="180"
                 id='imageContainer'
                 src={image}
                 alt="image"
+                sx={{ 
+                    maxWidth: "320px",
+                    maxHeight: "180px"
+                }}
                 />
                 <div id='imageContainer'></div>
                 <CardContent style={{ paddingBottom: "2%", paddingTop: "2%" }}>
                 <Typography gutterBottom variant="h5" component="div">
                     {title}
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                {/* <Typography variant="body1" color="text.secondary">
                     {content.substring(0,50) + "..."}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" style={{ paddingTop: "1%" }}>
+                </Typography> */}
+                <Typography alignSelf={"flex-end"} gutterBottom variant="body2" color="text.secondary" style={{ paddingTop: "1%" }}>
                     {"by " + author}
                 </Typography>
                 </CardContent>
             </CardActionArea>
         </Card>
+        {location === '/myposts' ? 
+        <div style={{ display: "flex", alignSelf: "center", justifySelf: "center", flexDirection: "row" }}>
+            <IconButton style={{ marginBottom: "3.75%", marginLeft: "0.5%" }} aria-label="delete" color='error' size='large' onClick={() => navigate('/editpost/' + props.data._id)}>
+                <EditIcon style={{ color: "white", backgroundColor: "green", padding: "15%", borderRadius: "60%" }} />
+            </IconButton>
+            <IconButton style={{ marginBottom: "3.75%", marginLeft: "0.5%" }} aria-label="delete" color='error' size='large' onClick={() => props.deleteBlog(props.data._id)}>
+                <DeleteIcon style={{ color: "white", backgroundColor: "blue", padding: "15%", borderRadius: "60%" }} />
+            </IconButton>
+        </div>
+        :
+        null
+        }
+
     </div>
   )
 }

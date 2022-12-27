@@ -44,8 +44,6 @@ const getMyBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     //     // req.email = currentUser.email
     // })
     const { email } = req.body;
-    // console.log("req is : ", req)
-    console.log("req email is : ", email);
     let blogs;
     try {
         blogs = yield Blog_1.default.find({ email: email }).exec();

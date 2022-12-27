@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Blog_1 = __importDefault(require("../../models/Blog"));
-const getAllBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let blogs;
     try {
         blogs = yield Blog_1.default.find({}).exec();
@@ -25,4 +25,4 @@ const getAllBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         .status(200)
         .json({ blogs });
 });
-exports.default = getAllBlogs;
+exports.default = getAllPosts;

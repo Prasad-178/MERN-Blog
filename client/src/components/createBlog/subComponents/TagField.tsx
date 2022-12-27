@@ -16,7 +16,7 @@ const TagField = (props: TagFieldType) => {
         <TextField 
             value={props.value}
             type={'text'}
-            required
+            required = {false}
             name="tags"
             onChange={props.handleChangeTagField}
             placeholder="Tag"

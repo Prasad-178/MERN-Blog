@@ -1,4 +1,4 @@
-import Blog from "../../models/Blog"
+import Blog from "../models/Blog"
 import { Response } from "express"
 
 export const singleFileUpload = async (req: any, res: Response) => {
@@ -16,17 +16,8 @@ export const singleFileUpload = async (req: any, res: Response) => {
 }
 
 const createBlog = async (req: any, res: Response) => {
-
-    // let image: any
-    // try {
-    //     image = req.file
-    //     console.log(image)
-    // } catch (err) {
-    //     console.log(err)
-    // }
     
     const { author, title, content, twitter, instagram, tags, image, email } = req.body
-    console.log("email in server is : ", email)
 
     let date: string | Date = new Date(Date.now())
     date.toDateString();

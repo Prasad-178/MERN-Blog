@@ -12,39 +12,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.singleFileUpload = void 0;
-const Blog_1 = __importDefault(require("../models/Blog"));
-const singleFileUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("inside single file upload");
+const Blog_1 = __importDefault(require("../../models/Blog"));
+const updateBlogById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    let blog;
     try {
-        const file = req.file;
-        return res.
-            status(201)
-            .send('File uploaded successfully!');
+        blog = yield Blog_1.default.findOne({ _id: id }).exec();
     }
     catch (err) {
-        return res
-            .status(400)
-            .send(err.message);
+        console.log(err);
     }
-});
-exports.singleFileUpload = singleFileUpload;
-const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { author, title, content, twitter, instagram, tags, image, email } = req.body;
     let date = new Date(Date.now());
     date.toDateString();
     date = String(date).split("GMT")[0];
-    const blog = new Blog_1.default({
-        author: author,
-        title: title,
-        content: content,
-        image: image,
-        date: date,
-        tags: tags,
-        twitter: twitter,
-        instagram: instagram,
-        email: email
-    });
+    var k = 0;
+    if (content.length === 8) {
+        k = 1;
+    }
+    if (author)
+        blog.author = author;
+    if (title)
+        blog.title = title;
+    if (email)
+        blog.email = email;
+    if (k === 0) {
+        blog.content = content;
+    }
+    else {
+        blog.content = blog.content;
+    }
+    if (twitter)
+        blog.twitter = twitter;
+    if (instagram)
+        blog.instagram = instagram;
+    if (tags)
+        blog.tags = tags;
+    if (image)
+        blog.image = image;
+    blog.date = date;
     try {
         yield blog.save();
     }
@@ -55,4 +61,4 @@ const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         .status(201)
         .json({ message: blog });
 });
-exports.default = createBlog;
+exports.default = updateBlogById;

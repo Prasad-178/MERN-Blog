@@ -1,7 +1,7 @@
 import Blog from "../../models/Blog";
 import { Response } from "express";
 
-const getAllBlogs = async (req: any, res: Response) => {
+const getAllPosts = async (req: any, res: Response) => {
 
     let blogs: any
     try {
@@ -15,4 +15,4 @@ const getAllBlogs = async (req: any, res: Response) => {
     .json({ blogs })
 }
 
-export default getAllBlogs
+export default getAllPosts

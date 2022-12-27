@@ -6,10 +6,14 @@ import { Typography } from "@material-ui/core"
 import background from "../../assets/images/homepage.jpg"
 import BlogCard from "../../components/blogPreview/BlogCard"
 import BlogLoading from "../../components/blogPreview/BlogLoading"
-import Stack from '@mui/material/Stack';
 import NoBlogsComponent from "../../components/blogPreview/NoBlogsComponent"
+import Button from '@mui/material/Button';
+import { useNavigate } from "react-router-dom"
+import Footer from "../../components/footer/Footer"
 
 const Homepage = () => {
+
+  const navigate = useNavigate()
 
   type BlogType = {
         author: string
@@ -28,7 +32,7 @@ const Homepage = () => {
   const [noBlogs, setNoBlogs] = useState<number>(0)
 
   useEffect(() => {
-    getAllBlogs().then((res) => {
+    getAllPosts().then((res) => {
       setBlogs(res.blogs)
       if (res.blogs.length === 0) {
         setNoBlogs(1)
@@ -37,8 +41,8 @@ const Homepage = () => {
   }, [])
 
   
-  const getAllBlogs = async () => {
-    const res = await axios.get("http://localhost:5000/api/blogs/allblogs")
+  const getAllPosts = async () => {
+    const res = await axios.get("http://localhost:5000/api/blogs/allposts")
 
     return res.data
   }
@@ -56,24 +60,19 @@ const Homepage = () => {
       {noBlogs === 1 ? <NoBlogsComponent />
       :
       blogs.length > 0 ?
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2%" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2%", marginBottom: "5%" }}>
             <Typography variant="h5" style={{ marginBottom: "0%", fontWeight: 700 }}>Personalized Blogs For You</Typography>
-            <Stack
-              direction={"row"}   
-              justifyContent={"space-between"}
-              flexWrap={"wrap"}
-              spacing={2}
-              padding="5%"
-              paddingTop={"2%"}
-            >
+            <div style={{ width: blogs.length === 1 ? "20%" : "45%", display: "flex", flexDirection: "row", justifyContent: "space-between", flexWrap: "wrap", padding: "5%", paddingTop: "2%" }}>
               {blogs.map((item, id) => (
-                  <BlogCard data={blogs[id]}></BlogCard>
+                  <BlogCard data={blogs[id]} deleteBlog={() => {}}></BlogCard>
               ))}
-            </Stack>
+            </div>
+            <Button variant="outlined" style={{ marginTop: "-3%", color: "green", border: "2px solid red" }} onClick={() => navigate('/allposts')}>All Blogs</Button>
         </div>
         :
         <BlogLoading loadingMessage="Loading Your Personalized Blogs..." />
       }
+      <Footer />
     </div>
   )
 }

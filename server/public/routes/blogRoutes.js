@@ -7,12 +7,14 @@ exports.upload = void 0;
 const express_1 = __importDefault(require("express"));
 const multer_1 = __importDefault(require("multer"));
 const getAllBlogs_1 = __importDefault(require("../controllers/blogControllers/getAllBlogs"));
-const createBlogController_1 = __importDefault(require("../controllers/blogControllers/createBlogController"));
+const createBlogController_1 = __importDefault(require("../controllers/createBlogController"));
 const getMyBlogs_1 = __importDefault(require("../controllers/blogControllers/getMyBlogs"));
 const verifyJWTLogin_1 = require("../middleware/verifyJWTLogin");
 const getBlogById_1 = __importDefault(require("../controllers/blogControllers/getBlogById"));
+const deleteBlogById_1 = __importDefault(require("../controllers/blogControllers/deleteBlogById"));
+const updateBlogById_1 = __importDefault(require("../controllers/blogControllers/updateBlogById"));
 const router = express_1.default.Router();
-router.get('/allblogs', getAllBlogs_1.default);
+router.get('/allposts', getAllBlogs_1.default);
 router.get('/blog/:id', getBlogById_1.default);
 router.use(verifyJWTLogin_1.verifyToken);
 const storage = multer_1.default.diskStorage({
@@ -29,4 +31,6 @@ exports.upload = (0, multer_1.default)({
 });
 router.post('/newblog', createBlogController_1.default);
 router.post('/myblogs', getMyBlogs_1.default);
+router.put('/editblog/:id', updateBlogById_1.default);
+router.delete('/deleteblog/:id', deleteBlogById_1.default);
 exports.default = router;

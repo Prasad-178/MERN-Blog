@@ -2,15 +2,17 @@ export {}
 
 import express from "express"
 import multer from "multer"
-import getAllBlogs from "../controllers/blogControllers/getAllBlogs"
-import createBlog, { singleFileUpload } from "../controllers/blogControllers/createBlogController"
+import getAllPosts from "../controllers/blogControllers/getAllBlogs"
+import createBlog, { singleFileUpload } from "../controllers/createBlogController"
 import getMyBlogs from "../controllers/blogControllers/getMyBlogs"
 import { verifyToken } from "../middleware/verifyJWTLogin"
 import getBlogById from "../controllers/blogControllers/getBlogById"
+import deleteBlog from "../controllers/blogControllers/deleteBlogById"
+import updateBlogById from "../controllers/blogControllers/updateBlogById"
 
 const router = express.Router()
 
-router.get('/allblogs', getAllBlogs)
+router.get('/allposts', getAllPosts)
 
 router.get('/blog/:id', getBlogById)
 
@@ -33,5 +35,9 @@ export const upload = multer({
 router.post('/newblog', createBlog)
 
 router.post('/myblogs', getMyBlogs)
+
+router.put('/editblog/:id', updateBlogById)
+
+router.delete('/deleteblog/:id', deleteBlog)
 
 export default router

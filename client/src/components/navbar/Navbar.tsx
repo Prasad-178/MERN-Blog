@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react"
 import { AppBar, Toolbar, Typography } from "@material-ui/core"
-import { connect } from "react-redux";
 import { Grid, Tabs, Tab, Box, useTheme, useMediaQuery } from "@mui/material"
 import Logo from "./navbarComponents/Logo";
-import axios from "axios";
 import DrawerComponent from "./navbarComponents/Drawer";
 import { useNavigate, Link } from "react-router-dom";
 import { getURLExtension } from "../../helper/getCurrentURL"
-import { useQuery } from "react-query"
 import SearchBar from "./navbarComponents/search-bar";
 import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -36,7 +33,7 @@ function Navbar() {
         if (ext === "") {
             setValue(0)
         }
-        else if (ext === "myposts") {
+        else if (ext === "myposts" || (ext === "allposts" && !Login.login)) {
             setValue(1)
         }
         else {
@@ -46,7 +43,6 @@ function Navbar() {
     }, [])
 
     const handleLogout = (e: any) => {
-        console.log("yo")
         dispatch(fetchOutUser({}))
         navigate('/login')
     }
@@ -75,7 +71,7 @@ function Navbar() {
                     {!isDrawerOpen ?    <Grid item xs={3}>
                                             <Tabs indicatorColor="secondary" textColor="inherit" value={value} >
                                                 <Tab onClick={() => navigate('/')} label={'HOME'}></Tab>
-                                                {Login.login ? <Tab onClick={() => navigate('/myposts')} label={"MY BLOGS"}></Tab> : null}
+                                                {Login.login ? <Tab onClick={() => navigate('/myposts')} label={"MY BLOGS"}></Tab> : <Tab onClick={() => navigate('/allposts')} label={"ALL BLOGS"}></Tab>}
                                             </Tabs>
                                         </Grid>
                                         :

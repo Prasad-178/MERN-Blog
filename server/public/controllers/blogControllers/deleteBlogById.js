@@ -12,17 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Blog_1 = __importDefault(require("../models/Blog"));
-const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let blogs;
+const Blog_1 = __importDefault(require("../../models/Blog"));
+const deleteBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    let blog;
     try {
-        blogs = yield Blog_1.default.find({}).exec();
+        blog = yield Blog_1.default.findByIdAndDelete({ _id: id }).exec();
     }
     catch (err) {
-        console.log("get all blogs err is : ", err);
+        console.log(err);
     }
-    return res
-        .status(200)
-        .json({ blogs });
+    return res.redirect('/myposts');
 });
-exports.default = getAllPosts;
+exports.default = deleteBlog;

@@ -15,6 +15,8 @@ import CreateBlogPage from './pages/CreateBlog/CreateBlog';
 import MyPosts from './pages/MyPosts/MyPosts';
 import { fetchUserDetails } from './components/features/user/userSlice';
 import BlogPage from './pages/BlogPage/BlogPage';
+import AllPosts from './pages/AllPosts/AllPosts';
+import EditPost from './pages/EditBlog/EditPost';
 
 function App() {
   
@@ -55,6 +57,8 @@ function App() {
           <Route path='/accountVerification' element={<EmailVerification />}></Route>
           <Route path='/createblog' element={<CreateBlogPage />}></Route>
           <Route path='/blog/:id' element={<BlogPage />}></Route>
+          <Route path='/allposts' element={<AllPosts />}></Route>
+          <Route path='/editpost/:id' element={<EditPost />}></Route>
           <Route path='/' element={<Homepage />}></Route>
         </Routes>
   );

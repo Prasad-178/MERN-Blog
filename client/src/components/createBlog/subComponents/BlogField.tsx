@@ -7,6 +7,7 @@ type BlogFieldType = {
     placeholder: any
     icon: any
     nameOfField: any
+    value: any
 }
 
 const BlogField = (props: BlogFieldType) => {
@@ -14,6 +15,7 @@ const BlogField = (props: BlogFieldType) => {
     <TextField 
         type={'text'}
         required
+        value={props.value}
         name={props.nameOfField}
         onChange={props.handleChangeBlogField}
         placeholder={props.placeholder}

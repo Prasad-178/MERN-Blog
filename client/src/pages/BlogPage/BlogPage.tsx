@@ -9,10 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Link from '@mui/material/Link';
-import htmlToDraft from "html-to-draftjs"
-import { ContentState, convertFromRaw, EditorState } from "draft-js"
-import {stateToHTML} from "draft-js-export-html"
-
+import { EditorState } from "draft-js"
+import Footer from "../../components/footer/Footer"
 
 type BlogType = {
     author: string
@@ -48,30 +46,6 @@ const BlogPage = () => {
     const [dataRetrieved, setDataRetrieved] = useState<boolean>(false)
     const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
 
-    // const html = data.content
-
-    // let k = stateToHTML(editorState.getCurrentContent())
-    // console.log(k)
-
-    // onEditorStateChange={
-    //     (newState) => {
-    //       setEditorState(newState)
-    //       setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
-    //       console.log(content)
-    //   }}
-
-    // setBlogDetails(prevState => ({
-    //     ...prevState,
-    //     content: htmlToDraft(convertFromRaw(prevState.content))
-    // }))
-
-    // setEditorState(currentEditorState)
-
-    // setBlogDetails(prevState => ({
-    //     ...prevState,
-    //     content: editorState
-    // }))
-
     const [author, content, date, image, instagram, tags, title, twitter, id] = [data.author, data.content, data.date, data.image, data.instagram, data.tags, data.title, data.twitter, data._id]
     
     var blogTitle: any
@@ -89,25 +63,6 @@ const BlogPage = () => {
 
     const routeString = "BLOGIFY >> " + title
 
-    // const convertImages = (htmlText: string): string =>{
-    //     const regex =  /<img\s[^>]*?style\s*=\s*['\"]float([^'\"]*?)['\"][^>]*?>/g;
-    //     let m;
-    //     while ((m = regex.exec(htmlText)) !== null) {
-    //         if (m.index === regex.lastIndex) regex.lastIndex++;
-    //         let repl: any = null,type: any = null;
-    //         m.forEach((match, groupIndex) => {
-    //             if(groupIndex==0)repl = match;
-    //             if(groupIndex==1)type = match;
-    //             if(repl && type){
-    //                 if(type.includes('none')) htmlText = htmlText.replace(repl, `<div style="text-align: center;width: 100%;">`+repl+'</div>');
-    //                 else htmlText = htmlText.replace(repl, `<div style="text-align ${type}; width: 100%;">`+repl+'</div>');
-    //                 repl = null;
-    //                 type = null;
-    //             }
-    //         });
-    //     }
-    //    return htmlText;
-    // }
     const convertImages = (htmlText: string): string => {
 
         const initialIndex = htmlText.indexOf('" style="height:')
@@ -115,11 +70,15 @@ const BlogPage = () => {
 
         console.log(htmlText.substring(initialIndex+2, finalIndex-2))
 
-        const toBeReplaced = htmlText.substring(initialIndex+2, finalIndex-2)
-        const toReplaceWith = 'style="height: 360px;width: 640px; margin-left: 12%;'
+        let toBeReplaced = htmlText.substring(initialIndex+2, finalIndex-2)
+        let toReplaceWith = (/style="height: 360px;width: 640px; justify-self: center/).source
         
-        htmlText = htmlText.replace(toBeReplaced, toReplaceWith)
+        // htmlText = htmlText.replace(toBeReplaced, toReplaceWith)
         console.log(htmlText)
+        
+        htmlText = htmlText.replace("<iframe ", (/<iframe style="justify-self: center;" /).source) 
+        console.log(htmlText)
+
         return htmlText
     }
 
@@ -152,25 +111,12 @@ const BlogPage = () => {
         }))
         console.log("final state is : ", data.content)
 
-        // const contentBlock = htmlToDraft(data.content)
-        // const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
-        // const currentEditorState = EditorState.createWithContent(contentState)
-
-        // setEditorState(currentEditorState);
-        // const html = stateToHTML(editorState.getCurrentContent())
-
-        // setBlogDetails(prevState => ({
-        //     ...prevState,
-        //     content: html
-        // }))
-        // console.log(data.content)
-
         return "hi"
     }
 
     useEffect(() => {
         sendRequest().then((res: any) => {
-            // console.log(res)
+            
         })
     }, [])
 
@@ -226,10 +172,7 @@ const BlogPage = () => {
                 </div>
             </div>
             <hr style={{ width: "75%", alignSelf: "center", color: "black", height: "0.5px", marginRight: "2%", marginLeft: "2%", marginBottom: "2%", border: "2px solid black", background: "black" }} />
-            {/* <div style={{ width: "55%", alignSelf: "center" }}>
-                <p>{content}</p>
-            </div> */}
-            <div style={{ width: "55%", alignSelf: "center" }} dangerouslySetInnerHTML={{__html: data.content}} />
+            <div style={{ width: "55%", display: "flex", flexDirection: "column", alignSelf: "center" }} dangerouslySetInnerHTML={{__html: data.content}} />
             <div></div>
         </div>
         : 
@@ -240,6 +183,7 @@ const BlogPage = () => {
             </div>
         </>
         }
+        <Footer />
     </>
   )
 }

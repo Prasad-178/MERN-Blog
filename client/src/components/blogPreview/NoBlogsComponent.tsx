@@ -5,7 +5,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
 
 const NoBlogsComponent = () => {
   return (
-    <Box sx={{ width: "100%", display: 'flex', flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "4%" }}>
+    <Box sx={{ width: "100%", display: 'flex', flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "5%" }}>
         <Typography variant='h5' style={{ marginTop: "2%" }}>No Blogs Found <SentimentVeryDissatisfiedIcon /> </Typography>
         <Box sx={{ width: "100%", display: 'flex', justifyContent: "center" }}>
             <SearchOffIcon fontSize='large' />

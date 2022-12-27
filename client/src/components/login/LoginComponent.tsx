@@ -60,7 +60,7 @@ const LoginComponent = () => {
     }, [User])
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "12%" }}>
         <Stack
             spacing={2} 
             direction={"column"}

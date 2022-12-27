@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import EmailField from "../reusable-components/EmailField"
 import PasswordField from "../reusable-components/PasswordField"
 import Stack from '@mui/material/Stack';
@@ -8,10 +8,19 @@ import { Navigate, useNavigate } from "react-router-dom";
 import AuthCheck from "../../helper/AuthCheck";
 import axios from "axios"
 import VerifyEmailButton from "./components/VerifyEmailButton";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 
 const VerifyEmailComponent = () => {
 
   const navigate = useNavigate()
+  const User = useAppSelector((state) => state.user)
+
+  useEffect(() => {
+    if (User.data.verified) {
+      alert("Your account is already verified!")
+      navigate('/login')
+    }
+  }, [])
 
     const [email, setEmail] = useState<string>("")
     const[password, setPassword] = useState<string>("")

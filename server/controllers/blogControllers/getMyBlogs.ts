@@ -39,8 +39,6 @@ const getMyBlogs = async (req: any, res: Response) => {
     // })
 
     const { email } = req.body
-    // console.log("req is : ", req)
-    console.log("req email is : ", email)
 
     let blogs: any
     try {
