@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import Navbar from "../../components/navbar/Navbar"
+import Navbar from "../components/navbar/Navbar"
 import { Typography } from "@material-ui/core"
-import BlogCard from "../../components/blogPreview/BlogCard"
-import BlogLoading from "../../components/blogPreview/BlogLoading"
+import BlogCard from "../components/blogPreview/BlogCard"
+import BlogLoading from "../components/blogPreview/BlogLoading"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useLocation, useNavigate } from "react-router-dom"
-import { useAppSelector } from "../../components/app/hooks"
-import NoBlogsComponent from "../../components/blogPreview/NoBlogsComponent"
-import Footer from "../../components/footer/Footer"
+import { useAppSelector } from "../components/app/hooks"
+import NoBlogsComponent from "../components/blogPreview/NoBlogsComponent"
+import Footer from "../components/footer/Footer"
 
 const MyPosts = () => {
 
@@ -100,7 +100,7 @@ const MyPosts = () => {
         </div>
         :
         blogs.length > 0 ?
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "5%", marginBottom: "3%" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "5%", marginBottom: "6%" }}>
             <Typography variant="h5" style={{ marginBottom: "0%", marginTop: "1%", fontWeight: 700 }}>Your Blogs</Typography>
             <Stack
               direction={"row"}

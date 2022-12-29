@@ -37,9 +37,17 @@ const BlogCard = (props: BlogType) => {
     }, [])
 
     const navigate = useNavigate()
+
+    const capitalize = (str: string): string => {
+        var splitStr = str.toLowerCase().split(' ');
+        for (var i = 0; i < splitStr.length; i++) {
+            splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+        }
+        return splitStr.join(' '); 
+    }
     
   return (
-    <div style={{ marginBottom: "2%", marginLeft: "0", display: "flex", flexDirection: "column" }}>
+    <div style={{ marginBottom: "2%", marginLeft: "0", display: "flex", flexDirection: "column", width: "320px", height: "290px" }}>
         <Card sx={{ width: 320 }} onClick={() => navigate("/blog/" + id)} raised>
             <CardActionArea>
                 <CardMedia
@@ -57,11 +65,8 @@ const BlogCard = (props: BlogType) => {
                 <div id='imageContainer'></div>
                 <CardContent style={{ paddingBottom: "2%", paddingTop: "2%" }}>
                 <Typography gutterBottom variant="h5" component="div">
-                    {title}
+                    {title.length < 18 ? capitalize(title).substring(0,18) : capitalize(title).substring(0,20) + "..."}
                 </Typography>
-                {/* <Typography variant="body1" color="text.secondary">
-                    {content.substring(0,50) + "..."}
-                </Typography> */}
                 <Typography alignSelf={"flex-end"} gutterBottom variant="body2" color="text.secondary" style={{ paddingTop: "1%" }}>
                     {"by " + author}
                 </Typography>

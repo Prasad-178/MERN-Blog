@@ -24,15 +24,10 @@ export const verifyToken = async (req: any, res: Response, next: NextFunction) =
         try {
             User.findOne({ _id: user.id }).exec().then((data) => {
                 currentUser = data
-                // console.log("inside curUser is : ", data)
             })
         } catch (err) {
             console.log(err)
         }
-        // console.log("user is : ", user)
-        // console.log("curUser is : ", currentUser)
-
-        // req.email = currentUser.email
     })
     next()
 }

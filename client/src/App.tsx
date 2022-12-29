@@ -1,22 +1,21 @@
 import { useEffect } from 'react';
-import Navbar from './components/navbar/Navbar';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage/LoginPage';
-import UserDetails from './components/user_details/UserDetails';
-import AuthCheck from './helper/AuthCheck';
+import { Routes, Route } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
 import { Navigate } from "react-router-dom";
-import Homepage from './pages/HomePage/Homepage';
-import SignupPage from './pages/SignupPage/SignupPage';
-import EmailVerification from './pages/EmailVerification/EmailVerification';
+import Homepage from './pages/Homepage';
+import SignupPage from './pages/SignupPage';
+import EmailVerification from './pages/EmailVerification';
 import { useAppSelector, useAppDispatch } from './components/app/hooks';
 import { setMethod, setLogin, setStatus, checkLogin } from './components/features/login/loginSlice';
-// import { fetchUser, fetchUserDetails } from './components/features/user/userSlice';
-import CreateBlogPage from './pages/CreateBlog/CreateBlog';
-import MyPosts from './pages/MyPosts/MyPosts';
+import CreateBlogPage from './pages/CreateBlog';
+import MyPosts from './pages/MyPosts';
 import { fetchUserDetails } from './components/features/user/userSlice';
-import BlogPage from './pages/BlogPage/BlogPage';
-import AllPosts from './pages/AllPosts/AllPosts';
-import EditPost from './pages/EditBlog/EditPost';
+import BlogPage from './pages/BlogPage';
+import AllPosts from './pages/AllPosts';
+import EditPost from './pages/EditPost';
+import ResetPassword from './pages/ResetPassword';
+import SetNewPassword from './pages/SetNewPassword';
+import AccountPage from './pages/Account';
 
 function App() {
   
@@ -49,16 +48,17 @@ function App() {
 
   return (
         <Routes>
-          <Route path="account" element={<></>}></Route>
+          <Route path="/account" element={Login.login ? <AccountPage /> : <Navigate to={'/login'} />}></Route>
           <Route path="/login" element={Login.login ? <Navigate to={'/'} /> : <LoginPage />}></Route>
           <Route path="/register" element={Login.login ? <Navigate to={'/'} /> : <SignupPage />}></Route>
-          <Route path="/name" element={Login.login ? <UserDetails /> : <Navigate to={'/login'} />}></Route>
           <Route path="/myposts" element={Login.login ? <MyPosts /> : <Navigate to={'/login'} />}></Route>
           <Route path='/accountVerification' element={<EmailVerification />}></Route>
-          <Route path='/createblog' element={<CreateBlogPage />}></Route>
+          <Route path='/createblog' element={Login.login ? <CreateBlogPage /> : <Navigate to={'/login'} />}></Route>
           <Route path='/blog/:id' element={<BlogPage />}></Route>
           <Route path='/allposts' element={<AllPosts />}></Route>
-          <Route path='/editpost/:id' element={<EditPost />}></Route>
+          <Route path='/editpost/:id' element={Login.login ? <EditPost /> : <Navigate to={'/login'} />}></Route>
+          <Route path='/resetpassword' element={<ResetPassword />}></Route>
+          <Route path='/setnewpassword' element={<SetNewPassword />}></Route>
           <Route path='/' element={<Homepage />}></Route>
         </Routes>
   );

@@ -34,15 +34,11 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         try {
             User_1.default.findOne({ _id: user.id }).exec().then((data) => {
                 currentUser = data;
-                // console.log("inside curUser is : ", data)
             });
         }
         catch (err) {
             console.log(err);
         }
-        // console.log("user is : ", user)
-        // console.log("curUser is : ", currentUser)
-        // req.email = currentUser.email
     });
     next();
 });

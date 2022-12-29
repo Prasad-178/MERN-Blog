@@ -3,6 +3,13 @@ import { Request, Response, NextFunction } from "express"
 import bcrypt from "bcryptjs"
 import nodemailer from "nodemailer"
 
+const html = `
+    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}></div>
+    <h1>Welcome to Blogify</h1>
+    <p>Kindly verify your blogify account email by clicking the link below : </p>
+    <button> <a href="http://localhost:3000/accountVerification"> Verify Email </a> </button>
+`
+
 const signup = async (req: Request, res: Response, next: NextFunction) => {
 
     const {name, email, password} = req.body
@@ -20,7 +27,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
     const hashedPassword = bcrypt.hashSync(password, 5)
 
     const user = new User({
-        name,    // name: req.body.name,
+        name,   
         email,
         password: hashedPassword,
         verified: false
@@ -35,17 +42,16 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
     let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "lummaoiscringe@gmail.com",
-            pass: "xwhfjdhuduankjpc"
+            user: "blogify253@gmail.com",
+            pass: "oshjipijfcacciyx"
         }
     })
 
     let mailOptions = {
-        from: "lummaoiscringe@gmail.com",
+        from: "blogify253@gmail.com",
         to: email,
-        subject: "Verify your Blogify account",
-        text: "Click this link to verify your blogify account",
-        html: `<p>Click this link to verify your blogify account : '<a href="http://localhost:3000/accountVerification">link</a>'   </p>`
+        subject: "Verify your Blogify Account Email",
+        html: html
     }
 
     transporter.sendMail(mailOptions, (err: any, success: any) => {

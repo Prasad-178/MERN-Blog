@@ -4,13 +4,13 @@ import PasswordField from "../reusable-components/PasswordField"
 import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography"
 import { useMediaQuery, useTheme } from "@mui/material"
-import LoginButton from "./subComponents/LoginButton";
-import { Navigate, useNavigate } from "react-router-dom";
-import AuthCheck from "../../helper/AuthCheck";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../app/hooks"
 import { setName, setEmail, setStatus, setMethod, setData, setVerified, fetchUser } from "../features/user/userSlice";
 import { setLogin } from "../features/login/loginSlice";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
+import ReusableSubmitButton from "../reusable-components/ReusableSubmitButton";
 
 const LoginComponent = () => {
 
@@ -39,6 +39,10 @@ const LoginComponent = () => {
 
     const handleSubmit: any = (e: Event) => {
       e.preventDefault()
+      if (password.length < 1) {
+        alert("You have to enter the password!")
+        return
+      }
       dispatch(fetchUser({ email, password }))
       console.log("ud is : ", User.data)
     }
@@ -67,12 +71,12 @@ const LoginComponent = () => {
             width={ElevenSeventy ? (EightFifty ? (FiveTwenty ? '60%' : '50%') : '50%') : '35%'} 
             marginLeft={FiveTwenty ? '20%' : '30%'}
             marginTop={SixFifty ? (FourTwenty ? '30%' : '20%') : '15%'}>
-
                     <Typography variant={FiveTwenty? "body1" : "h6"}>LOGIN</Typography>
-                    <EmailField handleChangeEmail={handleEmail} />
-                    <PasswordField handleChangePassword={handlePassword} />
-                    <LoginButton />
+                    <EmailField value={email} handleChangeEmail={handleEmail} />
+                    <PasswordField placeholder={"Password"} handleChangePassword={handlePassword} />
+                    <ReusableSubmitButton buttonName="Login" value={"LoginButton"} />
                     <NavLink to="/register" style={{ textDecoration: "none", color: "blue" }}>Don't have an account yet?</NavLink>
+                    <NavLink to="/resetpassword" style={{ textDecoration: "none", color: "red" }}>Forgot your password?</NavLink>
         </Stack>
     </form>
   )

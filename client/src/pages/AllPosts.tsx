@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import Navbar from '../../components/navbar/Navbar'
-import BlogLoading from '../../components/blogPreview/BlogLoading'
-import BlogCard from '../../components/blogPreview/BlogCard'
-import NoBlogsComponent from '../../components/blogPreview/NoBlogsComponent'
+import Navbar from '../components/navbar/Navbar'
+import BlogLoading from '../components/blogPreview/BlogLoading'
+import BlogCard from '../components/blogPreview/BlogCard'
+import NoBlogsComponent from '../components/blogPreview/NoBlogsComponent'
 import { Typography } from "@material-ui/core"
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/footer/Footer'
+import Footer from '../components/footer/Footer'
 
 const AllPosts = () => {
 

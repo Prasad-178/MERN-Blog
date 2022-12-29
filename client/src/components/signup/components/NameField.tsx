@@ -4,12 +4,14 @@ import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 
 type NameFieldType = {
     handleChangeName: any
+    value: string
 }
 
 const NameField = (props: NameFieldType) => {
   return (
     <TextField 
         type={'text'}
+        value={props.value}
         required
         name='name'
         onChange={props.handleChangeName}

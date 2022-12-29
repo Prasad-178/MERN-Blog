@@ -9,10 +9,13 @@ import { verifyToken } from "../middleware/verifyJWTLogin"
 import getBlogById from "../controllers/blogControllers/getBlogById"
 import deleteBlog from "../controllers/blogControllers/deleteBlogById"
 import updateBlogById from "../controllers/blogControllers/updateBlogById"
+import getLastFourPosts from "../controllers/blogControllers/getLastFourBlogs"
 
 const router = express.Router()
 
 router.get('/allposts', getAllPosts)
+
+router.get('/latestfourposts', getLastFourPosts)
 
 router.get('/blog/:id', getBlogById)
 

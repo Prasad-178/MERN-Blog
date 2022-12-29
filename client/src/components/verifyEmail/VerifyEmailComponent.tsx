@@ -5,10 +5,9 @@ import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography"
 import { useMediaQuery, useTheme } from "@mui/material"
 import { Navigate, useNavigate } from "react-router-dom";
-import AuthCheck from "../../helper/AuthCheck";
 import axios from "axios"
-import VerifyEmailButton from "./components/VerifyEmailButton";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppSelector } from "../app/hooks";
+import ReusableSubmitButton from "../reusable-components/ReusableSubmitButton";
 
 const VerifyEmailComponent = () => {
 
@@ -56,6 +55,11 @@ const VerifyEmailComponent = () => {
 
     const handleSubmit: any = (e: Event) => {
       e.preventDefault()
+      if (password.length < 1) {
+        alert("You have to enter the password!")
+        return
+      }
+      
       console.log(email, password)
         sendRequest().then(() => {
           navigate('/login')
@@ -63,7 +67,7 @@ const VerifyEmailComponent = () => {
     }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "15%" }}>
         <Stack
             spacing={2} 
             direction={"column"}
@@ -72,9 +76,9 @@ const VerifyEmailComponent = () => {
             marginTop={SixFifty ? (FourTwenty ? '30%' : '20%') : '15%'}>
 
                     <Typography variant={FiveTwenty? "body1" : "h6"}>VERIFY EMAIL</Typography>
-                    <EmailField handleChangeEmail={handleEmail} />
-                    <PasswordField handleChangePassword={handlePassword} />
-                    <VerifyEmailButton />
+                    <EmailField value={email} handleChangeEmail={handleEmail} />
+                    <PasswordField placeholder={"Password"} handleChangePassword={handlePassword} />
+                    <ReusableSubmitButton buttonName="VERIFY EMAIL" value={"VerifyEmailButton"} />
         </Stack>
     </form>
   )

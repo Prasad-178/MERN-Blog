@@ -36,7 +36,7 @@ const CreateBlogComponent = () => {
     }
   }, [])
   
-  console.log(User.data.email)
+  console.log(User)
   const email = User.data.email
 
   const author = User.data.name
@@ -162,7 +162,7 @@ const CreateBlogComponent = () => {
                     <BlogField value={title} handleChangeBlogField={handleTitle} placeholder="Title" icon={<TitleIcon />} nameOfField="title" />
                     <Typography variant={FiveTwenty? "body1" : "h6"} style={{ fontWeight: 700 }}>BLOG BODY :</Typography>
                     <div style={{ display: "flex", flexDirection: "column", flexWrap: "wrap" }}>
-                      <Editor wrapperClassName="wrapper" editorClassName="editor" toolbarClassName="toolbar" editorStyle={{ backgroundColor: "lavender" }} toolbarStyle={{ backgroundColor: "blue" }}
+                      <Editor wrapperClassName="wrapper" editorClassName="editor" toolbarClassName="toolbar" editorStyle={{ backgroundColor: "lavender" }} toolbarStyle={{ backgroundColor: "#3899b7" }}
                       onEditorStateChange={
                         (newState) => {
                           setEditorState(newState)

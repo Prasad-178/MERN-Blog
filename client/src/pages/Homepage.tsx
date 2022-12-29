@@ -1,15 +1,15 @@
-import Navbar from "../../components/navbar/Navbar"
+import Navbar from "../components/navbar/Navbar"
 import { useState } from "react"
 import { useEffect } from "react"
 import axios from "axios"
 import { Typography } from "@material-ui/core"
-import background from "../../assets/images/homepage.jpg"
-import BlogCard from "../../components/blogPreview/BlogCard"
-import BlogLoading from "../../components/blogPreview/BlogLoading"
-import NoBlogsComponent from "../../components/blogPreview/NoBlogsComponent"
+import background from "../assets/images/homepage.jpg"
+import BlogCard from "../components/blogPreview/BlogCard"
+import BlogLoading from "../components/blogPreview/BlogLoading"
+import NoBlogsComponent from "../components/blogPreview/NoBlogsComponent"
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom"
-import Footer from "../../components/footer/Footer"
+import Footer from "../components/footer/Footer"
 
 const Homepage = () => {
 
@@ -42,7 +42,7 @@ const Homepage = () => {
 
   
   const getAllPosts = async () => {
-    const res = await axios.get("http://localhost:5000/api/blogs/allposts")
+    const res = await axios.get("http://localhost:5000/api/blogs/latestfourposts")
 
     return res.data
   }

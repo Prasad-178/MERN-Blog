@@ -7,7 +7,7 @@ type EmailFieldType = {
     value: string
 }
 
-const EmailField = (props: EmailFieldType) => {
+const EmailFieldReadonly = (props: EmailFieldType) => {
   return (
     <TextField 
         type={'email'}
@@ -17,6 +17,7 @@ const EmailField = (props: EmailFieldType) => {
         onChange={props.handleChangeEmail}
         placeholder={"Email"}
         InputProps={{
+            readOnly: true,
             startAdornment: (
                 <InputAdornment position="start">
                     <EmailIcon />
@@ -27,4 +28,4 @@ const EmailField = (props: EmailFieldType) => {
   )
 }
 
-export default EmailField
+export default EmailFieldReadonly

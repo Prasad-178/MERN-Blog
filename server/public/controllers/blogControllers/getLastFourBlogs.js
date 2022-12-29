@@ -13,17 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Blog_1 = __importDefault(require("../../models/Blog"));
-const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getLastFourPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let blogs;
     try {
-        blogs = yield Blog_1.default.find({}).exec(); // code to find all documents
-        // blogs = await Blog.find().sort({ _id: -1 }).limit(1) => // => code to find the latest document...
+        blogs = yield Blog_1.default.find().sort({ _id: -1 }).limit(4);
     }
     catch (err) {
-        console.log("get all blogs err is : ", err);
+        console.log("get last four blogs err is : ", err);
     }
     return res
         .status(200)
         .json({ blogs });
 });
-exports.default = getAllPosts;
+exports.default = getLastFourPosts;

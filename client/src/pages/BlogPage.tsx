@@ -1,16 +1,16 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import Navbar from "../../components/navbar/Navbar"
+import Navbar from "../components/navbar/Navbar"
 import { Typography } from "@material-ui/core"
-import BlogLoading from "../../components/blogPreview/BlogLoading"
-import TagItem from "../../components/createBlog/subComponents/TagItem"
+import BlogLoading from "../components/blogPreview/BlogLoading"
+import TagItem from "../components/createBlog/subComponents/TagItem"
 import IconButton from '@mui/material/IconButton';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Link from '@mui/material/Link';
 import { EditorState } from "draft-js"
-import Footer from "../../components/footer/Footer"
+import Footer from "../components/footer/Footer"
 
 type BlogType = {
     author: string

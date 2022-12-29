@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 type PasswordFieldType = {
     handleChangePassword: any
+    placeholder: string
 }
 
 const PasswordField = (props: PasswordFieldType) => {
@@ -21,8 +22,9 @@ const PasswordField = (props: PasswordFieldType) => {
         required
         name='password'
         onChange={props.handleChangePassword}
-        placeholder={"Password"}
+        placeholder={props.placeholder}
         InputProps={{
+            required: false,
             startAdornment: (
                 <InputAdornment position="start">
                     <LockIcon />

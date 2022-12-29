@@ -15,6 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = __importDefault(require("../../models/User"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
+const html = `
+    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}></div>
+    <h1>Welcome to Blogify</h1>
+    <p>Kindly verify your blogify account email by clicking the link below : </p>
+    <button> <a href="http://localhost:3000/accountVerification"> Verify Email </a> </button>
+`;
 const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
     let existingUser;
@@ -45,16 +51,15 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     let transporter = nodemailer_1.default.createTransport({
         service: "gmail",
         auth: {
-            user: "lummaoiscringe@gmail.com",
-            pass: "xwhfjdhuduankjpc"
+            user: "blogify253@gmail.com",
+            pass: "oshjipijfcacciyx"
         }
     });
     let mailOptions = {
-        from: "lummaoiscringe@gmail.com",
+        from: "blogify253@gmail.com",
         to: email,
-        subject: "Verify your Blogify account",
-        text: "Click this link to verify your blogify account",
-        html: `<p>Click this link to verify your blogify account : '<a href="http://localhost:3000/accountVerification">link</a>'   </p>`
+        subject: "Verify your Blogify Account Email",
+        html: html
     };
     transporter.sendMail(mailOptions, (err, success) => {
         if (err) {
