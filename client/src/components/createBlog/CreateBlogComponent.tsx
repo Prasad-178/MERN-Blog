@@ -18,6 +18,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import ActionAlerts from "../alertComponent/AlertMessage";
 
 const CreateBlogComponent = () => {
 
@@ -25,13 +26,18 @@ const CreateBlogComponent = () => {
   const User = useAppSelector((state) => state.user)
   const Login = useAppSelector((state) => state.login)
 
+  const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>("")
+
   useEffect(() => {
     if (!Login.login) {
-      alert("You must be logged in to create a blog.")
+      setAlertBoolean(true)
+      setAlertMessage("You must be logged in to create a blog.")
       navigate('/login')
     }
     else if (!User.data.verified) {
-      alert("You must verify your account to create a blog. Please check your email!")
+      setAlertBoolean(true)
+      setAlertMessage("You must verify your account to create a blog. Please check your email!")
       navigate('/allposts')
     }
   }, [])
@@ -105,7 +111,8 @@ const CreateBlogComponent = () => {
     if (res.data.message == true) {}
     else {
       navigate('/')
-      alert("You have to verify your email to create a blog! Please check your inbox!")
+      setAlertBoolean(true)
+      setAlertMessage("You must verify your account to create a blog. Please check your email!")
     }
     return res
   }
@@ -144,7 +151,8 @@ const CreateBlogComponent = () => {
         e.preventDefault()
         sendRequest()
         .then(() => {
-          alert("Blog created successfully")
+          setAlertBoolean(true)
+          setAlertMessage("Blog created successfully")
           navigate('/')
         })
     }
@@ -222,6 +230,7 @@ const CreateBlogComponent = () => {
                     <input type="file" name="image" onChange={(e) => handleFileUpload(e)} />
                     <CreateBlogButton />
         </Stack>
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
     </form>
   )
 }

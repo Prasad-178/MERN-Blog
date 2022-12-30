@@ -20,6 +20,7 @@ import { ContentState, convertFromHTML, convertFromRaw, convertToRaw, EditorStat
 import draftToHtml from "draftjs-to-html";  
 import htmlToDraft from "html-to-draftjs";
 import EditBlogButton from "./subComponents/EditBlogButton";
+import ActionAlerts from "../alertComponent/AlertMessage";
 var stateFromHTML = require('draft-js-import-html').stateFromHTML;
 
 const EditPostComponent = () => {
@@ -40,6 +41,9 @@ const EditPostComponent = () => {
   const [currentTag, setCurrentTag] = useState<string>("")
   const [tags, setTags] = useState<Array<string>>([])
   const [image, setFileName] = useState<any>("")
+
+  const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>("")
 
   const id = useParams().id!
 
@@ -94,15 +98,6 @@ const EditPostComponent = () => {
     })
   }
 
-//   const userData = async () => {
-//     const res = await axios.get("http://localhost:5000/api/secure/emailverification", {})
-//     if (res.data.message == true) {}
-//     else {
-//       navigate('/')
-//       alert("You have to verify your email to create a blog! Please check your inbox!")
-//     }
-//     return res
-//   }
   const blogData = async () => {
     const res = await axios.get("http://localhost:5000/api/blogs/blog/" + id)
     console.log(res.data)
@@ -175,21 +170,22 @@ const EditPostComponent = () => {
         e.preventDefault()
         sendRequest()
         .then(() => {
-          alert("Blog edited successfully")
+          setAlertBoolean(true)
+          setAlertMessage("Blog edited successfully")
           navigate('/myposts')
         })
     }
 
   return (
     <>
-        <div style={{ height: "60px" }}></div>
-        <form onSubmit={handleSubmit}>
+      <div style={{ height: "60px" }}></div>
+      <form onSubmit={handleSubmit} style={{ marginBottom: "4%" }}>
         <Stack
             spacing={2} 
             direction={"column"}
             width={ElevenSeventy ? (EightFifty ? (FiveTwenty ? '60%' : '50%') : '50%') : '35%'} 
             marginLeft={FiveTwenty ? '20%' : '30%'}
-            marginBottom={"5%"}
+            marginBottom={"2%"}
             marginTop={"2%"}
             >
                     <Typography variant={FiveTwenty? "body1" : "h6"} style={{ fontWeight: 700, alignSelf: "center" }}>EDIT BLOG</Typography>
@@ -256,6 +252,7 @@ const EditPostComponent = () => {
                     <input type="file" name="image" onChange={(e) => handleFileUpload(e)} />
                     <EditBlogButton />
         </Stack>
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
     </form>
     </>
   )

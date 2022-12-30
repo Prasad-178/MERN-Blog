@@ -29,12 +29,25 @@ const resetPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, funct
     const { email } = req.body;
     let user;
     try {
-        user = User_1.default.findOne({ email: email }).exec();
+        user = yield User_1.default.findOne({ email: email }).exec();
     }
     catch (err) {
         console.log(err);
     }
+    console.log("user wiht that email is : ", user);
+    if (!user) {
+        return res
+            .status(404)
+            .json({ message: "No such user exists!" });
+    }
     if (user) {
+        let existingOtp;
+        try {
+            existingOtp = yield Otp_1.default.findOneAndDelete({ email: email }).exec();
+        }
+        catch (err) {
+            console.log(err);
+        }
         const otp = new Otp_1.default({
             email: email,
             otp: uuid

@@ -11,6 +11,7 @@ import { setLogin } from "../features/login/loginSlice";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import ReusableSubmitButton from "../reusable-components/ReusableSubmitButton";
+import ActionAlerts from "../alertComponent/AlertMessage";
 
 const LoginComponent = () => {
 
@@ -20,6 +21,8 @@ const LoginComponent = () => {
 
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+    const [alertMessage, setAlertMessage] = useState<string>("")
     
     function handleEmail(event: React.ChangeEvent<HTMLInputElement>) {
         setEmail(event.target.value)
@@ -40,34 +43,36 @@ const LoginComponent = () => {
     const handleSubmit: any = (e: Event) => {
       e.preventDefault()
       if (password.length < 1) {
-        alert("You have to enter the password!")
+        setAlertBoolean(true)
+        setAlertMessage("You have to enter the password!")
         return
       }
       dispatch(fetchUser({ email, password }))
-      console.log("ud is : ", User.data)
     }
 
     useEffect(() => {
       if (User.loading === false && User.status === "failed" && User.method === "login") {
+        setAlertBoolean(true)
+        setAlertMessage(User.error)
+
         dispatch(setMethod("idle"))
         dispatch(setLogin(false))
         dispatch(setStatus("idle"))
-        alert(User.error)
       }
       else if (User.loading === false && User.status === "succeeded" && User.method === "login") {
         dispatch(setMethod("idle"))
         dispatch(setLogin(true))
         dispatch(setStatus("idle"))
         alert(User.error)
-        navigate('/', {replace: true})
       }
     }, [User])
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "12%" }}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "6%" }}>
         <Stack
             spacing={2} 
             direction={"column"}
+            marginBottom={"2%"}
             width={ElevenSeventy ? (EightFifty ? (FiveTwenty ? '60%' : '50%') : '50%') : '35%'} 
             marginLeft={FiveTwenty ? '20%' : '30%'}
             marginTop={SixFifty ? (FourTwenty ? '30%' : '20%') : '15%'}>
@@ -78,6 +83,7 @@ const LoginComponent = () => {
                     <NavLink to="/register" style={{ textDecoration: "none", color: "blue" }}>Don't have an account yet?</NavLink>
                     <NavLink to="/resetpassword" style={{ textDecoration: "none", color: "red" }}>Forgot your password?</NavLink>
         </Stack>
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
     </form>
   )
 }

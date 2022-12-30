@@ -8,16 +8,21 @@ import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios"
 import { useAppSelector } from "../app/hooks";
 import ReusableSubmitButton from "../reusable-components/ReusableSubmitButton";
+import ActionAlerts from "../alertComponent/AlertMessage";
 
 const VerifyEmailComponent = () => {
 
   const navigate = useNavigate()
   const User = useAppSelector((state) => state.user)
 
+  const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>("")
+
   useEffect(() => {
     if (User.data.verified) {
-      alert("Your account is already verified!")
-      navigate('/login')
+      setAlertBoolean(true)
+      setAlertMessage("Your account is already verified!")
+      // navigate('/login')
     }
   }, [])
 
@@ -46,7 +51,10 @@ const VerifyEmailComponent = () => {
           email: email,
           password: password
         })
-        .catch((err: any) => alert(err.message))
+        .catch((err: any) => {
+          setAlertBoolean(true)
+          setAlertMessage(err.message)
+        })
 
         const data = await res!.data
         console.log(data)
@@ -56,7 +64,8 @@ const VerifyEmailComponent = () => {
     const handleSubmit: any = (e: Event) => {
       e.preventDefault()
       if (password.length < 1) {
-        alert("You have to enter the password!")
+        setAlertBoolean(true)
+        setAlertMessage("You have to enter the password!")
         return
       }
       
@@ -80,6 +89,7 @@ const VerifyEmailComponent = () => {
                     <PasswordField placeholder={"Password"} handleChangePassword={handlePassword} />
                     <ReusableSubmitButton buttonName="VERIFY EMAIL" value={"VerifyEmailButton"} />
         </Stack>
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
     </form>
   )
 }

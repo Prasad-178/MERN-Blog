@@ -9,15 +9,20 @@ import axios from "axios";
 import BlogField from "../createBlog/subComponents/BlogField";
 import KeyIcon from '@mui/icons-material/Key';
 import ReusableSubmitButton from "../reusable-components/ReusableSubmitButton";
+import ActionAlerts from "../alertComponent/AlertMessage";
 
 const SetNewPasswordComponent = () => {
 
     const navigate = useNavigate()
+    const successMessage = "Password has been changed successfully! You may now login!"
 
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [confirmPassword, setConfirmPassword] = useState<string>("")
     const [otp, setOtp] = useState<string>("")
+
+    const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+    const [alertMessage, setAlertMessage] = useState<string>("")
     
     function handleEmail(event: React.ChangeEvent<HTMLInputElement>) {
         setEmail(event.target.value)
@@ -49,7 +54,10 @@ const SetNewPasswordComponent = () => {
             password: password,
             enteredOtp: otp
         })
-        .catch((err: any) => alert("Wrong Otp entered!!"))
+        .catch((err: any) => {
+            setAlertBoolean(true)
+            setAlertMessage("Wrong Otp entered!!")
+        })
 
         const data = await res!.data
         console.log(data)
@@ -59,25 +67,29 @@ const SetNewPasswordComponent = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         if (password.length < 1) {
-            alert("You have to enter the password!")
+            setAlertBoolean(true)
+            setAlertMessage("You have to enter the password!")
             return
         }
         
         if (password !== confirmPassword) {
-            alert("Passwords do not match!")
+            setAlertBoolean(true)
+            setAlertMessage("Passwords do not match!")
             return
         }
 
         sendRequest().then(() => {
-            navigate('/login')
+            setAlertBoolean(true)
+            setAlertMessage(successMessage)
         })
     }
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "12%" }}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "6%" }}>
         <Stack
             spacing={2} 
             direction={"column"}
+            marginBottom={"2%"}
             width={ElevenSeventy ? (EightFifty ? (FiveTwenty ? '60%' : '50%') : '50%') : '35%'} 
             marginLeft={FiveTwenty ? '20%' : '30%'}
             marginTop={SixFifty ? (FourTwenty ? '30%' : '20%') : '15%'}>
@@ -88,6 +100,12 @@ const SetNewPasswordComponent = () => {
                     <BlogField placeholder={"OTP"} icon={<KeyIcon />} nameOfField={"otp"} value={otp} handleChangeBlogField={handleOtp} />
                     <ReusableSubmitButton buttonName="Set New Password" value={"SetNewPasswordButton"} />
         </Stack>
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => {
+            setAlertBoolean(false)
+            if (alertMessage === successMessage) {
+                navigate('/login')
+            }
+        }} />
     </form>
   )
 }

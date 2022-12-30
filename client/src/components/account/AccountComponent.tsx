@@ -17,6 +17,7 @@ import axios from "axios";
 import ReusableSubmitButton from "../reusable-components/ReusableSubmitButton";
 import NameField from "../signup/components/NameField";
 import EmailFieldReadonly from "../reusable-components/EmailFieldReadonly";
+import ActionAlerts from "../alertComponent/AlertMessage";
 
 const AccountComponent = () => {
 
@@ -29,6 +30,8 @@ const AccountComponent = () => {
     const [password, setPassword] = useState<string>("")
     const [newPassword, setNewPassword] = useState<string>("")
     const [confirmNewPassword, setConfirmNewPassword] = useState<string>("")
+    const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+    const [alertMessage, setAlertMessage] = useState<string>("")
 
     function handleName(event: React.ChangeEvent<HTMLInputElement>) {
         setName(event.target.value)
@@ -67,6 +70,9 @@ const AccountComponent = () => {
         })
         .catch((err) => {
             console.log(err)
+            setAlertBoolean(true)
+            setAlertMessage("The current password that you have entered is wrong!")
+            return
         })
 
         console.log(res)
@@ -76,26 +82,33 @@ const AccountComponent = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        
+        if (newPassword.length > 0 && password.length < 1) {
+            setAlertBoolean(true)
+            setAlertMessage("You have to enter your existing password!")
+            return
+        }
+        
         if (newPassword !== confirmNewPassword) {
-            alert("New passwords do not match!!")
+            setAlertBoolean(true)
+            setAlertMessage("New passwords do not match!!")
             return
         }
 
         sendRequest().then((res) => {
             console.log(res)
             dispatch(fetchUserDetails({}))
+            setAlertBoolean(true)
+            setAlertMessage("Account details updated successfully!")
         })
     }
 
-    useEffect(() => {
-        
-    }, [])
-
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "12%" }}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "6%" }}>
         <Stack
             spacing={2} 
             direction={"column"}
+            marginBottom={"2%"}
             width={ElevenSeventy ? (EightFifty ? (FiveTwenty ? '60%' : '50%') : '50%') : '35%'} 
             marginLeft={FiveTwenty ? '20%' : '30%'}
             marginTop={SixFifty ? (FourTwenty ? '30%' : '20%') : '15%'}>
@@ -119,6 +132,7 @@ const AccountComponent = () => {
                     <ReusableSubmitButton buttonName="Edit Account Details" value="EditAccountButton" />
                     <NavLink to="/" style={{ textDecoration: "none", color: "red" }}>Cancel</NavLink>
         </Stack>
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
     </form>
   )
 }

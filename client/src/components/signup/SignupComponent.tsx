@@ -9,6 +9,7 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import ReusableSubmitButton from "../reusable-components/ReusableSubmitButton";
+import ActionAlerts from "../alertComponent/AlertMessage";
 
 const SignupComponent = () => {
 
@@ -18,6 +19,8 @@ const SignupComponent = () => {
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [confirmPassword, setConfirmPassword] = useState<string>("")
+    const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+    const [alertMessage, setAlertMessage] = useState<string>("")
 
     function handleName(event: React.ChangeEvent<HTMLInputElement>) {
         setName(event.target.value)
@@ -41,7 +44,10 @@ const SignupComponent = () => {
         email: email, 
         password: password
         })
-        .catch((err: any) => alert("An account with this email already exists!"))
+        .catch((err: any) => {
+            setAlertBoolean(true)
+            setAlertMessage("An account with this email already exists!")
+        })
 
         const data = await res!.data
         console.log(data)
@@ -49,13 +55,15 @@ const SignupComponent = () => {
     }
     const handleSubmit: any = (e: Event) => {
         e.preventDefault()
-        if (password.length < 1) {
-            alert("You have to enter the password!")
+        if (password.length < 1 || confirmPassword.length < 1) {
+            setAlertBoolean(true)
+            setAlertMessage("You have to enter the password!")
             return
         }
         
         if (password !== confirmPassword) {
-            alert("Passwords do not match!")
+            setAlertBoolean(true)
+            setAlertMessage("Passwords do not match!")
             return
         }
 
@@ -72,14 +80,14 @@ const SignupComponent = () => {
     const FourTwenty = useMediaQuery(theme.breakpoints.down(420))
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "5%" }}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "5%", backgroundColor: "#aebce6" }}>
         <Stack
             spacing={2} 
             direction={"column"}
+            marginBottom={"2%"}
             width={ElevenSeventy ? (EightFifty ? (FiveTwenty ? '60%' : '50%') : '50%') : '35%'} 
             marginLeft={FiveTwenty ? '20%' : '30%'}
-            marginTop={SixFifty ? (FourTwenty ? '30%' : '20%') : '15%'}>
-
+            marginTop={SixFifty ? (FourTwenty ? '25%' : '15%') : '10%'}>
                     <Typography variant={FiveTwenty? "body1" : "h6"}>CREATE ACCOUNT</Typography>
                     <NameField value={name} handleChangeName={handleName} />
                     <EmailField value={email} handleChangeEmail={handleEmail} />
@@ -87,8 +95,8 @@ const SignupComponent = () => {
                     <PasswordField placeholder={"Confirm Password"} handleChangePassword={handleConfirmPassword} />
                     <ReusableSubmitButton buttonName="REGISTER" value={"RegisterButton"} />
                     <NavLink to={'/login'} style={{ textDecoration: "none", color: "blue" }}>Already have an account?</NavLink>
-
         </Stack>
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
     </form>
   )
 }

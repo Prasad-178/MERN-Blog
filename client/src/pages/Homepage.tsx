@@ -10,6 +10,7 @@ import NoBlogsComponent from "../components/blogPreview/NoBlogsComponent"
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom"
 import Footer from "../components/footer/Footer"
+import ActionAlerts from "../components/alertComponent/AlertMessage"
 
 const Homepage = () => {
 
@@ -31,6 +32,9 @@ const Homepage = () => {
   const [blogs, setBlogs] = useState<Array<BlogType>>([])
   const [noBlogs, setNoBlogs] = useState<number>(0)
 
+  const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>("")
+
   useEffect(() => {
     getAllPosts().then((res) => {
       setBlogs(res.blogs)
@@ -51,6 +55,7 @@ const Homepage = () => {
     <div style={{ margin: "0px", padding: "0px", height: "80%", width: "100%" }}>
       <Navbar />
       <div style={{ height: "65px" }}></div>
+      <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
 
       <div style={{ backgroundImage: `url(${background})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center", display: "flex", height: "705px", alignItems: "center", marginBottom: "2%", justifyContent: "center" }}>
           <Typography variant={ "h3" } style={{ color: "blue", fontFamily: "sans-serif", fontWeight: 700 }}>BLOGIFY</Typography> 

@@ -14,12 +14,16 @@ import LoginIcon from '@mui/icons-material/Login';
 import { useAppSelector, useAppDispatch } from "../app/hooks"
 import { fetchOutUser, setMethod, setStatus } from "../features/user/userSlice";
 import { setLogin } from "../features/login/loginSlice";
+import ActionAlerts from "../alertComponent/AlertMessage";
 
 function Navbar() {
 
     const dispatch = useAppDispatch()
     const User = useAppSelector((state) => state.user)
     const Login = useAppSelector((state) => state.login)
+
+    const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+    const [alertMessage, setAlertMessage] = useState<string>("")
 
     type NavbarValue = null | number
     const [value, setValue] = useState<NavbarValue>()
@@ -57,12 +61,16 @@ function Navbar() {
             dispatch(setMethod("idle"))
             dispatch(setLogin(false))
             dispatch(setStatus("idle"))
-            alert(User.error)
+            setAlertBoolean(true)
+            setAlertMessage(User.error)
         }
     }, [User])
 
     return (
         <AppBar style={{ backgroundImage: 'black', maxHeight: "15%" }}>
+            {alertBoolean ? 
+                <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
+            :
             <Toolbar>
                 <Grid container sx={{ placeItems: 'center' }}>
 
@@ -107,6 +115,7 @@ function Navbar() {
                 </Grid>
                 {isDrawerOpen ? <DrawerComponent /> : null}
             </Toolbar>
+            }
         </AppBar>
     )
 }

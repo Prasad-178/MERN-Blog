@@ -37,8 +37,6 @@ export const fetchUser = createAsyncThunk("fetch/fetchUser", async (credentials:
     console.log("done!! triggered!!")
     try {
         const response = await axios.post(api, credentials, { withCredentials: true })
-        console.log(response)
-        console.log("after trigger : ")
         return response.data
     } catch (err: any) {
         return rejectWithValue(err)
@@ -100,7 +98,6 @@ const userSlice = createSlice({
                 state.loading = false
                 state.status = "succeeded"
                 state.method = "login"
-                console.log("action payload after login : ", action.payload)
                 state.data = action.payload
                 state.error = "Logged in successfully!"
             })

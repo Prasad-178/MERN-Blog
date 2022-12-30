@@ -1,4 +1,3 @@
 add routeString to all pages
 footer
 pagination in all blogs page
-account page

@@ -6,12 +6,16 @@ import { useMediaQuery, useTheme } from "@mui/material"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReusableSubmitButton from "../reusable-components/ReusableSubmitButton";
+import ActionAlerts from "../alertComponent/AlertMessage";
 
 const ResetPasswordComponent = () => {
 
     const navigate = useNavigate()
 
     const [email, setEmail] = useState<string>("")
+
+    const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+    const [alertMessage, setAlertMessage] = useState<string>("")
     
     function handleEmail(event: React.ChangeEvent<HTMLInputElement>) {
         setEmail(event.target.value)
@@ -30,9 +34,13 @@ const ResetPasswordComponent = () => {
             email: email
         })
         .catch((err: any) => {
-            alert("No account exists with this email address! Signup instead!")
-            navigate('/register')
+            setAlertBoolean(true)
+            setAlertMessage("No account exists with this email address! Signup instead!")
+            return
         })
+
+        setAlertBoolean(true)
+        setAlertMessage("Email has been sent with instructions to reset your password!")
 
         const data = await res!.data
         console.log(data)
@@ -41,24 +49,27 @@ const ResetPasswordComponent = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-        sendRequest().then(() => {
-            navigate('/login')
-        })
+        sendRequest().then(() => {})
     }
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "12%" }}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "7%" }}>
         <Stack
             spacing={2} 
             direction={"column"}
+            marginBottom={"5%"}
             width={ElevenSeventy ? (EightFifty ? (FiveTwenty ? '60%' : '50%') : '50%') : '35%'} 
             marginLeft={FiveTwenty ? '20%' : '30%'}
             marginTop={SixFifty ? (FourTwenty ? '30%' : '20%') : '15%'}>
                     <Typography variant={FiveTwenty? "body1" : "h6"}>RESET PASSWORD</Typography>
                     <EmailField value={email} handleChangeEmail={handleEmail} />
-                    <Typography variant={"body2"}>(An email will be sent to this email address with instructions to reset your password)</Typography>
+                    <Typography variant={"body2"}>(An email will be sent to this email address with instructions to reset your password, if it exists)</Typography>
                     <ReusableSubmitButton buttonName="Send Email" value={"SendEmailButton"} />
         </Stack>
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => {
+            setAlertBoolean(false)
+            alertMessage.length > 0 ? navigate('/register') : navigate('/login')
+        }} />
     </form>
   )
 }

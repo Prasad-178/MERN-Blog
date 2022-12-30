@@ -19,12 +19,26 @@ const resetPasswordEmail = async (req: Request, res: Response) => {
     const { email } = req.body
     let user: any
     try {
-        user = User.findOne({ email: email }).exec()
+        user = await User.findOne({ email: email }).exec()
     } catch (err) {
         console.log(err)
     }
+    console.log("user wiht that email is : ", user)
+
+    if (!user) {
+        return res
+            .status(404)
+            .json({ message: "No such user exists!" })
+    }
 
     if (user) {
+
+        let existingOtp: any
+        try {
+            existingOtp = await Otp.findOneAndDelete({ email: email }).exec()
+        } catch (err) {
+            console.log(err)
+        }
 
         const otp = new Otp({
             email: email,
