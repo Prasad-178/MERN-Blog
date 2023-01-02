@@ -33,12 +33,12 @@ const CreateBlogComponent = () => {
     if (!Login.login) {
       setAlertBoolean(true)
       setAlertMessage("You must be logged in to create a blog.")
-      navigate('/login')
+      // navigate('/login')
     }
     else if (!User.data.verified) {
       setAlertBoolean(true)
       setAlertMessage("You must verify your account to create a blog. Please check your email!")
-      navigate('/allposts')
+      // navigate('/allposts')
     }
   }, [])
   

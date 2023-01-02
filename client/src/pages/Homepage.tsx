@@ -66,16 +66,16 @@ const Homepage = () => {
       :
       blogs.length > 0 ?
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2%", marginBottom: "5%" }}>
-            <Typography variant="h5" style={{ marginBottom: "0%", fontWeight: 700 }}>Personalized Blogs For You</Typography>
+            <Typography variant="h5" style={{ marginBottom: "0%", fontWeight: 700 }}>Latest Blogs</Typography>
             <div style={{ width: blogs.length === 1 ? "20%" : "45%", display: "flex", flexDirection: "row", justifyContent: "space-between", flexWrap: "wrap", padding: "5%", paddingTop: "2%" }}>
               {blogs.map((item, id) => (
                   <BlogCard data={blogs[id]} deleteBlog={() => {}}></BlogCard>
               ))}
             </div>
-            <Button variant="outlined" style={{ marginTop: "-3%", color: "green", border: "2px solid red" }} onClick={() => navigate('/allposts')}>All Blogs</Button>
+            <Button variant="outlined" style={{ marginTop: "-3%", color: "green", border: "2px solid red" }} onClick={() => navigate('/allposts/1')}>All Blogs</Button>
         </div>
         :
-        <BlogLoading loadingMessage="Loading Your Personalized Blogs..." />
+        <BlogLoading loadingMessage="Loading Latest Blogs..." />
       }
       <Footer />
     </div>

@@ -1,7 +1,7 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import Blog from "../../models/Blog";
 
-const getBlogById = async (req: any, res: Response) => {
+const getBlogById = async (req: Request, res: Response) => {
 
     const id = req.params.id
 

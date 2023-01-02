@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Stack from '@mui/material/Stack';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
+import { useMediaQuery, useTheme } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete';
 
 type BlogType = {
@@ -26,6 +28,15 @@ type BlogType = {
 }
 
 const BlogCard = (props: BlogType) => {
+
+    const theme = useTheme()
+
+    const FourteenTen = useMediaQuery(theme.breakpoints.down(1410))
+    const EightFifty = useMediaQuery(theme.breakpoints.down(850))
+    const SixNinety = useMediaQuery(theme.breakpoints.down(690))
+    const FiveTwenty = useMediaQuery(theme.breakpoints.down(520))
+    const FourEighty = useMediaQuery(theme.breakpoints.down(480))
+
     const data = props.data
     const currentLocation = useLocation().pathname
 
@@ -47,13 +58,13 @@ const BlogCard = (props: BlogType) => {
     }
     
   return (
-    <div style={{ marginBottom: "2%", marginLeft: "0", display: "flex", flexDirection: "column", width: "320px", height: "290px" }}>
-        <Card sx={{ width: 320 }} onClick={() => navigate("/blog/" + id)} raised>
+    <div style={{ marginBottom: "2%", marginLeft: SixNinety ? (FourEighty ? "-12%" : "8%" ) : "0", display: "flex", flexDirection: "column", width: SixNinety ? (FourEighty ? "200px" : "240px") : "320px", height: SixNinety ? (FourEighty ? "176px" : "218px") : "290px" }}>
+        <Card sx={{ width: SixNinety ? (FourEighty ? 200 : 240) : 320 }} onClick={() => navigate("/blog/" + id)} raised>
             <CardActionArea>
                 <CardMedia
                 component="img"
-                width="320"
-                height="180"
+                width={SixNinety ? (FourEighty ? "200" : "240") : "320"}
+                height={SixNinety ? (FourEighty ? "108" : "135") : "180"}
                 id='imageContainer'
                 src={image}
                 alt="image"

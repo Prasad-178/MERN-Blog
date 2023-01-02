@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import Navbar from "../components/navbar/Navbar"
 import { Typography } from "@material-ui/core"
 import BlogLoading from "../components/blogPreview/BlogLoading"
@@ -11,6 +11,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import Link from '@mui/material/Link';
 import { EditorState } from "draft-js"
 import Footer from "../components/footer/Footer"
+import LaunchIcon from '@mui/icons-material/Launch';
+import { NavLink } from "react-router-dom"
 
 type BlogType = {
     author: string
@@ -23,6 +25,7 @@ type BlogType = {
     twitter: string
     __v: number
     _id: string
+    email: string
 }
 
 const initialBlogState: BlogType = {
@@ -35,7 +38,8 @@ const initialBlogState: BlogType = {
     title: "",
     twitter: "",
     __v: 0,
-    _id: ""
+    _id: "",
+    email: ""
 }
 
 const BlogPage = () => {
@@ -46,7 +50,7 @@ const BlogPage = () => {
     const [dataRetrieved, setDataRetrieved] = useState<boolean>(false)
     const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
 
-    const [author, content, date, image, instagram, tags, title, twitter, id] = [data.author, data.content, data.date, data.image, data.instagram, data.tags, data.title, data.twitter, data._id]
+    const [author, content, date, image, instagram, tags, title, twitter, id, email] = [data.author, data.content, data.date, data.image, data.instagram, data.tags, data.title, data.twitter, data._id, data.email]
     
     var blogTitle: any
     var blogInstagramLink = instagram
@@ -68,26 +72,27 @@ const BlogPage = () => {
         const initialIndex = htmlText.indexOf('" style="height:')
         const finalIndex = htmlText.indexOf('px"/>') + 4
 
-        console.log(htmlText.substring(initialIndex+2, finalIndex-2))
+        // console.log(htmlText.substring(initialIndex+2, finalIndex-2))
 
         let toBeReplaced = htmlText.substring(initialIndex+2, finalIndex-2)
         let toReplaceWith = (/style="height: 360px;width: 640px; justify-self: center/).source
         
         // htmlText = htmlText.replace(toBeReplaced, toReplaceWith)
-        console.log(htmlText)
         
         htmlText = htmlText.replace("<iframe ", (/<iframe style="justify-self: center;" /).source) 
-        console.log(htmlText)
 
         return htmlText
     }
 
     const sendRequest = async () => {
         const res = await axios.get("http://localhost:5000/api/blogs/blog/" + paramId)
+        console.log(res)
         const dateString: string = res.data.date
         let date = new Date(dateString)
 
-        setBlogDetails(res.data)
+        const data = await res!.data
+
+        setBlogDetails(data)
         setBlogDetails(prevState => ({
             ...prevState,
             date: date
@@ -101,22 +106,19 @@ const BlogPage = () => {
         }))
 
         let html = res.data.content
-        console.log("before : ", html)
         html = convertImages(html)
-        console.log("after : ", html)
 
         setBlogDetails(prevState => ({
             ...prevState,
             content: html
         }))
-        console.log("final state is : ", data.content)
 
         return "hi"
     }
 
     useEffect(() => {
         sendRequest().then((res: any) => {
-            
+            console.log(res)
         })
     }, [])
 
@@ -147,7 +149,7 @@ const BlogPage = () => {
             <hr style={{ width: "75%", alignSelf: "center", color: "black", height: "0.5px", marginRight: "2%", marginLeft: "2%", marginBottom: "2%", border: "2px solid black", background: "black" }} />
             <div style={{ width: "75%", alignSelf: "center", display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: "2%" }}>
                 <div style={{ marginLeft: "5%" }}>
-                    <Typography variant="body1" style={{ fontWeight: 600, fontSize: "21px" }}>{author}</Typography>
+                    <Typography variant="body1" style={{ fontWeight: 600, fontSize: "21px" }}>{author} <NavLink to={'/profile/' + author}> <LaunchIcon /> </NavLink> </Typography>
                     <Typography variant="body2" style={{ fontSize: "21px" }}>{date.toUTCString()}</Typography>
                 </div>
                 <div style={{ marginRight: "5%", display: "flex", flexDirection: "row" }}>
@@ -172,7 +174,7 @@ const BlogPage = () => {
                 </div>
             </div>
             <hr style={{ width: "75%", alignSelf: "center", color: "black", height: "0.5px", marginRight: "2%", marginLeft: "2%", marginBottom: "2%", border: "2px solid black", background: "black" }} />
-            <div style={{ width: "55%", display: "flex", flexDirection: "column", alignSelf: "center" }} dangerouslySetInnerHTML={{__html: data.content}} />
+            <div style={{ width: "55%", display: "flex", flexDirection: "column", alignSelf: "center", marginBottom: "5%" }} dangerouslySetInnerHTML={{__html: data.content}} />
             <div></div>
         </div>
         : 

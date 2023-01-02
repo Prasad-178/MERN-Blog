@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography"
 import { useMediaQuery, useTheme } from "@mui/material"
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../app/hooks"
-import { setName, setEmail, setStatus, setMethod, setData, setVerified, fetchUser, fetchUserDetails } from "../features/user/userSlice";
-import { setLogin } from "../features/login/loginSlice";
+import { fetchUserDetails } from "../features/user/userSlice";
+import Button from '@mui/material/Button';
 import { NavLink } from "react-router-dom";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -104,14 +104,14 @@ const AccountComponent = () => {
     }
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "6%" }}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "9%" }}>
         <Stack
             spacing={2} 
             direction={"column"}
             marginBottom={"2%"}
             width={ElevenSeventy ? (EightFifty ? (FiveTwenty ? '60%' : '50%') : '50%') : '35%'} 
             marginLeft={FiveTwenty ? '20%' : '30%'}
-            marginTop={SixFifty ? (FourTwenty ? '30%' : '20%') : '15%'}>
+            marginTop={SixFifty ? (FourTwenty ? '20%' : '15%') : '10%'}>
                     <Typography variant={FiveTwenty? "body1" : "h6"}>ACCOUNT DETAILS</Typography>
                     <NameField value={name} handleChangeName={handleName} />
                     <EmailFieldReadonly value={email} handleChangeEmail={handleEmail} />
@@ -129,7 +129,9 @@ const AccountComponent = () => {
                             <PasswordField placeholder={"Confirm New Password"} handleChangePassword={handleConfirmNewPassword} />
                         </AccordionDetails>
                     </Accordion>
-                    <ReusableSubmitButton buttonName="Edit Account Details" value="EditAccountButton" />
+                    <Button style={{ color: "green", backgroundColor: "transparent" }} onClick={() => navigate('/myposts')}>My Blogs</Button>
+                    <ReusableSubmitButton buttonName="Update Settings" value="EditAccountButton" />
+                    <Button onClick={() => navigate('/deleteaccount')} variant="contained" color='error' value='DeleteAccountButton' ><Typography variant='h6'>Delete Account</Typography></Button>
                     <NavLink to="/" style={{ textDecoration: "none", color: "red" }}>Cancel</NavLink>
         </Stack>
         <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />

@@ -37,7 +37,7 @@ function Navbar() {
         if (ext === "") {
             setValue(0)
         }
-        else if (ext === "myposts" || (ext === "allposts" && !Login.login)) {
+        else if (ext === "myposts" || (ext.includes("allposts") && !Login.login)) {
             setValue(1)
         }
         else {
@@ -79,7 +79,7 @@ function Navbar() {
                     {!isDrawerOpen ?    <Grid item xs={3}>
                                             <Tabs indicatorColor="secondary" textColor="inherit" value={value} >
                                                 <Tab onClick={() => navigate('/')} label={'HOME'}></Tab>
-                                                {Login.login ? <Tab onClick={() => navigate('/myposts')} label={"MY BLOGS"}></Tab> : <Tab onClick={() => navigate('/allposts')} label={"ALL BLOGS"}></Tab>}
+                                                {<Tab onClick={() => navigate('/allposts/1')} label={"ALL BLOGS"}></Tab>}
                                             </Tabs>
                                         </Grid>
                                         :

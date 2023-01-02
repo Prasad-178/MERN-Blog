@@ -48,7 +48,6 @@ const MyPosts = () => {
   }, [])
   
   const getMyBlogs = async () => {
-    console.log("email before axios is : ", email)
     const res = await axios.post("http://localhost:5000/api/blogs/myblogs", {
         email: email
     })
@@ -94,7 +93,7 @@ const MyPosts = () => {
           <Button style={{ marginTop: "5%" }} variant="contained" color="success" onClick={() => navigate('/createblog')}>
               <Typography variant="h6">Create Your Own Blog</Typography>
           </Button>
-          <Button variant="outlined" style={{ marginTop: "2%", color: "green", border: "2px solid red" }} onClick={() => navigate('/allposts')}>
+          <Button variant="outlined" style={{ marginTop: "2%", color: "green", border: "2px solid red" }} onClick={() => navigate('/allposts/1')}>
               <Typography variant="h6">ALL BLOGS</Typography>
           </Button>
         </div>
@@ -118,7 +117,7 @@ const MyPosts = () => {
             <Button variant="contained" color="success" onClick={() => navigate('/createblog')}>
                 <Typography variant="h6">Create Your Own Blog</Typography>
             </Button>
-            <Button variant="outlined" style={{ marginTop: "2%", color: "green", border: "2px solid red" }} onClick={() => navigate('/allposts')}>
+            <Button variant="outlined" style={{ marginTop: "2%", color: "green", border: "2px solid red" }} onClick={() => navigate('/allposts/1')}>
               All Blogs
             </Button>
         </div>

@@ -16,6 +16,8 @@ import EditPost from './pages/EditPost';
 import ResetPassword from './pages/ResetPassword';
 import SetNewPassword from './pages/SetNewPassword';
 import AccountPage from './pages/Account';
+import E404 from './pages/E404';
+import Profile from './pages/Profile';
 
 function App() {
   
@@ -55,11 +57,13 @@ function App() {
           <Route path='/accountVerification' element={<EmailVerification />}></Route>
           <Route path='/createblog' element={Login.login ? <CreateBlogPage /> : <Navigate to={'/login'} />}></Route>
           <Route path='/blog/:id' element={<BlogPage />}></Route>
-          <Route path='/allposts' element={<AllPosts />}></Route>
+          <Route path='/allposts/:id' element={<AllPosts />}></Route>
           <Route path='/editpost/:id' element={Login.login ? <EditPost /> : <Navigate to={'/login'} />}></Route>
+          <Route path='/profile/:id' element={<Profile />}></Route>
           <Route path='/resetpassword' element={<ResetPassword />}></Route>
           <Route path='/setnewpassword' element={<SetNewPassword />}></Route>
           <Route path='/' element={<Homepage />}></Route>
+          <Route path='*' element={<E404 />}></Route>
         </Routes>
   );
 }

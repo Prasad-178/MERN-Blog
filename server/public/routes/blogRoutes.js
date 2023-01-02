@@ -14,10 +14,16 @@ const getBlogById_1 = __importDefault(require("../controllers/blogControllers/ge
 const deleteBlogById_1 = __importDefault(require("../controllers/blogControllers/deleteBlogById"));
 const updateBlogById_1 = __importDefault(require("../controllers/blogControllers/updateBlogById"));
 const getLastFourBlogs_1 = __importDefault(require("../controllers/blogControllers/getLastFourBlogs"));
+const getBlogByPage_1 = __importDefault(require("../controllers/blogControllers/getBlogByPage"));
+const totalNumberOfBlogs_1 = __importDefault(require("../controllers/blogControllers/totalNumberOfBlogs"));
+const getBlogByAuthor_1 = __importDefault(require("../controllers/blogControllers/getBlogByAuthor"));
 const router = express_1.default.Router();
 router.get('/allposts', getAllBlogs_1.default);
 router.get('/latestfourposts', getLastFourBlogs_1.default);
 router.get('/blog/:id', getBlogById_1.default);
+router.post('/allposts', getBlogByPage_1.default);
+router.get('/numberofblogs', totalNumberOfBlogs_1.default);
+router.get('/blogbyauthor/:author', getBlogByAuthor_1.default);
 router.use(verifyJWTLogin_1.verifyToken);
 const storage = multer_1.default.diskStorage({
     destination: (req, file, callback) => {
