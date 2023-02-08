@@ -57,7 +57,7 @@ const Homepage = () => {
 
   
   const getAllPosts = async () => {
-    const res = await axios.get("http://localhost:5000/api/blogs/latestfourposts")
+    const res = await axios.get("https://blogify-01.onrender.com/api/blogs/latestfourposts")
 
     return res.data
   }

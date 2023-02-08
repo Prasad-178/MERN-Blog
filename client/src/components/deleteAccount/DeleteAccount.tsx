@@ -40,7 +40,7 @@ const DeleteAccount = () => {
     }
 
     const sendRequest = async () => {
-        const res = await axios.post("http://localhost:5000/api/secure/deleteaccount", {
+        const res = await axios.post("https://blogify-01.onrender.com/api/secure/deleteaccount", {
             email: User.data.email!,
             password: password
         })

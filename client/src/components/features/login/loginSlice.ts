@@ -20,7 +20,7 @@ const initialState: state = {
 }
 
 axios.defaults.withCredentials = true
-const BASE_URL = "http://localhost:5000/api/"
+const BASE_URL = "https://blogify-01.onrender.com/api/"
 const checkLoginApi = BASE_URL + "secure/get"
 
 export const checkLogin = createAsyncThunk("check/checkLogin", async (params: any, { rejectWithValue }) => {

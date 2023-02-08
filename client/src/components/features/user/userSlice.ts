@@ -25,7 +25,7 @@ const initialState: state = {
 }
 
 axios.defaults.withCredentials =  true
-const BASE_URL = "http://localhost:5000/api/"
+const BASE_URL = "https://blogify-01.onrender.com/api/"
 const api = BASE_URL + "secure/login"
 
 interface userCredentials {

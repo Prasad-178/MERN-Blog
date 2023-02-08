@@ -71,12 +71,12 @@ const AllPosts = () => {
     }, [])
 
     const getNumberOfPosts = async () => {
-      const res = await axios.get("http://localhost:5000/api/blogs/numberofblogs")
+      const res = await axios.get("https://blogify-01.onrender.com/api/blogs/numberofblogs")
       return res.data
     }
       
     const getAllPosts = async () => {
-        const res = await axios.post("http://localhost:5000/api/blogs/allposts", {
+        const res = await axios.post("https://blogify-01.onrender.com/api/blogs/allposts", {
           pageNumber: id,
           pageSize: pageSize
         })

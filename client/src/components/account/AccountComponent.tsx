@@ -62,7 +62,7 @@ const AccountComponent = () => {
     const FourTwenty = useMediaQuery(theme.breakpoints.down(420))
 
     const sendRequest = async () => {
-        const res = await axios.post("http://localhost:5000/api/secure/editaccount", {
+        const res = await axios.post("https://blogify-01.onrender.com/api/secure/editaccount", {
             name: name,
             email: email,
             password: password,

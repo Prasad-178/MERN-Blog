@@ -39,7 +39,7 @@ const SignupComponent = () => {
     }
 
     const sendRequest = async () => {
-        const res = await axios.post("http://localhost:5000/api/secure/register", {
+        const res = await axios.post("https://blogify-01.onrender.com/api/secure/register", {
         name: name, 
         email: email, 
         password: password

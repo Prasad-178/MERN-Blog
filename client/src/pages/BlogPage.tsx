@@ -95,7 +95,7 @@ const BlogPage = () => {
     }
 
     const sendRequest = async () => {
-        const res = await axios.get("http://localhost:5000/api/blogs/blog/" + paramId)
+        const res = await axios.get("https://blogify-01.onrender.com/api/blogs/blog/" + paramId)
         // console.log(res)
         const dateString: string = res.data.date
         let date = new Date(dateString)

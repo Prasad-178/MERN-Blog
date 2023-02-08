@@ -99,7 +99,7 @@ const EditPostComponent = () => {
   }
 
   const blogData = async () => {
-    const res = await axios.get("http://localhost:5000/api/blogs/blog/" + id)
+    const res = await axios.get("https://blogify-01.onrender.com/api/blogs/blog/" + id)
     // console.log(res.data)
     // this is the blog object
     setBlogId(id)
@@ -149,7 +149,7 @@ const EditPostComponent = () => {
     const FiveTwenty = useMediaQuery(theme.breakpoints.down(520))
 
     const sendRequest = async () => {
-        const res = await axios.put("http://localhost:5000/api/blogs/editblog/" + blogId, {
+        const res = await axios.put("https://blogify-01.onrender.com/api/blogs/editblog/" + blogId, {
             author: author,
             title: title,
             content: content,

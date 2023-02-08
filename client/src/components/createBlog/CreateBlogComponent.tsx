@@ -109,7 +109,7 @@ const CreateBlogComponent = () => {
   }
 
   const userData = async () => {
-    const res = await axios.get("http://localhost:5000/api/secure/emailverification", {})
+    const res = await axios.get("https://blogify-01.onrender.com/api/secure/emailverification", {})
     if (res.data.message == true) {}
     else {
       navigate('/')
@@ -132,7 +132,7 @@ const CreateBlogComponent = () => {
     const FourTwenty = useMediaQuery(theme.breakpoints.down(420))
 
     const sendRequest = async () => {
-      const res = await axios.post("http://localhost:5000/api/blogs/newblog", {
+      const res = await axios.post("https://blogify-01.onrender.com/api/blogs/newblog", {
           author: author,
           title: title,
           content: content,

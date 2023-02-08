@@ -4,11 +4,11 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node ./server.ts",
+    "start": "node ./public/server.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q public/server\"",
     "start:nodemon": "node ./node_modules/nodemon/bin/nodemon.js",
     "start:prod": "npm run build && node ./src/server.js",
-    "build": "npx tsc"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",

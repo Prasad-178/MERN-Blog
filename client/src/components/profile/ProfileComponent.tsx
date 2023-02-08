@@ -27,7 +27,7 @@ const ProfileComponent = () => {
     const [noBlogs, setNoBlogs] = useState<number>(0)
 
     const getBlogsOfUser = async () => {
-        const res = await axios.get("http://localhost:5000/api/blogs/blogbyauthor/" + author)
+        const res = await axios.get("https://blogify-01.onrender.com/api/blogs/blogbyauthor/" + author)
         // console.log(res.data)
         if (res.data.blogs.length === 0) {
             setNoBlogs(1)

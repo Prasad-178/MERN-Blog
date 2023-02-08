@@ -60,7 +60,7 @@ const MyPosts = () => {
   }, [])
   
   const getMyBlogs = async () => {
-    const res = await axios.post("http://localhost:5000/api/blogs/myblogs", {
+    const res = await axios.post("https://blogify-01.onrender.com/api/blogs/myblogs", {
         email: email
     })
 
@@ -72,7 +72,7 @@ const MyPosts = () => {
     switch (confirmationText) {
       case "YES":
         {
-          const res = await axios.delete("http://localhost:5000/api/blogs/deleteblog/" + id)
+          const res = await axios.delete("https://blogify-01.onrender.com/api/blogs/deleteblog/" + id)
           // console.log(res)
           getMyBlogs().then((res) => {
             // console.log("response data is : ", res)
