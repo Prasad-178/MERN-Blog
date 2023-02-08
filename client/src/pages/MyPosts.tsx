@@ -10,13 +10,22 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../components/app/hooks"
 import NoBlogsComponent from "../components/blogPreview/NoBlogsComponent"
 import Footer from "../components/footer/Footer"
+import { useMediaQuery, useTheme } from "@mui/material"
+import ActionAlerts from "../components/alertComponent/AlertMessage"
 
 const MyPosts = () => {
 
     const User = useAppSelector((state) => state.user)
-    console.log("User is : ", User)
+    // console.log("User is : ", User)
     const email = User.data.email
-    console.log("logged in email is : ", email)
+    // console.log("logged in email is : ", email)
+
+    const successAlert = "Blog deleted successfully!"
+
+    const theme = useTheme()
+
+    const TenFifty = useMediaQuery(theme.breakpoints.down(1050))
+    const FourHundred = useMediaQuery(theme.breakpoints.down(400))
 
     type BlogType = {
         author: string
@@ -35,11 +44,14 @@ const MyPosts = () => {
   const [blogs, setBlogs] = useState<Array<BlogType>>([])
   const [noBlogs, setNoBlogs] = useState<number>(0)
 
+  const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>("")
+
   const routeString = "BLOGIFY >> MY POSTS"
 
   useEffect(() => {
     getMyBlogs().then((res) => {
-      console.log("response data is : ", res)
+      // console.log("response data is : ", res)
       setBlogs(res)
       if (res.length === 0) {
         setNoBlogs(1)
@@ -61,20 +73,22 @@ const MyPosts = () => {
       case "YES":
         {
           const res = await axios.delete("http://localhost:5000/api/blogs/deleteblog/" + id)
-          console.log(res)
+          // console.log(res)
           getMyBlogs().then((res) => {
-            console.log("response data is : ", res)
+            // console.log("response data is : ", res)
             setBlogs(res)
             if (res.length === 0) {
               setNoBlogs(1)
             }
+            setAlertBoolean(true)
+            setAlertMessage("Blog deleted successfully!")
           })
-          window.location.reload()
           break;
         }
-
       default:
         {
+          setAlertBoolean(true)
+          setAlertMessage("Blog was not deleted")
           return
         }
     }
@@ -101,19 +115,11 @@ const MyPosts = () => {
         blogs.length > 0 ?
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "5%", marginBottom: "6%" }}>
             <Typography variant="h5" style={{ marginBottom: "0%", marginTop: "1%", fontWeight: 700 }}>Your Blogs</Typography>
-            <Stack
-              direction={"row"}
-              justifyContent={"space-between"}
-              alignItems={"normal"}
-              flexWrap={"wrap"}
-              spacing={2}
-              padding="2%"
-              width={blogs.length === 1 ? "20%" : "45%"}
-            >
+            <div style={{ width: blogs.length === 1 ? "20%" : "45%", marginRight: TenFifty ? (FourHundred ? "20%" : "13%") : "0%", display: "flex", flexDirection: "row", justifyContent: "space-between", flexWrap: "wrap", padding: "5%", paddingTop: "2%" }}>
               {blogs.map((item, id) => (
                   <BlogCard data={blogs[id]} deleteBlog={(id: string) => deleteBlog(id)}></BlogCard>
               ))}
-            </Stack>
+            </div>
             <Button variant="contained" color="success" onClick={() => navigate('/createblog')}>
                 <Typography variant="h6">Create Your Own Blog</Typography>
             </Button>
@@ -132,6 +138,10 @@ const MyPosts = () => {
             </div>
         </>
         }
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => {
+          setAlertBoolean(false)
+          if (alertMessage === successAlert) navigate('/')
+        }} ></ActionAlerts>
       <Footer />
     </>
   )

@@ -44,6 +44,17 @@ const Homepage = () => {
     })
   }, [])
 
+  const djangoRequest = async () => {
+    const res = await axios.get("http://localhost:8000/api/")
+    // console.log(res)
+
+    return null
+  }
+
+  // useEffect(() => {
+  //   djangoRequest().then((res) => console.log(res))
+  // }, [])
+
   
   const getAllPosts = async () => {
     const res = await axios.get("http://localhost:5000/api/blogs/latestfourposts")

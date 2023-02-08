@@ -46,7 +46,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         httpOnly: true,
         sameSite: 'lax'
     });
-    console.log("Logged in successfully!!");
+    // console.log("Logged in successfully!!")
     return res
         .status(201)
         // .json({ message: "Logged in successfully", user: existingUser, token })

@@ -7,7 +7,7 @@ const totalNumberOfBlogs = async (req: Request, res: Response) => {
     try {
         num = await Blog.countDocuments({}).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     return res

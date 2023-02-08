@@ -35,10 +35,7 @@ const AllPosts = () => {
     const theme = useTheme()
 
     const TenFifty = useMediaQuery(theme.breakpoints.down(1050))
-    const EightFifty = useMediaQuery(theme.breakpoints.down(850))
-    const SixNinety = useMediaQuery(theme.breakpoints.down(690))
-    const FiveTwenty = useMediaQuery(theme.breakpoints.down(520))
-    const FourEighty = useMediaQuery(theme.breakpoints.down(480))
+    const FourHundred = useMediaQuery(theme.breakpoints.down(400))
 
     const [blogs, setBlogs] = useState<Array<BlogType>>([])
     const [noBlogs, setNoBlogs] = useState<number>(0)
@@ -61,7 +58,7 @@ const AllPosts = () => {
     useEffect(() => {
         getNumberOfPosts().then((res) => {
           setNumberOfPosts(res.count!)
-          console.log(res.count)
+          // console.log(res.count)
 
           let temp: Array<Object> = []
           let numberOfPages = res.count/pageSize
@@ -83,7 +80,7 @@ const AllPosts = () => {
           pageNumber: id,
           pageSize: pageSize
         })
-        console.log(res)
+        // console.log(res)
 
         return res.data
     }
@@ -103,7 +100,7 @@ const AllPosts = () => {
           blogs.length > 0 ?
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2%" }}>
                   <Typography variant="h5" style={{ marginBottom: "0%", fontWeight: 700 }}>All Blogs</Typography>
-                  <div style={{ width: blogs.length === 1 ? "20%" : "45%", marginRight: TenFifty ? "13%" : "0%", display: "flex", flexDirection: "row", justifyContent: "space-between", flexWrap: "wrap", padding: "5%", paddingTop: "2%" }}>
+                  <div style={{ width: blogs.length === 1 ? "20%" : "45%", marginRight: TenFifty ? (FourHundred ? "20%" : "13%") : "0%", display: "flex", flexDirection: "row", justifyContent: "space-between", flexWrap: "wrap", padding: "5%", paddingTop: "2%" }}>
                   {blogs.map((item, id) => (
                       <BlogCard data={blogs[id]} deleteBlog={() => {}}></BlogCard>
                   ))}

@@ -6,7 +6,7 @@ const app = express()
 app.use(cookieParser())
 
 const logout = (req: any, res: Response, next: NextFunction) => {
-    console.log('hi in logout')
+    // console.log('hi in logout')
     res.clearCookie('frontendCookie')
     res.clearCookie('JWT_HTTPONLY_Cookie')
     req.id = ""

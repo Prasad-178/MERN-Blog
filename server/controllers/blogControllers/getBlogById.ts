@@ -9,7 +9,7 @@ const getBlogById = async (req: Request, res: Response) => {
     try {
         blog = await Blog.findOne({ _id: id }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     return res

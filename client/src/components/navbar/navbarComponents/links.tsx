@@ -13,7 +13,7 @@ import axios from 'axios';
 
 export const linksInNavbar = [
     "Home",
-    "My Posts",
+    "All Posts",
     <SearchBar />,
     AuthCheck() ? 
     <Link to={'/secure/user'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <AccountCircleIcon /> Account </Button></Link> 
@@ -23,7 +23,7 @@ export const linksInNavbar = [
     AuthCheck() ? 
     <Button onClick={ async () => {
         const data = await axios.get("http://localhost:3000/secure/logout")
-        console.log(data);
+        // console.log(data);
         const navigate = useNavigate()
         navigate('/')
     }} 

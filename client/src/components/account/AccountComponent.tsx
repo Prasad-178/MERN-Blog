@@ -69,13 +69,13 @@ const AccountComponent = () => {
             newPassword: newPassword
         })
         .catch((err) => {
-            console.log(err)
+            // console.log(err)
             setAlertBoolean(true)
             setAlertMessage("The current password that you have entered is wrong!")
             return
         })
 
-        console.log(res)
+        // console.log(res)
         const data = await res!.data
         return data
     }
@@ -96,7 +96,7 @@ const AccountComponent = () => {
         }
 
         sendRequest().then((res) => {
-            console.log(res)
+            // console.log(res)
             dispatch(fetchUserDetails({}))
             setAlertBoolean(true)
             setAlertMessage("Account details updated successfully!")

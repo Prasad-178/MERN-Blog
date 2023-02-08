@@ -12,48 +12,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Otp_1 = __importDefault(require("../../models/Otp"));
 const User_1 = __importDefault(require("../../models/User"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const setNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteAccountController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
     let user;
-    let otp;
-    const { email, password, enteredOtp } = req.body;
-    // console.log(enteredOtp)
-    try {
-        otp = yield Otp_1.default.findOne({ email: email }).exec();
-    }
-    catch (err) {
-        // console.log(err)
-    }
-    // console.log(otp.otp)
-    if (otp.otp !== enteredOtp) {
-        return res
-            .status(400)
-            .json({ message: "Wrong otp entered!" });
-    }
     try {
         user = yield User_1.default.findOne({ email: email }).exec();
     }
     catch (err) {
         // console.log(err)
     }
-    const hashedPassword = bcryptjs_1.default.hashSync(password, 5);
-    user.password = hashedPassword;
-    try {
-        user.save();
+    const passwordCompare = yield bcryptjs_1.default.compare(password, user.password);
+    if (!passwordCompare) {
+        // console.log("Wrong password!")
+        return res
+            .status(400)
+            .json({ message: "Wrong password" });
     }
-    catch (err) {
-        // console.log(err)
-    }
+    let deletion;
     try {
-        otp = yield Otp_1.default.deleteOne({ email: email }).exec();
+        deletion = yield User_1.default.findOneAndDelete({ email: email }).exec();
     }
     catch (err) {
         // console.log(err)
     }
     return res
         .status(200)
-        .json(user);
+        .json({ message: "Account deleted successfully!" });
 });
-exports.default = setNewPassword;
+exports.default = deleteAccountController;

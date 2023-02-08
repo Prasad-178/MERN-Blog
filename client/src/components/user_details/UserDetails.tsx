@@ -12,11 +12,11 @@ function UserDetails() {
                         // withCredentials: true
                     })
                     .catch((err) => {
-                        console.log(err)
+                        // console.log(err)
                     })
 
         const data = await res!.data
-        console.log("data is ", data)
+        // console.log("data is ", data)
         return data
     }
 

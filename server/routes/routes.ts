@@ -11,6 +11,7 @@ import checkemailverification from "../middleware/checkUserVerification"
 import resetPasswordEmail from "../controllers/authControllers/resetPasswordEmail"
 import setNewPassword from "../controllers/authControllers/setNewPassword"
 import editAccountDetails from "../controllers/authControllers/editAccountDetails"
+import deleteAccountController from "../controllers/authControllers/deleteAccountController"
 
 const router = express.Router()
 
@@ -28,5 +29,6 @@ router.use(verifyToken)
 router.get('/logout', logout)
 router.get('/checkemailverification')
 router.post('/editaccount', editAccountDetails)
+router.post('/deleteaccount', deleteAccountController)
 
 export default router

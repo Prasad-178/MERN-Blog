@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.singleFileUpload = void 0;
 const Blog_1 = __importDefault(require("../models/Blog"));
 const singleFileUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("inside single file upload");
+    // console.log("inside single file upload")
     try {
         const file = req.file;
         return res.
@@ -34,6 +34,14 @@ const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     let date = new Date(Date.now());
     date.toDateString();
     date = String(date).split("GMT")[0];
+    // 
+    // console.log("c is : ", content)
+    // console.log("c len is : ", content.length)
+    if (!author || !title || content.length < 1 || content.length === 8 || !twitter || !instagram || tags.length < 1 || !image || !email) {
+        return res
+            .status(400)
+            .json({ message: "Failed to create blog" });
+    }
     const blog = new Blog_1.default({
         author: author,
         title: title,
@@ -49,7 +57,7 @@ const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         yield blog.save();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     return res
         .status(201)

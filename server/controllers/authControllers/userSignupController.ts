@@ -17,7 +17,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
         existingUser = await User.findOne({email: email})
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
     if (existingUser) {
         return res
@@ -36,7 +36,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await user.save()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     let transporter = nodemailer.createTransport({
@@ -56,10 +56,10 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 
     transporter.sendMail(mailOptions, (err: any, success: any) => {
         if (err) {
-            console.log("Mail not sent.", err)
+            // console.log("Mail not sent.", err)
         }
         else {
-            console.log("Success, email has been sent.", success)
+            // console.log("Success, ema/il has been sent.", success)
         }
     })
 

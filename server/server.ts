@@ -27,6 +27,6 @@ mongoose.
     connect(`mongodb+srv://prasad178:${process.env.MONGODB_PASSWORD}@cluster0.hvwuyz0.mongodb.net/auth?retryWrites=true&w=majority`)
     .then(() => {
     app.listen(5000, () => {
-        console.log("Server live on port 5000")
+        console.log("Server live!")
     })
-}).catch((err: any) => console.log(err))
+}).catch((err: any) => {})

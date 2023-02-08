@@ -20,7 +20,7 @@ const deleteBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         blog = yield Blog_1.default.findByIdAndDelete({ _id: id }).exec();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     return res.redirect('/myposts');
 });

@@ -8,7 +8,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 app.use((0, cookie_parser_1.default)());
 const logout = (req, res, next) => {
-    console.log('hi in logout');
+    // console.log('hi in logout')
     res.clearCookie('frontendCookie');
     res.clearCookie('JWT_HTTPONLY_Cookie');
     req.id = "";

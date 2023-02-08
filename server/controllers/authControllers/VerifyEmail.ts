@@ -12,7 +12,7 @@ export const verifyEmail = async (req: any, res: Response, next: NextFunction) =
     try {
         existingUser = await User.findOne({ email: email }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     if (existingUser.verified === true) {
@@ -22,7 +22,7 @@ export const verifyEmail = async (req: any, res: Response, next: NextFunction) =
     }
 
     if (!existingUser) {
-        console.log("No such user exists!!")
+        // console.log("No such user exists!!")
         return res
         .status(404)
         .json({ message: "No such user exists!!" })
@@ -30,7 +30,7 @@ export const verifyEmail = async (req: any, res: Response, next: NextFunction) =
 
     const passwordCompare = await bcrypt.compare(password, existingUser.password)
     if (!passwordCompare) {
-        console.log("Wrong password!!")
+        // console.log("Wrong password!!")
         return res
         .status(401)
         .json({ message: "Wrong password!!" })
@@ -40,7 +40,7 @@ export const verifyEmail = async (req: any, res: Response, next: NextFunction) =
     try {
         await existingUser.save()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     let transporter = nodemailer.createTransport({
@@ -60,10 +60,10 @@ export const verifyEmail = async (req: any, res: Response, next: NextFunction) =
 
     transporter.sendMail(mailOptions, (err: any, success: any) => {
         if (err) {
-            console.log("Mail not sent.", err)
+            // console.log("Mail not sent.", err)
         }
         else {
-            console.log("Success, email has been sent, and your account has been verified!!", success)
+            // console.log("Success, email has been sent, and your account has been verified!!", success)
         }
     })
 

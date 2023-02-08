@@ -18,6 +18,7 @@ import SetNewPassword from './pages/SetNewPassword';
 import AccountPage from './pages/Account';
 import E404 from './pages/E404';
 import Profile from './pages/Profile';
+import DeleteAccountPage from './pages/DeleteAccountPage';
 
 function App() {
   
@@ -30,7 +31,7 @@ function App() {
   //------------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    console.log("to do, when the page refreshes (app component renders for the first time")
+    // console.log("to do, when the page refreshes (app component renders for the first time")
     dispatch(fetchUserDetails({}))
   }, [])
 
@@ -62,6 +63,7 @@ function App() {
           <Route path='/profile/:id' element={<Profile />}></Route>
           <Route path='/resetpassword' element={<ResetPassword />}></Route>
           <Route path='/setnewpassword' element={<SetNewPassword />}></Route>
+          <Route path='/deleteaccount' element={<DeleteAccountPage />}></Route>
           <Route path='/' element={<Homepage />}></Route>
           <Route path='*' element={<E404 />}></Route>
         </Routes>

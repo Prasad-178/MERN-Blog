@@ -20,7 +20,7 @@ const getBlogByPage = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         blogs = yield Blog_1.default.find({}).limit(pageSize).skip((pageNumber - 1) * pageSize);
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     return res
         .status(200)

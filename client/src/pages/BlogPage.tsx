@@ -13,6 +13,7 @@ import { EditorState } from "draft-js"
 import Footer from "../components/footer/Footer"
 import LaunchIcon from '@mui/icons-material/Launch';
 import { NavLink } from "react-router-dom"
+import { useMediaQuery, useTheme } from "@mui/material"
 
 type BlogType = {
     author: string
@@ -43,6 +44,15 @@ const initialBlogState: BlogType = {
 }
 
 const BlogPage = () => {
+
+    const theme = useTheme()
+
+    const FourteenTen = useMediaQuery(theme.breakpoints.down(1410))
+    const Thousand = useMediaQuery(theme.breakpoints.down(1000))
+    const SevenFifty = useMediaQuery(theme.breakpoints.down(750))
+    const SixTwenty = useMediaQuery(theme.breakpoints.down(620))
+    const FiveTwenty = useMediaQuery(theme.breakpoints.down(520))
+    const FourEighty = useMediaQuery(theme.breakpoints.down(480))
 
     const paramId = useParams().id
 
@@ -79,14 +89,14 @@ const BlogPage = () => {
         
         // htmlText = htmlText.replace(toBeReplaced, toReplaceWith)
         
-        htmlText = htmlText.replace("<iframe ", (/<iframe style="justify-self: center;" /).source) 
+        htmlText = htmlText.replace("<iframe ", (/<iframe style= {{ justifySelf: "center", width: "50px" }} /).source) 
 
         return htmlText
     }
 
     const sendRequest = async () => {
         const res = await axios.get("http://localhost:5000/api/blogs/blog/" + paramId)
-        console.log(res)
+        // console.log(res)
         const dateString: string = res.data.date
         let date = new Date(dateString)
 
@@ -118,12 +128,12 @@ const BlogPage = () => {
 
     useEffect(() => {
         sendRequest().then((res: any) => {
-            console.log(res)
+            // console.log(res)
         })
     }, [])
 
   return (
-    <>
+    <div style={SixTwenty ? { justifyContent: "center" } : {}}>
         <Navbar />
         {dataRetrieved ? 
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
@@ -131,9 +141,9 @@ const BlogPage = () => {
             <div style={{ marginBottom: "1%", marginTop: "2%", alignSelf: "flex-start", marginLeft: "10%" }}>
                 <Typography variant="body2" color="textPrimary" style={{ fontWeight: 600 }}>{routeString}</Typography>
             </div>
-            <img src={image} style={{ width: "1280px", height: "600px", marginBottom: "5%" }}></img>
+            <img src={image} style={{ width: FourteenTen ? (Thousand ? "640px" : "960px") : "1280px", height: FourteenTen ? (Thousand ? "300px" : "450px") : "600px", marginBottom: "5%", marginLeft: SixTwenty ? (FiveTwenty ? (FourEighty ? "50%" : "25%") : "10%") : "0%" }}></img>
             <div style={{ maxWidth: "1000px", display: "flex", alignSelf: "center" }}>
-                <Typography variant="h3" style={{ color: "black", fontWeight: 700, fontStyle: "italic" }}>{title}</Typography>
+                <Typography variant={Thousand ? "h5" : "h3"} style={{ color: "black", fontWeight: 700, fontStyle: "italic", marginLeft: SixTwenty ? (FourEighty ? "10%" : "5%") : "0%" }}>{title}</Typography>
             </div>
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", alignSelf: "center" }}>
                 {tags.map((item: any, index: any) => (
@@ -144,9 +154,8 @@ const BlogPage = () => {
                             </>
                             ))}
             </div>
-
             <div style={{ height: "30px" }}></div>
-            <hr style={{ width: "75%", alignSelf: "center", color: "black", height: "0.5px", marginRight: "2%", marginLeft: "2%", marginBottom: "2%", border: "2px solid black", background: "black" }} />
+            <hr style={{ width: Thousand ? (SixTwenty ? (FiveTwenty ? "150%" : "120%") : "90%") : "75%", alignSelf: "center", color: "black", height: "0.5px", marginRight: "2%", marginLeft: FiveTwenty ? (FourEighty ? "30%" : "10%") : "2%", marginBottom: "2%", border: "2px solid black", background: "black" }} />
             <div style={{ width: "75%", alignSelf: "center", display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: "2%" }}>
                 <div style={{ marginLeft: "5%" }}>
                     <Typography variant="body1" style={{ fontWeight: 600, fontSize: "21px" }}>{author} <NavLink to={'/profile/' + author}> <LaunchIcon /> </NavLink> </Typography>
@@ -173,8 +182,8 @@ const BlogPage = () => {
                     }
                 </div>
             </div>
-            <hr style={{ width: "75%", alignSelf: "center", color: "black", height: "0.5px", marginRight: "2%", marginLeft: "2%", marginBottom: "2%", border: "2px solid black", background: "black" }} />
-            <div style={{ width: "55%", display: "flex", flexDirection: "column", alignSelf: "center", marginBottom: "5%" }} dangerouslySetInnerHTML={{__html: data.content}} />
+            <hr style={{ width: Thousand ? (SixTwenty ? (FiveTwenty ? "150%" : "120%") : "90%") : "75%", alignSelf: "center", color: "black", height: "0.5px", marginRight: "2%", marginLeft: FiveTwenty ? (FourEighty ? "20%" : "10%") : "2%", marginBottom: "2%", border: "2px solid black", background: "black" }} />
+            <div style={{ width: Thousand ? (SevenFifty ? (SixTwenty ? "95%" :  "85%") :  "80%") : "55%", marginLeft: SixTwenty ? (FiveTwenty ? (FourEighty ? "35%" : "25%") : "10%") : "0%", display: "flex", flexDirection: "column", alignSelf: "center", marginBottom: "5%" }} dangerouslySetInnerHTML={{__html: data.content}} />
             <div></div>
         </div>
         : 
@@ -186,7 +195,7 @@ const BlogPage = () => {
         </>
         }
         <Footer />
-    </>
+    </div>
   )
 }
 

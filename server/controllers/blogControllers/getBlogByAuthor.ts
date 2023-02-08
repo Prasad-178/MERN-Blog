@@ -10,7 +10,7 @@ const getBlogByAuthor = async (req: Request, res: Response) => {
     try {
         blogs = await Blog.find({ author: author }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     // console.log(blogs)
@@ -19,7 +19,7 @@ const getBlogByAuthor = async (req: Request, res: Response) => {
     try {
         user = await User.findOne({ name: author }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     // console.log(user)

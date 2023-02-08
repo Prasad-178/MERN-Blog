@@ -21,7 +21,7 @@ const getBlogByAuthor = (req, res) => __awaiter(void 0, void 0, void 0, function
         blogs = yield Blog_1.default.find({ author: author }).exec();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     // console.log(blogs)
     let user;
@@ -29,7 +29,7 @@ const getBlogByAuthor = (req, res) => __awaiter(void 0, void 0, void 0, function
         user = yield User_1.default.findOne({ name: author }).exec();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     // console.log(user)
     return res

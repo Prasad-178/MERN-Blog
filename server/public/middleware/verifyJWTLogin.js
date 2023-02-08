@@ -17,7 +17,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
 const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const cookies = req.headers.cookie;
-    const token = cookies && cookies.split('=')[1];
+    const token = req.cookies.JWT_HTTPONLY_Cookie;
     if (!token) {
         return res
             .status(400)
@@ -25,19 +25,20 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
     jsonwebtoken_1.default.verify(token, String(process.env.JWT_SECRET_KEY), (err, user) => {
         if (err) {
-            console.log("error in verifying token!!");
+            // console.log("error in verifying token!!")
             res
                 .status(400)
                 .json({ status: false, token: "Cannot verify token!" });
         }
         let currentUser;
+        // console.log(user)
         try {
             User_1.default.findOne({ _id: user.id }).exec().then((data) => {
                 currentUser = data;
             });
         }
         catch (err) {
-            console.log(err);
+            // console.log(err)
         }
     });
     next();

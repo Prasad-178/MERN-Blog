@@ -50,7 +50,7 @@ const SignupComponent = () => {
         })
 
         const data = await res!.data
-        console.log(data)
+        // console.log(data)
         return data
     }
     const handleSubmit: any = (e: Event) => {

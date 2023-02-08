@@ -38,7 +38,7 @@ const login = async (req: any, res: Response, next: NextFunction) => {
         httpOnly: true,
         sameSite: 'lax'
     })
-    console.log("Logged in successfully!!")
+    // console.log("Logged in successfully!!")
 
     return res
     .status(201)

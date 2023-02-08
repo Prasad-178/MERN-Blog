@@ -57,7 +57,7 @@ const VerifyEmailComponent = () => {
         })
 
         const data = await res!.data
-        console.log(data)
+        // console.log(data)
         return data
     }
 
@@ -69,7 +69,7 @@ const VerifyEmailComponent = () => {
         return
       }
       
-      console.log(email, password)
+      // console.log(email, password)
         sendRequest().then(() => {
           navigate('/login')
         })

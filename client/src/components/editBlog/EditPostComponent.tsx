@@ -90,7 +90,7 @@ const EditPostComponent = () => {
   }
 
   const deleteTag = (id: Number) => {
-    console.log("Id is : ", id)
+    // console.log("Id is : ", id)
     setTags(prevTags => {
       return prevTags.filter((item, index) => {
         return index !== id
@@ -100,7 +100,7 @@ const EditPostComponent = () => {
 
   const blogData = async () => {
     const res = await axios.get("http://localhost:5000/api/blogs/blog/" + id)
-    console.log(res.data)
+    // console.log(res.data)
     // this is the blog object
     setBlogId(id)
     setTags(res.data.tags)
@@ -109,7 +109,7 @@ const EditPostComponent = () => {
     setFileName(res.data.image)
     setTitle(res.data.title)
 
-    console.log(res.data.content)
+    // console.log(res.data.content)
     
     // const rawContent = res.data.content
     // const currentContentState = stateFromHTML(rawContent)
@@ -138,7 +138,7 @@ const EditPostComponent = () => {
   useEffect(() => {
     setBlogId(id)
     blogData().then((res) => {
-        console.log(content)
+        // console.log(content)
     })
   }, [])
 
@@ -159,10 +159,10 @@ const EditPostComponent = () => {
             instagram: instagram,
             email: email
         })
-        .catch((err: any) => console.log(err.message))
+        .catch((err: any) => {})
 
         const data = await res!.data
-        console.log(data)
+        // console.log(data)
         return data
     }
 
@@ -197,7 +197,7 @@ const EditPostComponent = () => {
                         (newState) => {
                           setEditorState(newState)
                           setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
-                          console.log(content)
+                          // console.log(content)
                       }}
                       toolbar={{
                         image: {

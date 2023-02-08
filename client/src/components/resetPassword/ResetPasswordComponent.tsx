@@ -43,7 +43,7 @@ const ResetPasswordComponent = () => {
         setAlertMessage("Email has been sent with instructions to reset your password!")
 
         const data = await res!.data
-        console.log(data)
+        // console.log(data)
         return data
     }
 

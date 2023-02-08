@@ -29,11 +29,13 @@ const CreateBlogComponent = () => {
   const [alertBoolean, setAlertBoolean] = useState<boolean>(false)
   const [alertMessage, setAlertMessage] = useState<string>("")
 
+  const successAlert = "Blog created successfully"
+
   useEffect(() => {
     if (!Login.login) {
       setAlertBoolean(true)
       setAlertMessage("You must be logged in to create a blog.")
-      // navigate('/login')
+      // navigate('/login') 
     }
     else if (!User.data.verified) {
       setAlertBoolean(true)
@@ -42,7 +44,7 @@ const CreateBlogComponent = () => {
     }
   }, [])
   
-  console.log(User)
+  // console.log(User)
   const email = User.data.email
 
   const author = User.data.name
@@ -98,7 +100,7 @@ const CreateBlogComponent = () => {
   }
 
   const deleteTag = (id: Number) => {
-    console.log("Id is : ", id)
+    // console.log("Id is : ", id)
     setTags(prevTags => {
       return prevTags.filter((item, index) => {
         return index !== id
@@ -118,7 +120,7 @@ const CreateBlogComponent = () => {
   }
 
   useEffect(() => {
-    userData().then((res: Object) => console.log(res))
+    userData().then((res: Object) => {})
   }, [])
 
     const theme = useTheme()
@@ -140,10 +142,13 @@ const CreateBlogComponent = () => {
           instagram: instagram,
           email: email
         })
-        .catch((err: any) => console.log(err.message))
+        .catch((err: any) => {
+          setAlertBoolean(true)
+          setAlertMessage("Compulsary fields are missing!")
+        })
       
       const data = await res!.data
-      console.log(data)
+      // console.log(data)
       return data
     }
 
@@ -153,7 +158,6 @@ const CreateBlogComponent = () => {
         .then(() => {
           setAlertBoolean(true)
           setAlertMessage("Blog created successfully")
-          navigate('/')
         })
     }
 
@@ -175,7 +179,7 @@ const CreateBlogComponent = () => {
                         (newState) => {
                           setEditorState(newState)
                           setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
-                          console.log(content)
+                          // console.log(content)
                       }}
                       toolbar={{
                         image: {
@@ -226,11 +230,14 @@ const CreateBlogComponent = () => {
                           </>
                         ))}
                     </div>
-                    <Typography style={{ marginTop: "0%" }}>Blog Cover Image : </Typography>
+                    <Typography style={{ marginTop: "0%" }}>Blog Cover Image : *</Typography>
                     <input type="file" name="image" onChange={(e) => handleFileUpload(e)} />
                     <CreateBlogButton />
         </Stack>
-        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
+        <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => {
+          setAlertBoolean(false)
+          if (alertMessage === successAlert) navigate('/myposts')
+        }} />
     </form>
   )
 }

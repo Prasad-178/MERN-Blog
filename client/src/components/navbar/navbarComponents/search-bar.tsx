@@ -14,7 +14,7 @@ function SearchBar() {
                 minWidth: '100%',
                 cursor: "none",
                 // hiding the search box, because it doesn't work yet :(
-                // visibility: 'hidden'
+                visibility: 'hidden'
             }}
             InputProps={{
                 startAdornment: (

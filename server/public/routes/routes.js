@@ -14,6 +14,7 @@ const checkUserVerification_1 = __importDefault(require("../middleware/checkUser
 const resetPasswordEmail_1 = __importDefault(require("../controllers/authControllers/resetPasswordEmail"));
 const setNewPassword_1 = __importDefault(require("../controllers/authControllers/setNewPassword"));
 const editAccountDetails_1 = __importDefault(require("../controllers/authControllers/editAccountDetails"));
+const deleteAccountController_1 = __importDefault(require("../controllers/authControllers/deleteAccountController"));
 const router = express_1.default.Router();
 router.get('/emailverification', checkUserVerification_1.default);
 router.post('/register', userSignupController_1.default);
@@ -26,4 +27,5 @@ router.use(verifyJWTLogin_1.verifyToken);
 router.get('/logout', userLogoutController_1.default);
 router.get('/checkemailverification');
 router.post('/editaccount', editAccountDetails_1.default);
+router.post('/deleteaccount', deleteAccountController_1.default);
 exports.default = router;

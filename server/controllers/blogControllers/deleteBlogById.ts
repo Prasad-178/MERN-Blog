@@ -9,7 +9,7 @@ const deleteBlog = async (req: any, res: Response) =>  {
     try {
         blog = await Blog.findByIdAndDelete({ _id: id }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     return res.redirect('/myposts')

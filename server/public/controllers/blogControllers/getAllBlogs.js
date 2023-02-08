@@ -20,7 +20,7 @@ const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         // blogs = await Blog.find().sort({ _id: -1 }).limit(1) => // => code to find the latest document...
     }
     catch (err) {
-        console.log("get all blogs err is : ", err);
+        // console.log("get all blogs err is : ", err)
     }
     return res
         .status(200)

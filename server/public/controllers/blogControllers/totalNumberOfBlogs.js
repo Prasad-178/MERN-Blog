@@ -19,7 +19,7 @@ const totalNumberOfBlogs = (req, res) => __awaiter(void 0, void 0, void 0, funct
         num = yield Blog_1.default.countDocuments({}).exec();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     return res
         .status(200)

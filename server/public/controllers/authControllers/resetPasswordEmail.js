@@ -32,9 +32,9 @@ const resetPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, funct
         user = yield User_1.default.findOne({ email: email }).exec();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
-    console.log("user wiht that email is : ", user);
+    // console.log("user wiht that email is : ", user)
     if (!user) {
         return res
             .status(404)
@@ -46,7 +46,7 @@ const resetPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, funct
             existingOtp = yield Otp_1.default.findOneAndDelete({ email: email }).exec();
         }
         catch (err) {
-            console.log(err);
+            // console.log(err)
         }
         const otp = new Otp_1.default({
             email: email,
@@ -56,9 +56,9 @@ const resetPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, funct
             otp.save();
         }
         catch (err) {
-            console.log(err);
+            // console.log(err)
         }
-        console.log("otp saved in database!!");
+        // console.log("otp saved in database!!")
         let transporter = nodemailer_1.default.createTransport({
             service: "gmail",
             auth: {
@@ -74,10 +74,10 @@ const resetPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, funct
         };
         transporter.sendMail(mailOptions, (err, success) => {
             if (err) {
-                console.log("Mail not sent.", err);
+                // console.log("Mail not sent.", err)
             }
             else {
-                console.log("Success, email has been sent.", success);
+                // console.log("Success, email has been sent.", success)
             }
         });
     }

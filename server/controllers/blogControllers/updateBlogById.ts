@@ -9,7 +9,7 @@ const updateBlogById = async (req: any, res: Response) => {
     try {
         blog = await Blog.findOne({ _id: id }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     const { author, title, content, twitter, instagram, tags, image, email } = req.body
@@ -40,7 +40,7 @@ const updateBlogById = async (req: any, res: Response) => {
     try {
         await blog.save()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     return res

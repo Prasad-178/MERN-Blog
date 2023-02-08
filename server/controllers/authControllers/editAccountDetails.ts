@@ -6,18 +6,18 @@ import Blog from "../../models/Blog";
 const editAccountDetails = async (req: Request, res: Response) => {
 
     const { name, email, password, newPassword } = req.body
-    console.log(name)
+    // console.log(name)
 
     let user: any
     try {
         user = await User.findOne({ email: email }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
-    console.log(user)
+    // console.log(user)
 
     if (name !== user.name) {
-        console.log("NEW NAME!!")
+        // console.log("NEW NAME!!")
 
         user.name = name
 
@@ -25,7 +25,7 @@ const editAccountDetails = async (req: Request, res: Response) => {
         try {
             blogs = await Blog.find({ email: email }).exec()
         } catch (err) {
-            console.log(err)
+            // console.log(err)
         }
 
         for (let i=0; i<blogs.length; i++) {
@@ -33,7 +33,7 @@ const editAccountDetails = async (req: Request, res: Response) => {
             try {
                 blogs[i].save()
             } catch (err) {
-                console.log(err)
+                // console.log(err)
             }
         }
     }
@@ -41,7 +41,7 @@ const editAccountDetails = async (req: Request, res: Response) => {
     const passwordCompare = await bcrypt.compare(password, user.password)
 
     if (!passwordCompare && password.length > 0 && newPassword.length > 0) {
-        console.log("Password errors!")
+        // console.log("Password errors!")
         return res
             .status(400)
             .json({ message: "Current password is different from the one you entered!" })
@@ -55,7 +55,7 @@ const editAccountDetails = async (req: Request, res: Response) => {
     try {
         user.save()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     return res

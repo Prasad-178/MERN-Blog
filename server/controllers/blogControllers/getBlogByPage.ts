@@ -9,7 +9,7 @@ const getBlogByPage = async (req: Request, res: Response) => {
     try {
         blogs = await Blog.find({}).limit(pageSize).skip((pageNumber-1)*pageSize)
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     return res

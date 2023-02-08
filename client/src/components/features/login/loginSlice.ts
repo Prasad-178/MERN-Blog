@@ -24,7 +24,7 @@ const BASE_URL = "http://localhost:5000/api/"
 const checkLoginApi = BASE_URL + "secure/get"
 
 export const checkLogin = createAsyncThunk("check/checkLogin", async (params: any, { rejectWithValue }) => {
-    console.log("check login!!")
+    // console.log("check login!!")
     try {
         const response = await axios.get(checkLoginApi)
         return response.data

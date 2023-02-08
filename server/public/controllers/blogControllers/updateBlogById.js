@@ -20,7 +20,7 @@ const updateBlogById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         blog = yield Blog_1.default.findOne({ _id: id }).exec();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     const { author, title, content, twitter, instagram, tags, image, email } = req.body;
     let date = new Date(Date.now());
@@ -55,7 +55,7 @@ const updateBlogById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         yield blog.save();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     return res
         .status(201)

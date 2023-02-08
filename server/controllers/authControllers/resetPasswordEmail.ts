@@ -21,9 +21,9 @@ const resetPasswordEmail = async (req: Request, res: Response) => {
     try {
         user = await User.findOne({ email: email }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
-    console.log("user wiht that email is : ", user)
+    // console.log("user wiht that email is : ", user)
 
     if (!user) {
         return res
@@ -37,7 +37,7 @@ const resetPasswordEmail = async (req: Request, res: Response) => {
         try {
             existingOtp = await Otp.findOneAndDelete({ email: email }).exec()
         } catch (err) {
-            console.log(err)
+            // console.log(err)
         }
 
         const otp = new Otp({
@@ -48,10 +48,10 @@ const resetPasswordEmail = async (req: Request, res: Response) => {
         try {
             otp.save()
         } catch (err) {
-            console.log(err)
+            // console.log(err)
         }
 
-        console.log("otp saved in database!!")
+        // console.log("otp saved in database!!")
 
         let transporter = nodemailer.createTransport({
             service: "gmail",
@@ -70,10 +70,10 @@ const resetPasswordEmail = async (req: Request, res: Response) => {
     
         transporter.sendMail(mailOptions, (err: any, success: any) => {
             if (err) {
-                console.log("Mail not sent.", err)
+                // console.log("Mail not sent.", err)
             }
             else {
-                console.log("Success, email has been sent.", success)
+                // console.log("Success, email has been sent.", success)
             }
         })
     }

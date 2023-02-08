@@ -19,7 +19,7 @@ const getLastFourPosts = (req, res) => __awaiter(void 0, void 0, void 0, functio
         blogs = yield Blog_1.default.find().sort({ _id: -1 }).limit(4);
     }
     catch (err) {
-        console.log("get last four blogs err is : ", err);
+        // console.log("get last four blogs err is : ", err)
     }
     return res
         .status(200)

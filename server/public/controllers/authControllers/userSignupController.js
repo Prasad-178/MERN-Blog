@@ -28,7 +28,7 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         existingUser = yield User_1.default.findOne({ email: email });
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     if (existingUser) {
         return res
@@ -46,7 +46,7 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         yield user.save();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     let transporter = nodemailer_1.default.createTransport({
         service: "gmail",
@@ -63,10 +63,10 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     };
     transporter.sendMail(mailOptions, (err, success) => {
         if (err) {
-            console.log("Mail not sent.", err);
+            // console.log("Mail not sent.", err)
         }
         else {
-            console.log("Success, email has been sent.", success);
+            // console.log("Success, ema/il has been sent.", success)
         }
     });
     return res

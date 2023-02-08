@@ -67,7 +67,7 @@ function Navbar() {
     }, [User])
 
     return (
-        <AppBar style={{ backgroundImage: 'black', maxHeight: "15%" }}>
+        <AppBar style={{ color: "blue", backgroundColor: "transparent", maxHeight: "15%" }}>
             {alertBoolean ? 
                 <ActionAlerts message={alertMessage} booleanDisplay={alertBoolean} onClose={() => setAlertBoolean(false)} />
             :
@@ -98,14 +98,14 @@ function Navbar() {
                     {!isDrawerOpen ?    <Grid item xs={2}>
                                             <Box display={'flex'}>
                                                 {Login.login ? 
-                                                <Link to={'/account'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <AccountCircleIcon /> Account </Button></Link> 
+                                                <Link to={'/account'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'blue' }}> <AccountCircleIcon /> Account </Button></Link> 
                                                 :
-                                                <Link to={'/login'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <LoginIcon /> Login </Button></Link>}
+                                                <Link to={'/login'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'blue' }}> <LoginIcon /> Login </Button></Link>}
                                                 {Login.login ? 
                                                 <Button onClick={handleLogout}
-                                                variant="text" sx={{ marginLeft: 4, color: 'white' }}> <LogoutIcon /> Logout </Button>
+                                                variant="text" sx={{ marginLeft: 4, color: 'blue' }}> <LogoutIcon /> Logout </Button>
                                                 : 
-                                                <Link to={'/register'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'white' }}> <CreateIcon /> Register </Button></Link>}
+                                                <Link to={'/register'} style={{ textDecoration: 'none' }}><Button variant="text" sx={{ marginLeft: 'auto', color: 'blue' }}> <CreateIcon /> Register </Button></Link>}
                                             </Box>
                                         </Grid>
                                         :

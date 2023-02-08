@@ -60,7 +60,7 @@ const SetNewPasswordComponent = () => {
         })
 
         const data = await res!.data
-        console.log(data)
+        // console.log(data)
         return data
     }
 

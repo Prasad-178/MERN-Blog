@@ -1,5 +1,5 @@
 export const getCurrentURL = () => {
-    console.log(window.location.href)
+    // console.log(window.location.href)
     return window.location.href
 }
 

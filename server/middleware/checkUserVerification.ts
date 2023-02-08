@@ -5,10 +5,10 @@ import User from "../models/User";
 const checkemailverification = async (req: any, res: Response) => {
 
     const cookies = req.headers.cookie
-    const token = cookies && cookies.split('=')[1]
+    const token = req.cookies.JWT_HTTPONLY_Cookie
     
     if (!token) {
-        console.log("No token!!")
+        // console.log("No token!!")
         return res
         .status(400)
         .json({ status: false })
@@ -16,7 +16,7 @@ const checkemailverification = async (req: any, res: Response) => {
 
     jwt.verify(token!, String(process.env.JWT_SECRET_KEY), (err: any, user: any) => {
         if (err) {
-            console.log("error in verifying token!!")
+            // console.log("error in verifying token!!")
             res
             .status(400)
             .json({ status: false, token: "Cannot verify token!" })
@@ -26,7 +26,7 @@ const checkemailverification = async (req: any, res: Response) => {
         try {
             User.findOne({ _id: user.id }).exec().then((data) => {
                 currentUser = data
-                console.log("inside curUser is : ", data)
+                // console.log("inside curUser is : ", data)
                 if (data?.verified == true) {
                     return res
                     .status(200)
@@ -39,7 +39,7 @@ const checkemailverification = async (req: any, res: Response) => {
                 }
             })
         } catch (err) {
-            console.log(err)
+            // console.log(err)
         }
 
     })

@@ -9,15 +9,15 @@ const setNewPassword = async (req: Request, res: Response) => {
     let otp: any
 
     const { email, password, enteredOtp } = req.body
-    console.log(enteredOtp)
+    // console.log(enteredOtp)
 
     try {
         otp = await Otp.findOne({ email: email }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
-    console.log(otp.otp)
+    // console.log(otp.otp)
     if (otp.otp !== enteredOtp) {
         return res
             .status(400)
@@ -27,7 +27,7 @@ const setNewPassword = async (req: Request, res: Response) => {
     try {
         user = await User.findOne({ email: email }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
     const hashedPassword = bcrypt.hashSync(password, 5)
 
@@ -36,13 +36,13 @@ const setNewPassword = async (req: Request, res: Response) => {
     try {
         user.save()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     try {
         otp = await Otp.deleteOne({ email: email }).exec()
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 
     return res

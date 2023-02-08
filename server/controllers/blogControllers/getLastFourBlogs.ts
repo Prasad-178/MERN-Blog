@@ -7,7 +7,7 @@ const getLastFourPosts = async (req: any, res: Response) => {
     try {
         blogs = await Blog.find().sort({ _id: -1 }).limit(4)
     } catch (err) {
-        console.log("get last four blogs err is : ", err)
+        // console.log("get last four blogs err is : ", err)
     }
 
     return res

@@ -23,7 +23,7 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         existingUser = yield User_1.default.findOne({ email: email }).exec();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     if (existingUser.verified === true) {
         return res
@@ -31,14 +31,14 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             .json({ message: "User's email is already verified!!" });
     }
     if (!existingUser) {
-        console.log("No such user exists!!");
+        // console.log("No such user exists!!")
         return res
             .status(404)
             .json({ message: "No such user exists!!" });
     }
     const passwordCompare = yield bcryptjs_1.default.compare(password, existingUser.password);
     if (!passwordCompare) {
-        console.log("Wrong password!!");
+        // console.log("Wrong password!!")
         return res
             .status(401)
             .json({ message: "Wrong password!!" });
@@ -48,7 +48,7 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         yield existingUser.save();
     }
     catch (err) {
-        console.log(err);
+        // console.log(err)
     }
     let transporter = nodemailer_1.default.createTransport({
         service: "gmail",
@@ -65,10 +65,10 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     };
     transporter.sendMail(mailOptions, (err, success) => {
         if (err) {
-            console.log("Mail not sent.", err);
+            // console.log("Mail not sent.", err)
         }
         else {
-            console.log("Success, email has been sent, and your account has been verified!!", success);
+            // console.log("Success, email has been sent, and your account has been verified!!", success)
         }
     });
     return res

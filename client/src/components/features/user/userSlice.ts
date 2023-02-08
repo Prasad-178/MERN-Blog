@@ -34,7 +34,7 @@ interface userCredentials {
 }
 
 export const fetchUser = createAsyncThunk("fetch/fetchUser", async (credentials: userCredentials, { rejectWithValue }) => {
-    console.log("done!! triggered!!")
+    // console.log("done!! triggered!!")
     try {
         const response = await axios.post(api, credentials, { withCredentials: true })
         return response.data
@@ -57,7 +57,7 @@ const apiUserDetails = BASE_URL + "secure/userdetails"
 export const fetchUserDetails = createAsyncThunk("fetch/fetchUserDetails", async (Params: any, { rejectWithValue }) => {
     try {
         const response = await axios.get(apiUserDetails, { withCredentials: true })
-        console.log("response of userDetails in front end is : ", response)
+        // console.log("response of userDetails in front end is : ", response)
         return response.data
     } catch (err: any) {
         return rejectWithValue("You are not logged in!")
@@ -138,7 +138,7 @@ const userSlice = createSlice({
                 state.method = "fetchingUserDetails"
                 state.data = action.payload
                 state.error = "Fetched User Details Successfully!"
-                console.log("action payload fetch user details is : ", action.payload)
+                // console.log("action payload fetch user details is : ", action.payload)
             })
             .addCase(fetchUserDetails.rejected, (state, action) => {
                 state.loading = false
@@ -146,7 +146,7 @@ const userSlice = createSlice({
                 state.method = "fetchingUserDetails"
                 // state.data = {}
                 state.error = "Failed to fetch user details!"
-                console.log("rejected, state error is : ", state.error)
+                // console.log("rejected, state error is : ", state.error)
             })
     }
 })
